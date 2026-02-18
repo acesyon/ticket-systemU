@@ -9,13 +9,21 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tickets', function (Blueprint $table) {
-            $table->id('ticketID');
-            $table->foreignId('eventID')->constrained('events', 'eventID');
-            $table->enum('ticketType', ['VIP', 'Regular', 'Early Bird', 'Student', 'Senior'])->default('Regular');
-            $table->decimal('price', 10, 2);
-            $table->integer('quantity_available');
-            $table->timestamps();
-        });
+    $table->id();
+
+    $table->foreignId('event_id')
+          ->constrained('events')
+          ->onDelete('cascade');
+
+    $table->enum('ticket_type', ['VIP', 'Regular', 'Early Bird', 'Student', 'Senior'])
+          ->default('Regular');
+
+    $table->decimal('price', 10, 2);
+    $table->integer('quantity_available');
+
+    $table->timestamps();
+});
+
     }
 
     public function down()

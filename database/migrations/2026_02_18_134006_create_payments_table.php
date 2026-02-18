@@ -6,19 +6,25 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    public function up(): void
     {
         Schema::create('payments', function (Blueprint $table) {
-            $table->id('paymentID');
-            $table->foreignId('orderID')->constrained('orders', 'orderID');
-            $table->enum('payment_method', ['cash', 'gcash', 'credit_card', 'paypal'])->default('cash');
-            $table->decimal('payment', 10, 2);
-            $table->timestamp('date_paid')->useCurrent();
+            $table->id();
+
+            // Reference to order
+            $table->foreignId('order_id')
+                  ->constrained('orders')
+                  ->onDelete('cascade');
+
+            $table->decimal('amount', 10, 2);
+            $table->string('payment_method'); // e.g., 'credit_card', 'paypal'
+            $table->string('status')->default('pending'); // 'pending', 'completed', 'failed'
+
             $table->timestamps();
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('payments');
     }

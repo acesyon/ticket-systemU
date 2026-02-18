@@ -6,7 +6,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1>Order Details #{{ $order->orderID }}</h1>
+            <h1>Order Details #{{ $order->id }}</h1>
             <div>
                 <a href="{{ route('orders.index') }}" class="btn btn-secondary">
                     <i class="fas fa-arrow-left"></i> Back to Orders
@@ -18,7 +18,7 @@
                 @endif
             </div>
         </div>
-        
+
         <div class="row">
             <div class="col-md-8">
                 <div class="card shadow-sm mb-4">
@@ -26,19 +26,19 @@
                         <h5 class="mb-0">Event Information</h5>
                     </div>
                     <div class="card-body">
-                        <h4>{{ $order->ticket->event->event_name }}</h4>
-                        
+                        <h4>{{ $order->ticket->event->name }}</h4>
+
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <p>
                                     <i class="fas fa-calendar text-primary"></i>
-                                    <strong>Date:</strong> 
-                                    {{ \Carbon\Carbon::parse($order->ticket->event->eventDate)->format('F d, Y') }}
+                                    <strong>Date:</strong>
+                                    {{ \Carbon\Carbon::parse($order->ticket->event->date)->format('F d, Y') }}
                                 </p>
                                 <p>
                                     <i class="fas fa-clock text-primary"></i>
-                                    <strong>Time:</strong> 
-                                    {{ \Carbon\Carbon::parse($order->ticket->event->eventTime)->format('h:i A') }}
+                                    <strong>Time:</strong>
+                                    {{ \Carbon\Carbon::parse($order->ticket->event->time)->format('h:i A') }}
                                 </p>
                             </div>
                             <div class="col-md-6">
@@ -48,11 +48,11 @@
                                 </p>
                                 <p>
                                     <i class="fas fa-ticket-alt text-primary"></i>
-                                    <strong>Ticket Type:</strong> {{ $order->ticket->ticketType }}
+                                    <strong>Ticket Type:</strong> {{ $order->ticket->ticket_type }}
                                 </p>
                             </div>
                         </div>
-                        
+
                         <p class="mt-3">
                             <strong>Description:</strong><br>
                             {{ $order->ticket->event->description }}
@@ -60,7 +60,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-4">
                 <div class="card shadow-sm mb-4">
                     <div class="card-header bg-success text-white">
@@ -70,12 +70,12 @@
                         <table class="table table-sm">
                             <tr>
                                 <td>Order ID:</td>
-                                <td class="text-end"><strong>#{{ $order->orderID }}</strong></td>
+                                <td class="text-end"><strong>#{{ $order->id }}</strong></td>
                             </tr>
                             <tr>
                                 <td>Status:</td>
                                 <td class="text-end">
-                                    <span class="badge bg-{{ $order->status === 'completed' ? 'success' : 'warning' }}">
+                                    <span class="badge bg-{{ $order->status === 'completed' ? 'success' : ($order->status === 'pending' ? 'warning' : 'danger') }}">
                                         {{ ucfirst($order->status) }}
                                     </span>
                                 </td>
@@ -98,11 +98,11 @@
                             </tr>
                             <tr>
                                 <td>Date Purchased:</td>
-                                <td class="text-end">{{ $order->date_purchased->format('M d, Y h:i A') }}</td>
+                                <td class="text-end">{{ \Carbon\Carbon::parse($order->date_purchased)->format('M d, Y h:i A') }}</td>
                             </tr>
                             <tr class="table-light">
                                 <td><strong>Total Amount:</strong></td>
-                                <td class="text-end"><strong>${{ number_format($order->payment->payment, 2) }}</strong></td>
+                                <td class="text-end"><strong>${{ number_format($order->payment->amount, 2) }}</strong></td>
                             </tr>
                         </table>
                     </div>

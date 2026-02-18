@@ -8,15 +8,27 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
-            $table->id('orderID');
-            $table->foreignId('userID')->constrained('users', 'id');
-            $table->foreignId('ticketID')->constrained('tickets', 'ticketID');
-            $table->integer('quantity');
-            $table->timestamp('date_purchased')->useCurrent();
-            $table->enum('status', ['pending', 'completed', 'cancelled', 'refunded'])->default('pending');
-            $table->timestamps();
-        });
+Schema::create('orders', function (Blueprint $table) {
+    $table->id();
+
+    $table->foreignId('user_id')
+          ->constrained()
+          ->onDelete('cascade');
+
+    $table->foreignId('ticket_id')
+          ->constrained()
+          ->onDelete('cascade');
+
+    $table->integer('quantity');
+
+    $table->timestamp('date_purchased')->useCurrent();
+
+    $table->enum('status', ['pending', 'completed', 'cancelled', 'refunded'])
+          ->default('pending');
+
+    $table->timestamps();
+});
+
     }
 
     public function down()

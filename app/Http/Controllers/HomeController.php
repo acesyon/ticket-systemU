@@ -7,15 +7,16 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
-    {
-        $upcomingEvents = Event::with('tickets')
-            ->where('status', 'upcoming')
-            ->where('eventDate', '>=', now())
-            ->orderBy('eventDate')
-            ->take(6)
-            ->get();
-            
-        return view('home', compact('upcomingEvents'));
-    }
+   public function index()
+{
+    $upcomingEvents = Event::with('tickets')
+        ->where('status', 'upcoming')
+        ->whereDate('date', '>=', now())
+        ->orderBy('date')
+        ->take(6)
+        ->get();
+
+    return view('home', compact('upcomingEvents'));
+}
+
 }

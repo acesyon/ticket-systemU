@@ -15,20 +15,27 @@ Route::get('/search', [EventController::class, 'search'])->name('events.search')
 
 // Authenticated Routes
 Route::middleware('auth')->group(function () {
+
     // Cart Routes
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::get('/cart/clear', function () {          // <-- must be BEFORE /cart/update/{id} and /cart/remove/{id}
+        session()->forget('cart');
+        return redirect()->route('cart.index')->with('success', 'Cart cleared!');
+    })->name('cart.clear');
     Route::post('/cart/add/{ticket}', [CartController::class, 'add'])->name('cart.add');
     Route::patch('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+
+    // Checkout Routes
     Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
     Route::post('/checkout/process', [CartController::class, 'processCheckout'])->name('cart.process');
     Route::get('/checkout/success/{order}', [CartController::class, 'success'])->name('cart.success');
-    
+
     // Order Routes
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
     Route::get('/orders/{order}/download', [OrderController::class, 'download'])->name('orders.download');
-    
+
     // Profile Routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -36,5 +43,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Comment this out temporarily
 require __DIR__.'/auth.php';

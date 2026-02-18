@@ -14,11 +14,11 @@ class CartController extends Controller
     {
         $cart = session()->get('cart', []);
         $total = 0;
-        
+
         foreach ($cart as $item) {
             $total += $item['price'] * $item['quantity'];
         }
-        
+
         return view('cart.index', compact('cart', 'total'));
     }
 
@@ -29,58 +29,67 @@ class CartController extends Controller
         ]);
 
         $cart = session()->get('cart', []);
-        $ticketId = $ticket->ticketID;
+        $ticketId = (string) $ticket->id;
 
         if (isset($cart[$ticketId])) {
-            $cart[$ticketId]['quantity'] += $request->quantity;
+            $newQuantity = $cart[$ticketId]['quantity'] + $request->quantity;
+            if ($newQuantity > $ticket->quantity_available) {
+                return redirect()->route('cart.index')
+                    ->with('error', 'Not enough tickets available.');
+            }
+            $cart[$ticketId]['quantity'] = $newQuantity;
         } else {
             $cart[$ticketId] = [
-                'ticket_id' => $ticketId,
-                'event_name' => $ticket->event->event_name,
-                'ticket_type' => $ticket->ticketType,
-                'price' => $ticket->price,
-                'quantity' => $request->quantity,
-                'max_available' => $ticket->quantity_available
+                'ticket_id'     => $ticketId,
+                'event_name'    => $ticket->event->name,
+                'ticket_type'   => $ticket->ticket_type,
+                'price'         => $ticket->price,
+                'quantity'      => $request->quantity,
+                'max_available' => $ticket->quantity_available,
             ];
         }
 
         session()->put('cart', $cart);
-        
+
         return redirect()->route('cart.index')->with('success', 'Ticket added to cart!');
     }
 
     public function update(Request $request, $id)
     {
+        $cart = session()->get('cart', []);
+        $id = (string) $id;
+
+        if (!isset($cart[$id])) {
+            return redirect()->route('cart.index')->with('error', 'Item not found in cart.');
+        }
+
         $request->validate([
-            'quantity' => 'required|integer|min:1'
+            'quantity' => 'required|integer|min:1|max:' . $cart[$id]['max_available']
         ]);
 
-        $cart = session()->get('cart', []);
-        
-        if (isset($cart[$id])) {
-            $cart[$id]['quantity'] = $request->quantity;
-            session()->put('cart', $cart);
-        }
-        
+        $cart[$id]['quantity'] = $request->quantity;
+        session()->put('cart', $cart);
+
         return redirect()->route('cart.index')->with('success', 'Cart updated successfully!');
     }
 
     public function remove($id)
     {
         $cart = session()->get('cart', []);
-        
+        $id = (string) $id;
+
         if (isset($cart[$id])) {
             unset($cart[$id]);
             session()->put('cart', $cart);
         }
-        
+
         return redirect()->route('cart.index')->with('success', 'Item removed from cart!');
     }
 
     public function checkout()
     {
         $cart = session()->get('cart', []);
-        
+
         if (empty($cart)) {
             return redirect()->route('cart.index')->with('error', 'Your cart is empty!');
         }
@@ -100,7 +109,7 @@ class CartController extends Controller
         ]);
 
         $cart = session()->get('cart', []);
-        
+
         if (empty($cart)) {
             return redirect()->route('cart.index')->with('error', 'Your cart is empty!');
         }
@@ -108,39 +117,43 @@ class CartController extends Controller
         DB::beginTransaction();
 
         try {
+            $lastOrder = null;
+
             foreach ($cart as $item) {
                 $ticket = Ticket::findOrFail($item['ticket_id']);
-                
+
                 // Check availability
                 if ($ticket->quantity_available < $item['quantity']) {
-                    throw new \Exception("Not enough tickets available for {$ticket->event->event_name}");
+                    throw new \Exception("Not enough tickets available for {$ticket->event->name}");
                 }
 
                 // Create order
                 $order = Order::create([
-                    'userID' => auth()->id(),
-                    'ticketID' => $ticket->ticketID,
-                    'quantity' => $item['quantity'],
-                    'status' => 'completed'
+                    'user_id'   => auth()->id(),
+                    'ticket_id' => $ticket->id,
+                    'quantity'  => $item['quantity'],
+                    'status'    => 'completed',
                 ]);
 
                 // Create payment
                 Payment::create([
-                    'orderID' => $order->orderID,
+                    'order_id'       => $order->id,
                     'payment_method' => $request->payment_method,
-                    'payment' => $item['price'] * $item['quantity']
+                    'amount'         => $item['price'] * $item['quantity'],
+                    'status'         => 'completed',
                 ]);
 
-                // Update ticket availability
+                // Decrease ticket availability
                 $ticket->decrement('quantity_available', $item['quantity']);
+
+                $lastOrder = $order;
             }
 
-            // Clear cart
             session()->forget('cart');
 
             DB::commit();
 
-            return redirect()->route('cart.success', ['order' => $order->orderID])
+            return redirect()->route('cart.success', ['order' => $lastOrder->id])
                 ->with('success', 'Payment successful!');
 
         } catch (\Exception $e) {
@@ -151,12 +164,12 @@ class CartController extends Controller
 
     public function success(Order $order)
     {
-        if ($order->userID !== auth()->id()) {
+        if ($order->user_id !== auth()->id()) {
             abort(403);
         }
 
         $order->load('ticket.event', 'payment');
-        
+
         return view('cart.success', compact('order'));
     }
 }
