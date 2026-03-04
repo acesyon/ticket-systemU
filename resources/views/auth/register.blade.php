@@ -3,881 +3,817 @@
 @section('title', 'Register')
 
 @push('styles')
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
     :root {
-        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --ink:      #0a0a0f;
+        --ink-2:    #13131a;
+        --ink-3:    #1e1e28;
+        --ink-4:    #2a2a38;
+        --line:     #2e2e3e;
+        --volt:     #c8f135;
+        --volt-dim: #9fbd28;
+        --chalk:    #f0ede6;
+        --chalk-2:  #b8b4ac;
+        --chalk-3:  #706c66;
+        --red-err:  #ff4f4f;
+        --green-ok: #4cde80;
+
+        --font-display: 'Playfair Display', Georgia, serif;
+        --font-body:    'DM Sans', sans-serif;
+        --font-mono:    'Space Mono', monospace;
     }
 
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+        background-color: var(--ink);
+        color: var(--chalk);
+        font-family: var(--font-body);
+        -webkit-font-smoothing: antialiased;
+        min-height: 100vh;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0.6;
+    }
+
+    /* ── PAGE LAYOUT ── */
     .register-page {
-        min-height: calc(100vh - 200px);
+        min-height: calc(100vh - 80px);
+        display: grid;
+        grid-template-columns: 1fr 1.4fr;
+    }
+
+    /* ── LEFT PANEL ── */
+    .register-left {
+        background: var(--ink-2);
+        border-right: 1px solid var(--line);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 70px 56px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .register-left-bg {
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(ellipse 60% 50% at 15% 15%, rgba(200,241,53,0.07) 0%, transparent 65%),
+            radial-gradient(ellipse 45% 55% at 85% 85%, rgba(200,241,53,0.04) 0%, transparent 60%);
+        pointer-events: none;
+    }
+
+    .register-left-deco {
+        font-family: var(--font-display);
+        font-size: clamp(6rem, 11vw, 11rem);
+        font-weight: 900;
+        font-style: italic;
+        line-height: 1;
+        color: transparent;
+        -webkit-text-stroke: 1px var(--line);
+        user-select: none;
+        position: absolute;
+        bottom: 50px;
+        left: 40px;
+        opacity: 0.45;
+        letter-spacing: -0.04em;
+    }
+
+    .register-brand { position: relative; z-index: 2; }
+
+    .register-brand-eyebrow {
+        font-family: var(--font-mono);
+        font-size: 0.65rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--volt);
+        margin-bottom: 24px;
         display: flex;
         align-items: center;
-        padding: 40px 0;
+        gap: 12px;
     }
 
-    .register-wrapper {
-        position: relative;
-        width: 100%;
-    }
-
-    .register-card {
-        border: none;
-        border-radius: 30px;
-        overflow: hidden;
-        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
-        animation: fadeInUp 0.8s ease;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-    }
-
-    .register-header {
-        background: var(--primary-gradient);
-        padding: 40px 30px;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .register-header::before {
+    .register-brand-eyebrow::before {
         content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,170.7C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
-        background-repeat: no-repeat;
-        background-position: bottom;
-        background-size: cover;
-        opacity: 0.3;
+        display: inline-block;
+        width: 28px; height: 2px;
+        background: var(--volt);
     }
 
-    .register-header-content {
+    .register-brand h2 {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 3vw, 3rem);
+        font-weight: 900;
+        color: var(--chalk);
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+        margin-bottom: 20px;
+    }
+
+    .register-brand h2 em {
+        font-style: italic;
+        color: var(--volt);
+    }
+
+    .register-brand p {
+        font-size: 0.9rem;
+        color: var(--chalk-3);
+        line-height: 1.65;
+        font-weight: 300;
+        max-width: 300px;
+    }
+
+    /* perks list */
+    .perks-list {
         position: relative;
         z-index: 2;
-    }
-
-    .register-header h1 {
-        color: white;
-        font-size: 2.5rem;
-        font-weight: 800;
-        margin-bottom: 10px;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-    }
-
-    .register-header p {
-        color: rgba(255, 255, 255, 0.9);
-        font-size: 1rem;
-        margin: 0;
-    }
-
-    .register-body {
-        padding: 40px;
-        background: white;
-    }
-
-    .welcome-message {
-        text-align: center;
-        margin-bottom: 30px;
-    }
-
-    .welcome-message h3 {
-        color: #333;
-        font-weight: 700;
-        margin-bottom: 10px;
-    }
-
-    .welcome-message p {
-        color: #666;
-    }
-
-    .social-register {
+        list-style: none;
         display: flex;
-        gap: 15px;
+        flex-direction: column;
+        gap: 14px;
+        margin-top: 40px;
+    }
+
+    .perks-list li {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 0.85rem;
+        color: var(--chalk-2);
+        font-weight: 300;
+    }
+
+    .perks-list li::before {
+        content: '';
+        display: inline-block;
+        width: 20px; height: 20px;
+        background: rgba(200,241,53,0.12);
+        border: 1px solid var(--volt);
+        flex-shrink: 0;
+        position: relative;
+    }
+
+    .perks-list li i {
+        position: absolute;
+        font-size: 0.55rem;
+        color: var(--volt);
+        margin-left: -17px;
+        margin-top: 4px;
+    }
+
+    .register-left-footer { position: relative; z-index: 2; }
+
+    .already-member {
+        font-family: var(--font-mono);
+        font-size: 0.62rem;
+        letter-spacing: 0.15em;
+        color: var(--chalk-3);
+    }
+
+    .already-member a {
+        color: var(--volt);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(200,241,53,0.35);
+        padding-bottom: 1px;
+        transition: border-color 0.2s;
+    }
+
+    .already-member a:hover { border-color: var(--volt); color: var(--volt) !important; }
+
+    /* ── RIGHT PANEL ── */
+    .register-right {
+        background: var(--ink);
+        display: flex;
+        align-items: flex-start;
         justify-content: center;
-        margin-bottom: 30px;
+        padding: 70px 64px;
+        overflow-y: auto;
+    }
+
+    .register-form-wrap {
+        width: 100%;
+        max-width: 520px;
+        animation: fadeUp 0.7s cubic-bezier(0.2,0,0.3,1) both;
+    }
+
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── FORM HEADER ── */
+    .form-header { margin-bottom: 40px; }
+
+    .form-header-eyebrow {
+        font-family: var(--font-mono);
+        font-size: 0.62rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--volt);
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .form-header-eyebrow::before {
+        content: '';
+        display: inline-block;
+        width: 20px; height: 2px;
+        background: var(--volt);
+    }
+
+    .form-header h1 {
+        font-family: var(--font-display);
+        font-size: 2.2rem;
+        font-weight: 900;
+        color: var(--chalk);
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+        margin-bottom: 10px;
+    }
+
+    .form-header p {
+        font-size: 0.88rem;
+        color: var(--chalk-3);
+        font-weight: 300;
+    }
+
+    /* ── SOCIAL ROW ── */
+    .social-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 28px;
     }
 
     .social-btn {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: #f8f9fa;
-        color: #666;
-        font-size: 1.2rem;
-        transition: all 0.3s ease;
+        gap: 8px;
+        padding: 12px;
+        background: var(--ink-2);
+        border: 1px solid var(--line);
+        color: var(--chalk-2);
         text-decoration: none;
-        border: 1px solid #e0e0e0;
+        font-family: var(--font-mono);
+        font-size: 0.65rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        transition: all 0.2s;
     }
 
     .social-btn:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        background: var(--ink-3);
+        border-color: var(--volt);
+        color: var(--volt) !important;
     }
 
-    .social-btn.google:hover {
-        background: #DB4437;
-        color: white;
-        border-color: #DB4437;
-    }
+    .social-btn i { font-size: 0.85rem; }
 
-    .social-btn.facebook:hover {
-        background: #4267B2;
-        color: white;
-        border-color: #4267B2;
-    }
-
-    .social-btn.twitter:hover {
-        background: #1DA1F2;
-        color: white;
-        border-color: #1DA1F2;
-    }
-
-    .divider {
-        position: relative;
-        text-align: center;
-        margin: 30px 0;
-    }
-
-    .divider::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 0;
-        right: 0;
-        height: 1px;
-        background: linear-gradient(to right, transparent, #e0e0e0, transparent);
-    }
-
-    .divider span {
-        background: white;
-        padding: 0 20px;
-        color: #666;
-        font-size: 0.9rem;
-        position: relative;
-        z-index: 2;
-    }
-
-    .form-row {
+    /* ── DIVIDER ── */
+    .or-divider {
         display: flex;
-        gap: 20px;
-        margin-bottom: 20px;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 28px;
     }
 
-    .form-group {
+    .or-divider::before, .or-divider::after {
+        content: '';
         flex: 1;
-        margin-bottom: 20px;
-        position: relative;
+        height: 1px;
+        background: var(--line);
     }
 
-    .form-group label {
-        display: block;
-        margin-bottom: 8px;
-        color: #333;
-        font-weight: 500;
-        font-size: 0.95rem;
+    .or-divider span {
+        font-family: var(--font-mono);
+        font-size: 0.58rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--chalk-3);
+        white-space: nowrap;
     }
 
-    .input-wrapper {
-        position: relative;
+    /* ── FIELD GROUPS ── */
+    .fields-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
     }
 
-    .input-wrapper i {
+    .field-group { margin-bottom: 16px; }
+
+    .field-label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-family: var(--font-mono);
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--chalk-3);
+        margin-bottom: 9px;
+    }
+
+    .field-label .optional-tag {
+        font-size: 0.55rem;
+        color: var(--chalk-3);
+        background: var(--ink-3);
+        border: 1px solid var(--line);
+        padding: 2px 8px;
+        letter-spacing: 0.1em;
+    }
+
+    .field-wrap { position: relative; }
+
+    .field-wrap i.field-icon {
         position: absolute;
-        left: 15px;
+        left: 16px;
         top: 50%;
         transform: translateY(-50%);
-        color: #667eea;
-        font-size: 1.1rem;
+        font-size: 0.75rem;
+        color: var(--chalk-3);
+        pointer-events: none;
+        transition: color 0.2s;
         z-index: 2;
-        transition: color 0.3s ease;
     }
 
     .form-control {
-        height: 55px;
-        padding: 10px 15px 10px 45px;
-        border: 2px solid #e0e0e0;
-        border-radius: 15px;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-        background: white;
         width: 100%;
+        background: var(--ink-2);
+        border: 1px solid var(--line);
+        color: var(--chalk);
+        font-family: var(--font-body);
+        font-size: 0.92rem;
+        padding: 15px 18px 15px 42px;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        border-radius: 0;
+        -webkit-appearance: none;
     }
 
     .form-control:focus {
-        border-color: #667eea;
-        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
-        outline: none;
+        border-color: var(--volt);
+        box-shadow: 0 0 0 3px rgba(200,241,53,0.07);
+        background: var(--ink-3);
+        color: var(--chalk);
     }
 
+    .form-control:focus ~ .field-icon,
+    .field-wrap:focus-within i.field-icon { color: var(--volt); }
+
+    .form-control::placeholder { color: var(--chalk-3); }
+
     .form-control.is-invalid {
-        border-color: #f5576c;
+        border-color: var(--red-err);
+        box-shadow: 0 0 0 3px rgba(255,79,79,0.07);
         background-image: none;
     }
 
-    .invalid-feedback {
-        color: #f5576c;
-        font-size: 0.85rem;
-        margin-top: 5px;
-        padding-left: 15px;
+    .form-control.is-valid {
+        border-color: var(--green-ok);
+        box-shadow: 0 0 0 3px rgba(76,222,128,0.06);
     }
 
-    .password-toggle {
+    .invalid-feedback {
+        font-family: var(--font-mono);
+        font-size: 0.58rem;
+        letter-spacing: 0.08em;
+        color: var(--red-err);
+        margin-top: 7px;
+        display: block;
+    }
+
+    /* password toggle */
+    .toggle-pass {
         position: absolute;
-        right: 15px;
+        right: 14px;
         top: 50%;
         transform: translateY(-50%);
-        color: #999;
+        color: var(--chalk-3);
         cursor: pointer;
+        font-size: 0.8rem;
+        transition: color 0.2s;
         z-index: 3;
-        transition: color 0.3s ease;
     }
 
-    .password-toggle:hover {
-        color: #667eea;
-    }
+    .toggle-pass:hover { color: var(--volt); }
 
-    .password-strength {
-        margin-top: 10px;
-        padding: 0 15px;
-    }
+    /* ── PASSWORD STRENGTH ── */
+    .strength-wrap { margin-top: 10px; }
 
     .strength-bar {
         display: flex;
-        gap: 5px;
-        margin-bottom: 5px;
+        gap: 4px;
+        margin-bottom: 6px;
     }
 
-    .strength-segment {
-        height: 5px;
+    .strength-seg {
+        height: 3px;
         flex: 1;
-        background: #e0e0e0;
-        border-radius: 5px;
-        transition: all 0.3s ease;
+        background: var(--line);
+        transition: background 0.3s;
     }
 
-    .strength-segment.active {
-        background: var(--primary-gradient);
+    .strength-seg.s1 { background: var(--red-err); }
+    .strength-seg.s2 { background: #f5a623; }
+    .strength-seg.s3 { background: #f5d623; }
+    .strength-seg.s4 { background: var(--green-ok); }
+
+    .strength-label {
+        font-family: var(--font-mono);
+        font-size: 0.58rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--chalk-3);
     }
 
-    .strength-text {
-        font-size: 0.85rem;
-        color: #666;
-    }
-
-    .terms-checkbox {
+    /* ── TERMS ── */
+    .terms-row {
         display: flex;
         align-items: flex-start;
-        gap: 10px;
-        margin: 25px 0;
+        gap: 12px;
+        margin: 22px 0;
+        padding: 18px;
+        background: var(--ink-2);
+        border: 1px solid var(--line);
     }
 
-    .terms-checkbox input[type="checkbox"] {
-        width: 20px;
-        height: 20px;
+    .terms-row input[type="checkbox"] {
+        width: 15px;
+        height: 15px;
+        accent-color: var(--volt);
+        cursor: pointer;
+        flex-shrink: 0;
         margin-top: 2px;
-        cursor: pointer;
-        accent-color: #667eea;
     }
 
-    .terms-checkbox label {
-        color: #666;
-        font-size: 0.95rem;
-        line-height: 1.5;
+    .terms-row label {
+        font-size: 0.82rem;
+        color: var(--chalk-3);
+        line-height: 1.6;
         cursor: pointer;
-        flex: 1;
+        font-weight: 300;
     }
 
-    .terms-checkbox a {
-        color: #667eea;
+    .terms-row a {
+        color: var(--chalk);
         text-decoration: none;
-        font-weight: 600;
-        position: relative;
+        border-bottom: 1px solid var(--line);
+        transition: color 0.2s, border-color 0.2s;
     }
 
-    .terms-checkbox a::after {
-        content: '';
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background: var(--primary-gradient);
-        transition: width 0.3s ease;
-    }
+    .terms-row a:hover { color: var(--volt) !important; border-color: var(--volt); }
 
-    .terms-checkbox a:hover::after {
-        width: 100%;
-    }
-
+    /* ── SUBMIT ── */
     .btn-register {
-        background: var(--primary-gradient);
-        color: white;
-        border: none;
-        border-radius: 15px;
-        padding: 15px 30px;
-        font-weight: 600;
-        font-size: 1.1rem;
         width: 100%;
+        background: var(--volt);
+        color: var(--ink);
+        border: none;
+        padding: 18px 24px;
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: background 0.2s;
         position: relative;
         overflow: hidden;
     }
 
-    .btn-register::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-        transition: left 0.5s ease;
-    }
+    .btn-register:hover { background: #d4f545; }
+    .btn-register:active { background: var(--volt-dim); }
 
-    .btn-register:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-    }
-
-    .btn-register:hover::before {
-        left: 100%;
-    }
-
-    .btn-register:active {
-        transform: translateY(0);
-    }
-
-    .login-link {
-        text-align: center;
-        margin-top: 25px;
-        padding-top: 25px;
-        border-top: 1px solid #e0e0e0;
-    }
-
-    .login-link p {
-        color: #666;
-        margin-bottom: 0;
-    }
-
-    .login-link a {
-        color: #667eea;
-        text-decoration: none;
-        font-weight: 600;
-        transition: color 0.3s ease;
-        position: relative;
-    }
-
-    .login-link a::after {
-        content: '';
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background: var(--primary-gradient);
-        transition: width 0.3s ease;
-    }
-
-    .login-link a:hover {
-        color: #764ba2;
-    }
-
-    .login-link a:hover::after {
-        width: 100%;
-    }
-
-    .floating-shape {
-        position: absolute;
-        width: 300px;
-        height: 300px;
-        border-radius: 50%;
-        background: var(--primary-gradient);
-        opacity: 0.1;
-        z-index: -1;
-    }
-
-    .shape-1 {
-        top: -100px;
-        right: -100px;
-        animation: float 8s infinite ease-in-out;
-    }
-
-    .shape-2 {
-        bottom: -100px;
-        left: -100px;
-        width: 400px;
-        height: 400px;
-        background: var(--secondary-gradient);
-        animation: float 10s infinite ease-in-out reverse;
-    }
-
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @keyframes float {
-        0%, 100% {
-            transform: translateY(0) rotate(0deg);
-        }
-        50% {
-            transform: translateY(-20px) rotate(5deg);
-        }
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        .register-body {
-            padding: 30px 20px;
-        }
-
-        .register-header {
-            padding: 30px 20px;
-        }
-
-        .register-header h1 {
-            font-size: 2rem;
-        }
-
-        .form-row {
-            flex-direction: column;
-            gap: 0;
-        }
-    }
-
-    /* Loading state */
-    .btn-register.loading {
-        pointer-events: none;
-        opacity: 0.8;
-    }
-
-    .btn-register.loading .btn-text {
-        display: none;
-    }
-
+    .btn-register.loading { pointer-events: none; opacity: 0.75; }
+    .btn-register.loading .btn-text { visibility: hidden; }
     .btn-register.loading::after {
         content: '';
         position: absolute;
-        width: 20px;
-        height: 20px;
-        top: 50%;
-        left: 50%;
-        margin-left: -10px;
-        margin-top: -10px;
-        border: 2px solid rgba(255,255,255,0.3);
-        border-top-color: white;
+        width: 18px; height: 18px;
+        top: 50%; left: 50%;
+        margin: -9px 0 0 -9px;
+        border: 2px solid rgba(10,10,15,0.25);
+        border-top-color: var(--ink);
         border-radius: 50%;
-        animation: spin 0.8s infinite linear;
+        animation: spin 0.7s linear infinite;
     }
 
-    @keyframes spin {
-        to { transform: rotate(360deg); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── LOGIN LINK ── */
+    .login-row {
+        margin-top: 24px;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+        text-align: center;
     }
 
-    /* Input validation icons */
-    .validation-icon {
-        position: absolute;
-        right: 45px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 1rem;
-        opacity: 0;
-        transition: opacity 0.3s ease;
+    .login-row p { font-size: 0.84rem; color: var(--chalk-3); }
+
+    .login-row a {
+        color: var(--chalk);
+        text-decoration: none;
+        font-weight: 600;
+        border-bottom: 1px solid var(--volt);
+        padding-bottom: 1px;
+        transition: color 0.2s;
     }
 
-    .validation-icon.valid {
-        color: #28a745;
-        opacity: 1;
+    .login-row a:hover { color: var(--volt) !important; }
+
+    .terms-note {
+        margin-top: 16px;
+        text-align: center;
+        font-family: var(--font-mono);
+        font-size: 0.56rem;
+        letter-spacing: 0.08em;
+        color: var(--chalk-3);
     }
 
-    .validation-icon.invalid {
-        color: #dc3545;
-        opacity: 1;
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+        .register-page { grid-template-columns: 1fr; }
+        .register-left { display: none; }
+        .register-right { padding: 50px 28px; }
+    }
+
+    @media (max-width: 600px) {
+        .fields-row { grid-template-columns: 1fr; }
+        .social-row { grid-template-columns: repeat(3, 1fr); }
     }
 </style>
 @endpush
 
 @section('content')
 <div class="register-page">
-    <div class="container register-wrapper">
-        <!-- Floating Background Shapes -->
-        <div class="floating-shape shape-1"></div>
-        <div class="floating-shape shape-2"></div>
 
-        <div class="row justify-content-center">
-            <div class="col-md-10 col-lg-8">
-                <div class="register-card">
-                    <!-- Header -->
-                    <div class="register-header">
-                        <div class="register-header-content">
-                            <h1>Join Us Today! 🚀</h1>
-                            <p>Create your account and start your journey</p>
-                        </div>
-                    </div>
+    {{-- ── LEFT PANEL ── --}}
+    <div class="register-left">
+        <div class="register-left-bg"></div>
 
-                    <!-- Body -->
-                    <div class="register-body">
-                        <div class="welcome-message">
-                            <h3>Create an Account</h3>
-                            <p>Sign up using social media or email</p>
-                        </div>
+        <div class="register-brand">
+            <div class="register-brand-eyebrow">Live Events Platform</div>
+            <h2>Start Your<br><em>Journey</em><br>Today.</h2>
+            <p>Create a free account and unlock access to hundreds of events across the country.</p>
 
-                        <!-- Social Registration -->
-                        <div class="social-register">
-                            <a href="#" class="social-btn google" title="Sign up with Google">
-                                <i class="fab fa-google"></i>
-                            </a>
-                            <a href="#" class="social-btn facebook" title="Sign up with Facebook">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                            <a href="#" class="social-btn twitter" title="Sign up with Twitter">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                        </div>
+            <ul class="perks-list" style="margin-top: 32px;">
+                <li><i class="fas fa-check"></i> Instant ticket booking, no waiting</li>
+                <li><i class="fas fa-check"></i> Personalised event recommendations</li>
+                <li><i class="fas fa-check"></i> Exclusive pre-sale access</li>
+                <li><i class="fas fa-check"></i> Order history & digital tickets</li>
+            </ul>
+        </div>
 
-                        <!-- Divider -->
-                        <div class="divider">
-                            <span>OR SIGN UP WITH EMAIL</span>
-                        </div>
+        <div class="register-left-footer">
+            <p class="already-member">Already a member? <a href="{{ route('login') }}">Sign in &rarr;</a></p>
+        </div>
 
-                        <!-- Registration Form -->
-                        <form method="POST" action="{{ route('register') }}" id="registerForm">
-                            @csrf
+        <div class="register-left-deco">Join</div>
+    </div>
 
-                            <!-- Name Row -->
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="first_name">First Name</label>
-                                    <div class="input-wrapper">
-                                        <i class="fas fa-user"></i>
-                                        <input type="text" 
-                                               class="form-control @error('first_name') is-invalid @enderror" 
-                                               id="first_name" 
-                                               name="first_name" 
-                                               value="{{ old('first_name') }}" 
-                                               placeholder="Enter first name"
-                                               required>
-                                    </div>
-                                    @error('first_name')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
+    {{-- ── RIGHT PANEL ── --}}
+    <div class="register-right">
+        <div class="register-form-wrap">
 
-                                <div class="form-group">
-                                    <label for="last_name">Last Name</label>
-                                    <div class="input-wrapper">
-                                        <i class="fas fa-user"></i>
-                                        <input type="text" 
-                                               class="form-control @error('last_name') is-invalid @enderror" 
-                                               id="last_name" 
-                                               name="last_name" 
-                                               value="{{ old('last_name') }}" 
-                                               placeholder="Enter last name"
-                                               required>
-                                    </div>
-                                    @error('last_name')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <!-- Email Field -->
-                            <div class="form-group">
-                                <label for="email">Email Address</label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-envelope"></i>
-                                    <input type="email" 
-                                           class="form-control @error('email') is-invalid @enderror" 
-                                           id="email" 
-                                           name="email" 
-                                           value="{{ old('email') }}" 
-                                           placeholder="Enter your email"
-                                           required>
-                                </div>
-                                @error('email')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <!-- Contact Number -->
-                            <div class="form-group">
-                                <label for="contact_no">Contact Number <span class="text-muted">(Optional)</span></label>
-                                <div class="input-wrapper">
-                                    <i class="fas fa-phone-alt"></i>
-                                    <input type="text" 
-                                           class="form-control @error('contact_no') is-invalid @enderror" 
-                                           id="contact_no" 
-                                           name="contact_no" 
-                                           value="{{ old('contact_no') }}" 
-                                           placeholder="Enter contact number">
-                                </div>
-                                @error('contact_no')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <!-- Password Row -->
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <div class="input-wrapper">
-                                        <i class="fas fa-lock"></i>
-                                        <input type="password" 
-                                               class="form-control @error('password') is-invalid @enderror" 
-                                               id="password" 
-                                               name="password" 
-                                               placeholder="Create password"
-                                               required>
-                                        <i class="fas fa-eye password-toggle" id="togglePassword"></i>
-                                    </div>
-                                    @error('password')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                    
-                                    <!-- Password Strength Indicator -->
-                                    <div class="password-strength">
-                                        <div class="strength-bar">
-                                            <div class="strength-segment" id="strength1"></div>
-                                            <div class="strength-segment" id="strength2"></div>
-                                            <div class="strength-segment" id="strength3"></div>
-                                            <div class="strength-segment" id="strength4"></div>
-                                        </div>
-                                        <span class="strength-text" id="strengthText">Enter password</span>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="password_confirmation">Confirm Password</label>
-                                    <div class="input-wrapper">
-                                        <i class="fas fa-lock"></i>
-                                        <input type="password" 
-                                               class="form-control" 
-                                               id="password_confirmation" 
-                                               name="password_confirmation" 
-                                               placeholder="Confirm password"
-                                               required>
-                                        <i class="fas fa-eye password-toggle" id="toggleConfirmPassword"></i>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Terms and Conditions -->
-                            <div class="terms-checkbox">
-                                <input type="checkbox" id="terms" name="terms" required>
-                                <label for="terms">
-                                    I agree to the <a href="#">Terms of Service</a> and 
-                                    <a href="#">Privacy Policy</a>. I confirm that I am at least 16 years old.
-                                </label>
-                            </div>
-
-                            <!-- Submit Button -->
-                            <button type="submit" class="btn-register" id="submitBtn">
-                                <span class="btn-text">
-                                    <i class="fas fa-user-plus me-2"></i>Create Account
-                                </span>
-                            </button>
-                        </form>
-
-                        <!-- Login Link -->
-                        <div class="login-link">
-                            <p>
-                                Already have an account? 
-                                <a href="{{ route('login') }}">
-                                    Sign In <i class="fas fa-arrow-right ms-1"></i>
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Additional Info -->
-                <div class="text-center mt-4">
-                    <p class="text-muted small">
-                        By creating an account, you agree to receive event notifications and updates.
-                        You can unsubscribe at any time.
-                    </p>
-                </div>
+            {{-- Header --}}
+            <div class="form-header">
+                <div class="form-header-eyebrow">New Account</div>
+                <h1>Create Your<br>Account.</h1>
+                <p>Fill in your details below — it takes less than a minute.</p>
             </div>
+
+            {{-- Social --}}
+            <div class="social-row">
+                <a href="#" class="social-btn"><i class="fab fa-google"></i> Google</a>
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i> Facebook</a>
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i> Twitter</a>
+            </div>
+
+            <div class="or-divider"><span>Or register with email</span></div>
+
+            {{-- Form --}}
+            <form method="POST" action="{{ route('register') }}" id="registerForm">
+                @csrf
+
+                {{-- Name Row --}}
+                <div class="fields-row">
+                    <div class="field-group">
+                        <label class="field-label" for="first_name">First Name</label>
+                        <div class="field-wrap">
+                            <i class="fas fa-user field-icon"></i>
+                            <input type="text"
+                                   class="form-control @error('first_name') is-invalid @enderror"
+                                   id="first_name" name="first_name"
+                                   value="{{ old('first_name') }}"
+                                   placeholder="First name" required>
+                        </div>
+                        @error('first_name')<span class="invalid-feedback">{{ $message }}</span>@enderror
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label" for="last_name">Last Name</label>
+                        <div class="field-wrap">
+                            <i class="fas fa-user field-icon"></i>
+                            <input type="text"
+                                   class="form-control @error('last_name') is-invalid @enderror"
+                                   id="last_name" name="last_name"
+                                   value="{{ old('last_name') }}"
+                                   placeholder="Last name" required>
+                        </div>
+                        @error('last_name')<span class="invalid-feedback">{{ $message }}</span>@enderror
+                    </div>
+                </div>
+
+                {{-- Email --}}
+                <div class="field-group">
+                    <label class="field-label" for="email">Email Address</label>
+                    <div class="field-wrap">
+                        <i class="fas fa-envelope field-icon"></i>
+                        <input type="email"
+                               class="form-control @error('email') is-invalid @enderror"
+                               id="email" name="email"
+                               value="{{ old('email') }}"
+                               placeholder="you@example.com" required>
+                    </div>
+                    @error('email')<span class="invalid-feedback">{{ $message }}</span>@enderror
+                </div>
+
+                {{-- Contact --}}
+                <div class="field-group">
+                    <label class="field-label" for="contact_no">
+                        Contact Number
+                        <span class="optional-tag">Optional</span>
+                    </label>
+                    <div class="field-wrap">
+                        <i class="fas fa-phone field-icon"></i>
+                        <input type="text"
+                               class="form-control @error('contact_no') is-invalid @enderror"
+                               id="contact_no" name="contact_no"
+                               value="{{ old('contact_no') }}"
+                               placeholder="+63 900 000 0000">
+                    </div>
+                    @error('contact_no')<span class="invalid-feedback">{{ $message }}</span>@enderror
+                </div>
+
+                {{-- Password Row --}}
+                <div class="fields-row">
+                    <div class="field-group">
+                        <label class="field-label" for="password">Password</label>
+                        <div class="field-wrap">
+                            <i class="fas fa-lock field-icon"></i>
+                            <input type="password"
+                                   class="form-control @error('password') is-invalid @enderror"
+                                   id="password" name="password"
+                                   placeholder="Create password" required>
+                            <i class="fas fa-eye toggle-pass" id="togglePassword"></i>
+                        </div>
+                        @error('password')<span class="invalid-feedback">{{ $message }}</span>@enderror
+
+                        <div class="strength-wrap">
+                            <div class="strength-bar">
+                                <div class="strength-seg" id="seg1"></div>
+                                <div class="strength-seg" id="seg2"></div>
+                                <div class="strength-seg" id="seg3"></div>
+                                <div class="strength-seg" id="seg4"></div>
+                            </div>
+                            <span class="strength-label" id="strengthLabel">—</span>
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label" for="password_confirmation">Confirm</label>
+                        <div class="field-wrap">
+                            <i class="fas fa-lock field-icon"></i>
+                            <input type="password"
+                                   class="form-control"
+                                   id="password_confirmation"
+                                   name="password_confirmation"
+                                   placeholder="Repeat password" required>
+                            <i class="fas fa-eye toggle-pass" id="toggleConfirm"></i>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Terms --}}
+                <div class="terms-row">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">
+                        I agree to the <a href="#">Terms of Service</a> and
+                        <a href="#">Privacy Policy</a>. I confirm I am at least 16 years old.
+                    </label>
+                </div>
+
+                {{-- Submit --}}
+                <button type="submit" class="btn-register" id="submitBtn">
+                    <span class="btn-text">
+                        <i class="fas fa-arrow-right me-2"></i>Create Account
+                    </span>
+                </button>
+            </form>
+
+            <div class="login-row">
+                <p>Already have an account? <a href="{{ route('login') }}">Sign in &rarr;</a></p>
+            </div>
+
+            <p class="terms-note">
+                By registering you agree to receive event notifications. Unsubscribe any time.
+            </p>
+
         </div>
     </div>
+
 </div>
 @endsection
 
 @push('scripts')
 <script>
-    // Password visibility toggle
-    const togglePassword = document.getElementById('togglePassword');
-    const password = document.getElementById('password');
-    const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
-    const confirmPassword = document.getElementById('password_confirmation');
+    // ── Password toggles
+    function makeToggle(btnId, inputId) {
+        document.getElementById(btnId).addEventListener('click', function () {
+            const el = document.getElementById(inputId);
+            const hidden = el.type === 'password';
+            el.type = hidden ? 'text' : 'password';
+            this.classList.toggle('fa-eye', !hidden);
+            this.classList.toggle('fa-eye-slash', hidden);
+        });
+    }
+    makeToggle('togglePassword', 'password');
+    makeToggle('toggleConfirm', 'password_confirmation');
 
-    togglePassword.addEventListener('click', function() {
-        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-        password.setAttribute('type', type);
-        this.classList.toggle('fa-eye');
-        this.classList.toggle('fa-eye-slash');
+    // ── Password strength
+    const pw = document.getElementById('password');
+    const segs = [null, document.getElementById('seg1'), document.getElementById('seg2'),
+                  document.getElementById('seg3'), document.getElementById('seg4')];
+    const strengthLabel = document.getElementById('strengthLabel');
+    const labels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+    const classes = ['', 's1', 's2', 's3', 's4'];
+
+    pw.addEventListener('input', function () {
+        const v = this.value;
+        let score = 0;
+        if (v.length >= 8)                                   score++;
+        if (/\d/.test(v))                                    score++;
+        if (/[a-z]/.test(v) && /[A-Z]/.test(v))             score++;
+        if (/[!@#$%^&*(),.?":{}|<>]/.test(v))               score++;
+
+        segs.forEach((s, i) => {
+            if (!s) return;
+            s.className = 'strength-seg';
+            if (i <= score && v.length > 0) s.classList.add(classes[score]);
+        });
+
+        strengthLabel.textContent = v.length ? labels[score] : '—';
     });
 
-    toggleConfirmPassword.addEventListener('click', function() {
-        const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
-        confirmPassword.setAttribute('type', type);
-        this.classList.toggle('fa-eye');
-        this.classList.toggle('fa-eye-slash');
+    // ── Confirm password match highlight
+    const confirmPw = document.getElementById('password_confirmation');
+    confirmPw.addEventListener('input', function () {
+        if (!this.value) { this.className = 'form-control'; return; }
+        this.className = 'form-control ' + (this.value === pw.value ? 'is-valid' : 'is-invalid');
     });
 
-    // Password strength checker
-    const strengthSegments = {
-        1: document.getElementById('strength1'),
-        2: document.getElementById('strength2'),
-        3: document.getElementById('strength3'),
-        4: document.getElementById('strength4')
-    };
-    const strengthText = document.getElementById('strengthText');
-
-    password.addEventListener('input', function() {
-        const value = this.value;
-        let strength = 0;
-        
-        // Reset segments
-        for (let i = 1; i <= 4; i++) {
-            strengthSegments[i].classList.remove('active');
-        }
-        
-        if (value.length > 0) {
-            // Check length
-            if (value.length >= 8) strength++;
-            
-            // Check for numbers
-            if (/\d/.test(value)) strength++;
-            
-            // Check for lowercase and uppercase
-            if (/[a-z]/.test(value) && /[A-Z]/.test(value)) strength++;
-            
-            // Check for special characters
-            if (/[!@#$%^&*(),.?":{}|<>]/.test(value)) strength++;
-            
-            // Update segments
-            for (let i = 1; i <= strength; i++) {
-                strengthSegments[i].classList.add('active');
-            }
-            
-            // Update text
-            const strengthLabels = ['Very Weak', 'Weak', 'Medium', 'Strong', 'Very Strong'];
-            strengthText.textContent = strengthLabels[strength];
-            strengthText.style.color = ['#dc3545', '#ffc107', '#17a2b8', '#28a745', '#28a745'][strength];
-        } else {
-            strengthText.textContent = 'Enter password';
-            strengthText.style.color = '#666';
-        }
+    // ── Email live validation
+    const emailInput = document.getElementById('email');
+    emailInput.addEventListener('blur', function () {
+        if (!this.value) return;
+        const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value);
+        this.className = 'form-control ' + (ok ? 'is-valid' : 'is-invalid');
     });
 
-    // Password match checker
-    confirmPassword.addEventListener('input', function() {
-        if (password.value && this.value) {
-            if (password.value === this.value) {
-                this.style.borderColor = '#28a745';
-                this.style.boxShadow = '0 0 0 4px rgba(40, 167, 69, 0.1)';
-            } else {
-                this.style.borderColor = '#dc3545';
-                this.style.boxShadow = '0 0 0 4px rgba(220, 53, 69, 0.1)';
-            }
-        } else {
-            this.style.borderColor = '#e0e0e0';
-            this.style.boxShadow = 'none';
-        }
+    // ── Icon focus colour
+    document.querySelectorAll('.form-control').forEach(input => {
+        const icon = input.closest('.field-wrap')?.querySelector('.field-icon');
+        if (!icon) return;
+        input.addEventListener('focus', () => icon.style.color = 'var(--volt)');
+        input.addEventListener('blur',  () => icon.style.color = '');
     });
 
-    // Form submission loading state
-    const registerForm = document.getElementById('registerForm');
-    const submitBtn = document.getElementById('submitBtn');
-
-    registerForm.addEventListener('submit', function(e) {
-        const terms = document.getElementById('terms');
-        if (!terms.checked) {
+    // ── Submit loading
+    document.getElementById('registerForm').addEventListener('submit', function (e) {
+        if (!document.getElementById('terms').checked) {
             e.preventDefault();
-            alert('Please agree to the Terms of Service and Privacy Policy');
             return;
         }
-        submitBtn.classList.add('loading');
+        document.getElementById('submitBtn').classList.add('loading');
     });
 
-    // Auto-hide alerts after 5 seconds
-    setTimeout(function() {
-        const alerts = document.querySelectorAll('.alert');
-        alerts.forEach(alert => {
-            alert.style.transition = 'opacity 0.5s ease';
-            alert.style.opacity = '0';
-            setTimeout(() => alert.remove(), 500);
-        });
-    }, 5000);
-
-    // Input focus effects
-    const formControls = document.querySelectorAll('.form-control');
-    formControls.forEach(input => {
-        input.addEventListener('focus', function() {
-            this.parentElement.querySelector('i:first-child').style.color = '#667eea';
-        });
-        
-        input.addEventListener('blur', function() {
-            this.parentElement.querySelector('i:first-child').style.color = '#667eea';
-        });
-    });
-
-    // Smooth scroll to top on validation errors
     @if($errors->any())
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     @endif
-
-    // Real-time email validation
-    const emailInput = document.getElementById('email');
-    emailInput.addEventListener('input', function() {
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (this.value.length > 0) {
-            if (emailPattern.test(this.value)) {
-                this.style.borderColor = '#28a745';
-                this.style.boxShadow = '0 0 0 4px rgba(40, 167, 69, 0.1)';
-            } else {
-                this.style.borderColor = '#dc3545';
-                this.style.boxShadow = '0 0 0 4px rgba(220, 53, 69, 0.1)';
-            }
-        } else {
-            this.style.borderColor = '#e0e0e0';
-            this.style.boxShadow = 'none';
-        }
-    });
-
-    // Phone number formatting (optional)
-    const contactInput = document.getElementById('contact_no');
-    contactInput.addEventListener('input', function() {
-        let value = this.value.replace(/\D/g, '');
-        if (value.length > 0) {
-            if (value.length <= 11) {
-                this.style.borderColor = '#28a745';
-                this.style.boxShadow = '0 0 0 4px rgba(40, 167, 69, 0.1)';
-            } else {
-                this.style.borderColor = '#dc3545';
-                this.style.boxShadow = '0 0 0 4px rgba(220, 53, 69, 0.1)';
-            }
-        } else {
-            this.style.borderColor = '#e0e0e0';
-            this.style.boxShadow = 'none';
-        }
-    });
 </script>
 @endpush
