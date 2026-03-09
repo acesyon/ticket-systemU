@@ -9,7 +9,8 @@
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Font Awesome -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">      
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
         
         <style>
             .navbar {
@@ -17,11 +18,8 @@
                 box-shadow: 0 2px 4px rgba(0,0,0,.1);
             }
             
-            .navbar-brand {
-                font-size: 1.5rem;
-                font-weight: 600;
-                letter-spacing: -0.5px;
-            }
+            .brand { font-weight: 800; font-size: 1.6rem; color: #fff; text-decoration: none; }
+        .brand span { color: #e94560; }
             
             .nav-link {
                 font-size: 1.1rem;
@@ -97,8 +95,8 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
-                <a class="navbar-brand" href="{{ route('home') }}">
-                    <i class="fas fa-ticket-alt me-2"></i>
+                <a class="brand" href="{{ route('home') }}">
+                    <i class="bi bi-ticket-detailed me-1"></i>
                     TicketHub
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
