@@ -7,37 +7,54 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $events = Event::with('tickets')
-            ->where('status', 'upcoming')
-            ->where('date', '>=', now())
-            ->orderBy('date')
-            ->paginate(9);
+        $query = Event::with('tickets')->where('status', '!=', 'cancelled');
+
+        if ($request->filled('category')) {
+            $query->where('category', $request->category);
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%")
+                  ->orWhere('location', 'like', "%{$search}%")
+                  ->orWhere('category', 'like', "%{$search}%");
+            });
+        }
+
+        $sortMap = [
+            'date_asc'   => ['date', 'asc'],
+            'date_desc'  => ['date', 'desc'],
+            'name_asc'   => ['name', 'asc'],
+            'name_desc'  => ['name', 'desc'],
+        ];
+
+        [$col, $dir] = $sortMap[$request->sort] ?? ['date', 'asc'];
+
+        $events = $query->orderBy($col, $dir)->paginate(9)->withQueryString();
 
         return view('events.index', compact('events'));
     }
 
     public function show(Event $event)
     {
+        if ($event->status === 'cancelled') {
+            abort(404);
+        }
+
         $event->load('tickets');
+
         return view('events.show', compact('event'));
     }
 
+    // Redirects to index with search param — keeps the search route working
     public function search(Request $request)
     {
-        $query = Event::query()->where('status', 'upcoming');
-
-        if ($request->filled('search')) {
-            $query->where(function($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('location', 'like', '%' . $request->search . '%')
-                  ->orWhere('description', 'like', '%' . $request->search . '%');
-            });
-        }
-
-        $events = $query->orderBy('eventDate')->paginate(9);
-
-        return view('events.index', compact('events'));
+        return redirect()->route('events.index', [
+            'search' => $request->input('search'),
+        ]);
     }
 }

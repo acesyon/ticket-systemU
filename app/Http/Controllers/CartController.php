@@ -12,7 +12,7 @@ class CartController extends Controller
 {
     public function index()
     {
-        $cart = session()->get('cart', []);
+        $cart  = session()->get('cart', []);
         $total = 0;
 
         foreach ($cart as $item) {
@@ -25,10 +25,10 @@ class CartController extends Controller
     public function add(Request $request, Ticket $ticket)
     {
         $request->validate([
-            'quantity' => 'required|integer|min:1|max:' . $ticket->quantity_available
+            'quantity' => 'required|integer|min:1|max:' . $ticket->quantity_available,
         ]);
 
-        $cart = session()->get('cart', []);
+        $cart     = session()->get('cart', []);
         $ticketId = (string) $ticket->id;
 
         if (isset($cart[$ticketId])) {
@@ -51,20 +51,73 @@ class CartController extends Controller
 
         session()->put('cart', $cart);
 
+        if ($request->input('redirect') === 'checkout') {
+            return redirect()->route('cart.checkout')->with('success', 'Ticket added!');
+        }
+
         return redirect()->route('cart.index')->with('success', 'Ticket added to cart!');
+    }
+
+    public function addBulk(Request $request)
+    {
+        $request->validate([
+            'tickets'   => 'required|array',
+            'tickets.*' => 'integer|min:1',
+        ]);
+
+        $cart   = session()->get('cart', []);
+        $errors = [];
+
+        foreach ($request->tickets as $ticketId => $quantity) {
+            $ticket = Ticket::find($ticketId);
+
+            if (!$ticket) {
+                continue;
+            }
+
+            $ticketId = (string) $ticketId;
+            $existing = $cart[$ticketId]['quantity'] ?? 0;
+            $newQty   = $existing + $quantity;
+
+            if ($newQty > $ticket->quantity_available) {
+                $errors[] = "Not enough tickets available for \"{$ticket->ticket_type}\".";
+                continue;
+            }
+
+            $cart[$ticketId] = [
+                'ticket_id'     => $ticketId,
+                'event_name'    => $ticket->event->name,
+                'ticket_type'   => $ticket->ticket_type,
+                'price'         => $ticket->price,
+                'quantity'      => $newQty,
+                'max_available' => $ticket->quantity_available,
+            ];
+        }
+
+        session()->put('cart', $cart);
+
+        if (!empty($errors)) {
+            return redirect()->route('cart.index')->with('error', implode(' ', $errors));
+        }
+
+        if ($request->input('redirect') === 'checkout') {
+            return redirect()->route('cart.checkout')->with('success', 'Tickets added!');
+        }
+
+        return redirect()->route('cart.index')->with('success', 'Tickets added to cart!');
     }
 
     public function update(Request $request, $id)
     {
         $cart = session()->get('cart', []);
-        $id = (string) $id;
+        $id   = (string) $id;
 
         if (!isset($cart[$id])) {
             return redirect()->route('cart.index')->with('error', 'Item not found in cart.');
         }
 
         $request->validate([
-            'quantity' => 'required|integer|min:1|max:' . $cart[$id]['max_available']
+            'quantity' => 'required|integer|min:1|max:' . $cart[$id]['max_available'],
         ]);
 
         $cart[$id]['quantity'] = $request->quantity;
@@ -76,7 +129,7 @@ class CartController extends Controller
     public function remove($id)
     {
         $cart = session()->get('cart', []);
-        $id = (string) $id;
+        $id   = (string) $id;
 
         if (isset($cart[$id])) {
             unset($cart[$id]);
@@ -105,7 +158,7 @@ class CartController extends Controller
     public function processCheckout(Request $request)
     {
         $request->validate([
-            'payment_method' => 'required|in:cash,gcash,credit_card,paypal'
+            'payment_method' => 'required|in:cash,gcash,credit_card,paypal',
         ]);
 
         $cart = session()->get('cart', []);
@@ -122,12 +175,10 @@ class CartController extends Controller
             foreach ($cart as $item) {
                 $ticket = Ticket::findOrFail($item['ticket_id']);
 
-                // Check availability
                 if ($ticket->quantity_available < $item['quantity']) {
                     throw new \Exception("Not enough tickets available for {$ticket->event->name}");
                 }
 
-                // Create order
                 $order = Order::create([
                     'user_id'   => auth()->id(),
                     'ticket_id' => $ticket->id,
@@ -135,7 +186,6 @@ class CartController extends Controller
                     'status'    => 'completed',
                 ]);
 
-                // Create payment
                 Payment::create([
                     'order_id'       => $order->id,
                     'payment_method' => $request->payment_method,
@@ -143,7 +193,6 @@ class CartController extends Controller
                     'status'         => 'completed',
                 ]);
 
-                // Decrease ticket availability
                 $ticket->decrement('quantity_available', $item['quantity']);
 
                 $lastOrder = $order;

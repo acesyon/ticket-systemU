@@ -5,6 +5,7 @@
 @push('styles')
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
 <style>
     :root {
@@ -638,19 +639,14 @@
 
             <div class="filter-pills">
                 <a href="{{ route('events.index') }}"
-                   class="filter-pill {{ !request('category') ? 'active' : '' }}">All Events</a>
-                <a href="{{ route('events.index') }}?category=music"
-                   class="filter-pill {{ request('category') === 'music' ? 'active' : '' }}">
-                    <i class="fas fa-music"></i> Music</a>
-                <a href="{{ route('events.index') }}?category=sports"
-                   class="filter-pill {{ request('category') === 'sports' ? 'active' : '' }}">
-                    <i class="fas fa-futbol"></i> Sports</a>
-                <a href="{{ route('events.index') }}?category=arts"
-                   class="filter-pill {{ request('category') === 'arts' ? 'active' : '' }}">
-                    <i class="fas fa-palette"></i> Arts</a>
-                <a href="{{ route('events.index') }}?category=food"
-                   class="filter-pill {{ request('category') === 'food' ? 'active' : '' }}">
-                    <i class="fas fa-utensils"></i> Food</a>
+                class="filter-pill {{ !request('category') ? 'active' : '' }}">All Events</a>
+
+                @foreach(App\Models\Event::categories() as $name => $config)
+                    <a href="{{ route('events.index') }}?category={{ urlencode($name) }}"
+                    class="filter-pill {{ request('category') === $name ? 'active' : '' }}">
+                        <i class="{{ $config['icon'] }}"></i> {{ $name }}
+                    </a>
+                @endforeach
             </div>
 
             <div class="filter-sort">
@@ -697,7 +693,7 @@
                             <div class="event-badge-top"><i class="fas fa-bolt"></i> Top Pick</div>
                         @endif
 
-                        <h3 class="event-title">{{ $event->event_name }}</h3>
+                        <h3 class="event-title">{{ $event->name }}</h3>
 
                         <div class="event-meta">
                             <div class="event-meta-item">
@@ -711,6 +707,10 @@
                             <div class="event-meta-item">
                                 <i class="fas fa-map-marker-alt"></i>
                                 {{ Str::limit($event->location, 32) }}
+                            </div>
+                            <div class="event-meta-item">
+                                <i class="bi bi-stickies-fill"></i>
+                                {{ $event->category }}
                             </div>
                         </div>
 

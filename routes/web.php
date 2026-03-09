@@ -13,18 +13,20 @@ Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
 Route::get('/search', [EventController::class, 'search'])->name('events.search');
 
-// Authenticated Routes
+
 Route::middleware('auth')->group(function () {
 
     // Cart Routes
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-    Route::get('/cart/clear', function () {          // <-- must be BEFORE /cart/update/{id} and /cart/remove/{id}
+    Route::get('/cart/clear', function () {
         session()->forget('cart');
         return redirect()->route('cart.index')->with('success', 'Cart cleared!');
     })->name('cart.clear');
     Route::post('/cart/add/{ticket}', [CartController::class, 'add'])->name('cart.add');
     Route::patch('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/cart/add/{ticket}', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/cart/add-bulk', [CartController::class, 'addBulk'])->name('cart.add.bulk'); // ← add this
 
     // Checkout Routes
     Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
