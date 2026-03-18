@@ -4,841 +4,740 @@
 
 @push('styles')
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
     :root {
-        --paper:     #f5f2ee;
-        --paper-2:   #ede9e3;
-        --paper-3:   #e3ddd5;
-        --paper-4:   #d8d1c7;
-        --line:      #d0c9be;
-        --volt:      #5c8a00;      /* deep green — readable on light */
-        --volt-bg:   #c8f135;      /* lime fill for badges/buttons */
-        --volt-dim:  #4a7000;
-        --ink:       #1a1814;
-        --ink-2:     #2e2b26;
-        --ink-3:     #56514a;
-        --ink-4:     #7a7470;
-        --red-hot:   #c0392b;
-
-        --font-display: 'Playfair Display', Georgia, serif;
-        --font-body:    'DM Sans', sans-serif;
-        --font-mono:    'Space Mono', monospace;
+        --white: #ffffff;
+        --off-white: #fafafa;
+        --light-gray: #f5f5f5;
+        --border: #eaeaea;
+        --text-primary: #1a1a1a;
+        --text-secondary: #666666;
+        --text-tertiary: #999999;
+        --accent: #2563eb;
+        --accent-light: #3b82f6;
+        --accent-soft: #dbeafe;
+        --success: #10b981;
+        --shadow-sm: 0 1px 3px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.02);
+        --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.01);
+        --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.02), 0 4px 6px -2px rgba(0,0,0,0.01);
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
     body {
-        background-color: var(--paper);
-        color: var(--ink);
-        font-family: var(--font-body);
+        background-color: var(--white);
+        color: var(--text-primary);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.5;
         -webkit-font-smoothing: antialiased;
-        overflow-x: hidden;
     }
 
-    body::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
-        pointer-events: none;
-        z-index: 9999;
-        opacity: 0.5;
+    .container-custom {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 32px;
     }
 
-    /* ─── HERO ─── */
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        color: var(--text-primary);
+    }
+
+    .text-gradient {
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    /* Hero Section */
     .hero-section {
-        min-height: 92vh;
-        display: grid;
-        grid-template-rows: 1fr auto;
-        position: relative;
-        overflow: hidden;
-        padding: 0;
-        margin-top: -24px;
-        border-bottom: 1px solid var(--line);
+        padding: 80px 0 40px;
+        background: linear-gradient(to bottom, var(--white), var(--off-white));
     }
 
     .hero-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        min-height: 80vh;
+        gap: 60px;
+        align-items: center;
     }
 
-    .hero-left {
-        padding: 90px 60px 60px 60px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        position: relative;
-        border-right: 1px solid var(--line);
-        background: var(--paper);
+    .hero-content {
+        max-width: 560px;
     }
 
     .hero-eyebrow {
-        font-family: var(--font-mono);
-        font-size: 0.72rem;
-        letter-spacing: 0.25em;
-        text-transform: uppercase;
-        color: var(--volt);
-        margin-bottom: 28px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .hero-eyebrow::before {
-        content: '';
         display: inline-block;
-        width: 32px; height: 2px;
-        background: var(--volt);
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--accent);
+        background: var(--accent-soft);
+        padding: 6px 14px;
+        border-radius: 100px;
+        margin-bottom: 24px;
     }
 
     .hero-title {
-        font-family: var(--font-display);
-        font-size: clamp(3.2rem, 5.5vw, 6rem);
-        font-weight: 900;
-        line-height: 1.0;
-        color: var(--ink);
-        letter-spacing: -0.02em;
-        margin-bottom: 32px;
-    }
-
-    .hero-title em {
-        font-style: italic;
-        color: var(--volt);
-        display: block;
+        font-size: clamp(40px, 5vw, 64px);
+        font-weight: 700;
+        line-height: 1.1;
+        margin-bottom: 24px;
+        color: var(--text-primary);
     }
 
     .hero-subtitle {
-        font-size: 1.05rem;
-        color: var(--ink-3);
-        line-height: 1.65;
-        max-width: 420px;
-        font-weight: 300;
-        margin-bottom: 48px;
+        font-size: 18px;
+        color: var(--text-secondary);
+        margin-bottom: 32px;
+        line-height: 1.6;
     }
 
-    .hero-right {
-        background: var(--paper-2);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .hero-right-bg {
-        position: absolute;
-        inset: 0;
-        background:
-            radial-gradient(ellipse 60% 50% at 70% 30%, rgba(92,138,0,0.08) 0%, transparent 70%),
-            radial-gradient(ellipse 40% 60% at 30% 80%, rgba(192,57,43,0.05) 0%, transparent 60%);
-    }
-
-    /* Ticker */
-    .hero-ticker {
-        position: absolute;
-        bottom: 0; left: 0; right: 0;
-        background: var(--volt-bg);
-        padding: 11px 0;
-        overflow: hidden;
-        z-index: 3;
-        border-top: 1px solid rgba(0,0,0,0.08);
-    }
-
-    .hero-ticker-inner {
+    /* Search Bar */
+    .search-container {
+        background: var(--white);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        border: 1px solid var(--border);
+        padding: 8px;
         display: flex;
-        animation: ticker 28s linear infinite;
-        white-space: nowrap;
+        align-items: center;
     }
 
-    .ticker-item {
-        font-family: var(--font-mono);
-        font-size: 0.72rem;
-        font-weight: 700;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--ink);
-        padding: 0 40px;
-        flex-shrink: 0;
-    }
-
-    .ticker-dot {
-        display: inline-block;
-        width: 6px; height: 6px;
-        background: var(--ink);
-        border-radius: 50%;
-        vertical-align: middle;
-        margin: 0 20px;
-    }
-
-    @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-    /* Hero stats */
-    .hero-stats {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        border-top: 1px solid var(--line);
-        background: var(--paper);
-    }
-
-    .hero-stat {
-        padding: 28px 60px;
-        border-right: 1px solid var(--line);
-    }
-
-    .hero-stat:last-child { border-right: none; }
-
-    .hero-stat-num {
-        font-family: var(--font-display);
-        font-size: 2.6rem;
-        font-weight: 900;
-        color: var(--ink);
-        line-height: 1;
-    }
-
-    .hero-stat-label {
-        font-family: var(--font-mono);
-        font-size: 0.65rem;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--ink-4);
-        margin-top: 6px;
-    }
-
-    /* ─── SEARCH ─── */
-    .search-bar {
-        display: flex;
-        border: 1px solid var(--line);
-        overflow: hidden;
-        transition: border-color 0.2s, box-shadow 0.2s;
-        background: var(--paper-2);
-    }
-
-    .search-bar:focus-within {
-        border-color: var(--volt);
-        box-shadow: 0 0 0 3px rgba(92,138,0,0.1);
-    }
-
-    .search-bar .form-control {
-        background: transparent;
-        border: none;
-        color: var(--ink);
-        font-size: 1rem;
-        font-family: var(--font-body);
-        padding: 18px 28px;
+    .search-input {
         flex: 1;
-        outline: none;
-        box-shadow: none;
-    }
-
-    .search-bar .form-control::placeholder { color: var(--ink-4); }
-    .search-bar .form-control:focus { background: transparent; color: var(--ink); box-shadow: none; }
-
-    .btn-search {
-        background: var(--volt-bg);
-        color: var(--ink);
         border: none;
-        border-left: 1px solid var(--line);
-        padding: 18px 40px;
-        font-family: var(--font-mono);
-        font-size: 0.75rem;
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
+        padding: 16px 20px;
+        font-size: 16px;
+        color: var(--text-primary);
+        background: transparent;
+        outline: none;
+    }
+
+    .search-input::placeholder {
+        color: var(--text-tertiary);
+    }
+
+    .search-btn {
+        background: var(--accent);
+        color: white;
+        border: none;
+        padding: 14px 32px;
+        border-radius: var(--radius-sm);
+        font-weight: 500;
+        font-size: 15px;
         cursor: pointer;
-        transition: background 0.2s;
-        flex-shrink: 0;
-    }
-
-    .btn-search:hover { background: #bde82a; }
-
-    /* ─── SECTION HEAD ─── */
-    .section-head {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        margin-bottom: 48px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid var(--line);
-    }
-
-    .section-label {
-        font-family: var(--font-mono);
-        font-size: 0.65rem;
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-        color: var(--volt);
-        margin-bottom: 8px;
-    }
-
-    .section-head h2 {
-        font-family: var(--font-display);
-        font-size: 2.6rem;
-        font-weight: 900;
-        color: var(--ink);
-        letter-spacing: -0.02em;
-        line-height: 1.1;
-    }
-
-    .section-head-link {
-        font-family: var(--font-mono);
-        font-size: 0.72rem;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--ink-3);
-        text-decoration: none;
+        transition: background-color 0.2s;
         display: flex;
         align-items: center;
         gap: 8px;
-        border-bottom: 1px solid var(--ink-3);
-        padding-bottom: 2px;
-        transition: color 0.2s, border-color 0.2s;
-        white-space: nowrap;
     }
 
-    .section-head-link:hover { color: var(--volt) !important; border-color: var(--volt); }
+    .search-btn:hover {
+        background: var(--accent-light);
+    }
 
-    /* ─── EVENTS SECTION ─── */
+    /* Hero Stats */
+    .hero-stats {
+        display: flex;
+        gap: 48px;
+        margin-top: 48px;
+    }
+
+    .hero-stat {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hero-stat-num {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--text-primary);
+        line-height: 1.2;
+    }
+
+    .hero-stat-label {
+        font-size: 14px;
+        color: var(--text-tertiary);
+        font-weight: 400;
+    }
+
+    /* Hero Image */
+    .hero-image {
+        position: relative;
+    }
+
+    .hero-image-bg {
+        position: relative;
+        background: linear-gradient(135deg, var(--accent-soft) 0%, var(--off-white) 100%);
+        border-radius: var(--radius-lg);
+        padding: 40px;
+    }
+
+    .hero-image-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .hero-image-item {
+        background: rgba(255,255,255,0.5);
+        backdrop-filter: blur(5px);
+        padding: 24px;
+        border-radius: var(--radius-md);
+        border: 1px solid rgba(255,255,255,0.8);
+    }
+
+    .hero-image-item i {
+        font-size: 24px;
+        color: var(--accent);
+        margin-bottom: 12px;
+    }
+
+    .hero-image-item span {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-secondary);
+    }
+
+    /* Section Headers */
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 48px;
+    }
+
+    .section-header-left h2 {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 8px;
+    }
+
+    .section-header-left p {
+        font-size: 16px;
+        color: var(--text-secondary);
+    }
+
+    .section-link {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 0;
+        border-bottom: 2px solid transparent;
+        transition: border-color 0.2s;
+    }
+
+    .section-link:hover {
+        border-bottom-color: var(--accent);
+    }
+
+    /* Events Grid */
     .events-section {
         padding: 80px 0;
-        background: var(--paper);
+        background: var(--white);
     }
 
     .events-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 1px;
-        background: var(--line);
-        border: 1px solid var(--line);
+        gap: 24px;
     }
 
     .event-card {
-        background: var(--paper);
-        padding: 36px;
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 24px;
+        transition: all 0.2s;
         position: relative;
-        transition: background 0.2s;
-        display: flex;
-        flex-direction: column;
-        cursor: pointer;
-        overflow: hidden;
     }
 
-    .event-card::after {
-        content: '';
-        position: absolute;
-        bottom: 0; left: 0;
-        width: 0; height: 3px;
-        background: var(--volt-bg);
-        transition: width 0.35s cubic-bezier(0.4,0,0.2,1);
+    .event-card:hover {
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-2px);
     }
 
-    .event-card:hover { background: var(--paper-2); }
-    .event-card:hover::after { width: 100%; }
-
-    .event-card.is-featured {
+    .event-card.featured {
         grid-column: span 2;
-        background: var(--paper-2);
-        flex-direction: row;
-        gap: 40px;
-        padding: 48px;
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        gap: 32px;
+        padding: 32px;
     }
 
-    .event-card.is-featured::after { height: 4px; }
-
-    .featured-left { flex: 1; }
-    .featured-right {
-        width: 200px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        justify-content: space-between;
-        flex-shrink: 0;
-    }
-
-    .event-number {
-        font-family: var(--font-mono);
-        font-size: 0.62rem;
-        color: var(--ink-4);
-        letter-spacing: 0.2em;
-        margin-bottom: 20px;
-    }
-
-    .event-badge-featured {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: var(--volt-bg);
-        color: var(--ink);
-        font-family: var(--font-mono);
-        font-size: 0.6rem;
-        font-weight: 700;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        padding: 6px 14px;
-        margin-bottom: 20px;
-    }
-
-    .event-badge-new {
-        display: inline-flex;
-        background: var(--red-hot);
-        color: white;
-        font-family: var(--font-mono);
-        font-size: 0.6rem;
-        font-weight: 700;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        padding: 5px 12px;
+    .event-badge {
+        display: inline-block;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 12px;
+        font-weight: 600;
+        padding: 4px 12px;
+        border-radius: 100px;
         margin-bottom: 16px;
+    }
+
+    .event-badge.new {
+        background: var(--success);
+        color: white;
     }
 
     .event-title {
-        font-family: var(--font-display);
-        font-size: 1.55rem;
-        font-weight: 700;
-        color: var(--ink);
-        line-height: 1.2;
-        margin-bottom: 16px;
-        letter-spacing: -0.01em;
-        transition: color 0.2s;
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 12px;
+        line-height: 1.3;
     }
 
-    .event-card:hover .event-title { color: var(--volt); }
+    .featured .event-title {
+        font-size: 28px;
+    }
 
-    .is-featured .event-title { font-size: 2.2rem; margin-bottom: 20px; }
-
-    .event-meta { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+    .event-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 16px;
+    }
 
     .event-meta-item {
         display: flex;
         align-items: center;
         gap: 10px;
-        font-size: 0.85rem;
-        color: var(--ink-3);
+        color: var(--text-secondary);
+        font-size: 14px;
     }
 
     .event-meta-item i {
-        font-size: 0.75rem;
-        color: var(--volt);
-        width: 14px;
-        flex-shrink: 0;
+        color: var(--accent);
+        width: 16px;
+        font-size: 14px;
     }
 
     .event-description {
-        font-size: 0.9rem;
-        color: var(--ink-3);
+        color: var(--text-secondary);
+        font-size: 14px;
         line-height: 1.6;
-        font-weight: 300;
-        flex: 1;
-        margin-bottom: 28px;
+        margin-bottom: 24px;
     }
 
-    .event-footer-row {
+    .event-footer {
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-top: auto;
-        padding-top: 20px;
-        border-top: 1px solid var(--line);
     }
 
     .event-price {
-        font-family: var(--font-mono);
-        font-size: 0.9rem;
-        color: var(--ink);
-        font-weight: 700;
+        display: flex;
+        flex-direction: column;
     }
 
-    .event-price span {
-        display: block;
-        font-size: 0.6rem;
-        font-weight: 400;
-        color: var(--ink-4);
-        letter-spacing: 0.1em;
+    .event-price-label {
+        font-size: 12px;
+        color: var(--text-tertiary);
         text-transform: uppercase;
-        margin-bottom: 2px;
+        letter-spacing: 0.03em;
     }
 
-    .btn-view {
+    .event-price-value {
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .btn-outline {
+        padding: 10px 20px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        color: var(--text-primary);
+        font-weight: 500;
+        font-size: 14px;
+        text-decoration: none;
+        transition: all 0.2s;
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        font-family: var(--font-mono);
-        font-size: 0.68rem;
-        font-weight: 700;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: var(--ink);
+    }
+
+    .btn-outline:hover {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+    }
+
+    .btn-primary {
+        padding: 12px 28px;
+        background: var(--accent);
+        color: white;
+        border: none;
+        border-radius: var(--radius-sm);
+        font-weight: 500;
+        font-size: 15px;
         text-decoration: none;
-        padding: 11px 22px;
-        border: 1px solid var(--line);
-        transition: all 0.2s;
-        background: transparent;
+        transition: background 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
     }
 
-    .btn-view:hover {
-        background: var(--volt-bg);
-        color: var(--ink) !important;
-        border-color: var(--volt-bg);
+    .btn-primary:hover {
+        background: var(--accent-light);
     }
 
-    .btn-view i { font-size: 0.7rem; transition: transform 0.2s; }
-    .btn-view:hover i { transform: translateX(4px); }
-
-    /* ─── EMPTY STATE ─── */
-    .empty-state {
-        padding: 80px 40px;
-        text-align: center;
-        border: 1px solid var(--line);
-        background: var(--paper-2);
-    }
-
-    .empty-state i { font-size: 3rem; color: var(--ink-4); margin-bottom: 20px; display: block; }
-
-    .empty-state h3 {
-        font-family: var(--font-display);
-        font-size: 1.8rem;
-        color: var(--ink);
-        margin-bottom: 10px;
-    }
-
-    .empty-state p { color: var(--ink-3); }
-
-    /* ─── STATS BAR ─── */
+    /* Stats Bar */
     .stats-bar {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 1px;
-        background: var(--line);
-        border: 1px solid var(--line);
+        gap: 24px;
+        padding: 48px 0;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
     }
 
-    .stats-bar-item {
-        background: var(--paper-2);
-        padding: 36px 40px;
+    .stat-item {
         text-align: center;
     }
 
-    .stats-bar-num {
-        font-family: var(--font-display);
-        font-size: 2.8rem;
-        font-weight: 900;
-        color: var(--ink);
-        line-height: 1;
+    .stat-number {
+        font-size: 36px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 8px;
     }
 
-    .stats-bar-label {
-        font-family: var(--font-mono);
-        font-size: 0.62rem;
-        letter-spacing: 0.25em;
-        text-transform: uppercase;
-        color: var(--ink-4);
-        margin-top: 8px;
+    .stat-label {
+        font-size: 14px;
+        color: var(--text-tertiary);
+        font-weight: 400;
     }
 
-    /* ─── CATEGORIES ─── */
+    /* Categories */
     .categories-section {
         padding: 80px 0;
-        background: var(--paper-2);
-        border-top: 1px solid var(--line);
-        border-bottom: 1px solid var(--line);
+        background: var(--off-white);
     }
 
     .categories-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 1px;
-        background: var(--line);
-        border: 1px solid var(--line);
+        gap: 20px;
     }
 
     .category-card {
-        background: var(--paper-2);
-        padding: 44px 36px;
-        cursor: pointer;
-        transition: background 0.2s;
-        position: relative;
-        overflow: hidden;
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 32px 24px;
         text-decoration: none;
-        display: block;
+        transition: all 0.2s;
+        position: relative;
     }
 
-    .category-card:hover { background: var(--paper-3); }
-
-    .category-card::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0; right: 0;
-        height: 2px;
-        background: var(--volt-bg);
-        transform: scaleX(0);
-        transition: transform 0.3s ease;
-        transform-origin: left;
+    .category-card:hover {
+        border-color: var(--accent);
+        box-shadow: var(--shadow-md);
     }
-
-    .category-card:hover::before { transform: scaleX(1); }
 
     .category-icon {
-        font-size: 2rem;
-        color: var(--ink-4);
+        font-size: 28px;
+        color: var(--accent);
         margin-bottom: 20px;
-        display: block;
-        transition: color 0.2s;
     }
-
-    .category-card:hover .category-icon { color: var(--volt); }
 
     .category-name {
-        font-family: var(--font-display);
-        font-size: 1.4rem;
-        font-weight: 700;
-        color: var(--ink);
-        margin-bottom: 6px;
-        letter-spacing: -0.01em;
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 8px;
     }
 
-    .category-sub {
-        font-size: 0.8rem;
-        color: var(--ink-3);
-        font-family: var(--font-mono);
-        letter-spacing: 0.05em;
+    .category-count {
+        font-size: 14px;
+        color: var(--text-tertiary);
     }
 
-    .category-arrow {
-        position: absolute;
-        bottom: 28px; right: 28px;
-        font-size: 0.7rem;
-        color: var(--ink-4);
-        transition: color 0.2s, transform 0.2s;
-    }
-
-    .category-card:hover .category-arrow { color: var(--volt); transform: translate(4px, -4px); }
-
-    /* ─── BROWSE CTA ─── */
-    .browse-cta {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 60px;
-    }
-
-    .btn-browse {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        font-family: var(--font-mono);
-        font-size: 0.72rem;
-        font-weight: 700;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: var(--ink);
-        text-decoration: none;
-        padding: 18px 48px;
-        background: var(--volt-bg);
-        border: 1px solid transparent;
-        transition: background 0.2s, border-color 0.2s;
-    }
-
-    .btn-browse:hover { background: #bde82a; color: var(--ink) !important; }
-
-    /* ─── NEWSLETTER ─── */
+    /* Newsletter */
     .newsletter-section {
         padding: 80px 0;
-        background: var(--paper);
     }
 
     .newsletter-box {
-        border: 1px solid var(--line);
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        overflow: hidden;
-    }
-
-    .newsletter-left {
-        padding: 60px;
-        background: var(--paper-2);
-        border-right: 1px solid var(--line);
-    }
-
-    .newsletter-right {
-        padding: 60px;
-        background: var(--paper);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 16px;
-    }
-
-    .newsletter-label {
-        font-family: var(--font-mono);
-        font-size: 0.65rem;
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-        color: var(--volt);
-        margin-bottom: 16px;
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+        border-radius: var(--radius-lg);
+        padding: 64px;
+        color: white;
+        text-align: center;
     }
 
     .newsletter-title {
-        font-family: var(--font-display);
-        font-size: 2.4rem;
-        font-weight: 900;
-        color: var(--ink);
-        letter-spacing: -0.02em;
-        line-height: 1.1;
+        font-size: 36px;
+        font-weight: 700;
+        color: white;
         margin-bottom: 16px;
     }
 
-    .newsletter-desc { color: var(--ink-3); font-size: 0.95rem; line-height: 1.65; font-weight: 300; }
+    .newsletter-desc {
+        font-size: 18px;
+        opacity: 0.9;
+        margin-bottom: 32px;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .newsletter-form {
+        display: flex;
+        gap: 12px;
+        max-width: 480px;
+        margin: 0 auto;
+    }
 
     .newsletter-input {
-        background: var(--paper-2);
-        border: 1px solid var(--line);
-        color: var(--ink);
-        font-family: var(--font-body);
-        font-size: 0.95rem;
-        padding: 16px 22px;
-        outline: none;
-        width: 100%;
-        transition: border-color 0.2s, box-shadow 0.2s;
-        border-radius: 0;
-    }
-
-    .newsletter-input:focus {
-        border-color: var(--volt);
-        box-shadow: 0 0 0 3px rgba(92,138,0,0.08);
-    }
-
-    .newsletter-input::placeholder { color: var(--ink-4); }
-
-    .btn-subscribe {
-        background: var(--volt-bg);
-        color: var(--ink);
+        flex: 1;
+        padding: 16px 20px;
         border: none;
-        padding: 16px 36px;
-        font-family: var(--font-mono);
-        font-size: 0.72rem;
-        font-weight: 700;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        cursor: pointer;
-        transition: background 0.2s;
-        align-self: flex-start;
+        border-radius: var(--radius-sm);
+        font-size: 16px;
+        outline: none;
     }
 
-    .btn-subscribe:hover { background: #bde82a; }
+    .newsletter-input::placeholder {
+        color: var(--text-tertiary);
+    }
+
+    .newsletter-btn {
+        padding: 16px 32px;
+        background: white;
+        color: var(--accent);
+        border: none;
+        border-radius: var(--radius-sm);
+        font-weight: 600;
+        font-size: 15px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .newsletter-btn:hover {
+        background: var(--off-white);
+        transform: translateY(-2px);
+    }
 
     .newsletter-note {
-        font-family: var(--font-mono);
-        font-size: 0.62rem;
-        color: var(--ink-4);
-        letter-spacing: 0.08em;
+        font-size: 14px;
+        opacity: 0.8;
+        margin-top: 24px;
     }
 
-    /* ─── ANIMATIONS ─── */
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 80px 40px;
+        background: var(--off-white);
+        border-radius: var(--radius-lg);
+        border: 1px dashed var(--border);
+    }
+
+    .empty-state i {
+        font-size: 48px;
+        color: var(--text-tertiary);
+        margin-bottom: 24px;
+    }
+
+    .empty-state h3 {
+        font-size: 24px;
+        margin-bottom: 12px;
+    }
+
+    .empty-state p {
+        color: var(--text-secondary);
+        margin-bottom: 24px;
+    }
+
+    /* Animations */
     @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(24px); }
-        to   { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
-    .anim { opacity: 0; }
-    .anim.visible { animation: fadeUp 0.65s cubic-bezier(0.2, 0, 0.3, 1) forwards; }
+    .animate {
+        opacity: 0;
+        animation: fadeUp 0.6s ease forwards;
+    }
 
-    /* ─── RESPONSIVE ─── */
+    /* Responsive */
     @media (max-width: 1024px) {
-        .hero-grid { grid-template-columns: 1fr; }
-        .hero-right { display: none; }
-        .events-grid { grid-template-columns: 1fr 1fr; }
-        .event-card.is-featured { grid-column: span 2; }
-        .categories-grid { grid-template-columns: repeat(2, 1fr); }
-        .newsletter-box { grid-template-columns: 1fr; }
-        .newsletter-left { border-right: none; border-bottom: 1px solid var(--line); }
+        .hero-grid {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+        
+        .hero-content {
+            max-width: 100%;
+        }
+        
+        .events-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .categories-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
     }
 
     @media (max-width: 768px) {
-        .hero-left { padding: 60px 24px; }
-        .hero-title { font-size: 2.8rem; }
-        .events-grid { grid-template-columns: 1fr; }
-        .event-card.is-featured { grid-column: span 1; flex-direction: column; }
-        .featured-right { width: 100%; flex-direction: row; align-items: center; }
-        .categories-grid { grid-template-columns: 1fr 1fr; }
-        .stats-bar { grid-template-columns: 1fr 1fr; }
-        .section-head { flex-direction: column; gap: 12px; }
+        .container-custom {
+            padding: 0 20px;
+        }
+        
+        .hero-section {
+            padding: 40px 0;
+        }
+        
+        .hero-stats {
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .events-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .event-card.featured {
+            grid-column: span 1;
+            grid-template-columns: 1fr;
+        }
+        
+        .stats-bar {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+        }
+        
+        .categories-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .newsletter-box {
+            padding: 40px 24px;
+        }
+        
+        .newsletter-form {
+            flex-direction: column;
+        }
+        
+        .section-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+        }
     }
 </style>
 @endpush
 
 @section('content')
-
-{{-- ─── HERO ─── --}}
+{{-- Hero Section --}}
 <section class="hero-section">
-    <div class="hero-grid">
-        <div class="hero-left">
-            <div class="hero-eyebrow">Live Events Platform</div>
-            <h1 class="hero-title">
-                Find Your
-                <em>Next Great</em>
-                Experience.
-            </h1>
-            <p class="hero-subtitle">
-                Discover concerts, festivals, sports, and culture in your city.
-                Book tickets in seconds — no fees, no fuss.
-            </p>
+    <div class="container-custom">
+        <div class="hero-grid">
+            <div class="hero-content">
+                <span class="hero-eyebrow">Live Events Platform</span>
+                <h1 class="hero-title">
+                    Discover <span class="text-gradient">amazing events</span> in your city
+                </h1>
+                <p class="hero-subtitle">
+                    From concerts and festivals to sports and culture. Book tickets instantly with no hidden fees.
+                </p>
 
-            <form action="{{ route('events.search') }}" method="GET" class="search-bar">
-                <input
-                    type="text"
-                    name="search"
-                    class="form-control"
-                    placeholder="Search by name, location, or type…"
-                    value="{{ request('search') }}"
-                    autocomplete="off">
-                <button class="btn-search" type="submit">
-                    <i class="fas fa-search me-2"></i>Search
-                </button>
-            </form>
-        </div>
+                <form action="{{ route('events.search') }}" method="GET" class="search-container">
+                    <input 
+                        type="text"
+                        name="search"
+                        class="search-input"
+                        placeholder="Search events by name, location, or category..."
+                        value="{{ request('search') }}"
+                        autocomplete="off">
+                    <button class="search-btn" type="submit">
+                        <i class="fas fa-search"></i>
+                        Search
+                    </button>
+                </form>
 
-        <div class="hero-right">
-            <div class="hero-right-bg"></div>
-        </div>
-    </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="hero-stat-num">500+</span>
+                        <span class="hero-stat-label">Active events</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-num">50k+</span>
+                        <span class="hero-stat-label">Happy customers</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-num">100+</span>
+                        <span class="hero-stat-label">Cities</span>
+                    </div>
+                </div>
+            </div>
 
-    <div class="hero-stats">
-        <div class="hero-stat">
-            <div class="hero-stat-num">500<sup style="font-size:1.2rem; color: var(--volt);">+</sup></div>
-            <div class="hero-stat-label">Active Events</div>
-        </div>
-        <div class="hero-stat" style="border-right: none;">
-            <div class="hero-stat-num">50K<sup style="font-size:1.2rem; color: var(--volt);">+</sup></div>
-            <div class="hero-stat-label">Tickets Sold</div>
-        </div>
-    </div>
-
-    <div class="hero-ticker">
-        <div class="hero-ticker-inner">
-            @for ($i = 0; $i < 2; $i++)
-                <span class="ticker-item">Upcoming Events <span class="ticker-dot"></span></span>
-                <span class="ticker-item">Book Instantly <span class="ticker-dot"></span></span>
-                <span class="ticker-item">No Hidden Fees <span class="ticker-dot"></span></span>
-                <span class="ticker-item">Live Music <span class="ticker-dot"></span></span>
-                <span class="ticker-item">Sports & More <span class="ticker-dot"></span></span>
-                <span class="ticker-item">Arts & Culture <span class="ticker-dot"></span></span>
-                <span class="ticker-item">Food Festivals <span class="ticker-dot"></span></span>
-                <span class="ticker-item">Find Your Experience <span class="ticker-dot"></span></span>
-            @endfor
+            <div class="hero-image">
+                <div class="hero-image-bg">
+                    <div class="hero-image-grid">
+                        <div class="hero-image-item">
+                            <i class="fas fa-music"></i>
+                            <span>Live Music</span>
+                        </div>
+                        <div class="hero-image-item">
+                            <i class="fas fa-futbol"></i>
+                            <span>Sports</span>
+                        </div>
+                        <div class="hero-image-item">
+                            <i class="fas fa-palette"></i>
+                            <span>Arts</span>
+                        </div>
+                        <div class="hero-image-item">
+                            <i class="fas fa-utensils"></i>
+                            <span>Food</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
-{{-- ─── EVENTS ─── --}}
+{{-- Events Section --}}
 <section class="events-section">
-    <div class="container-fluid px-4 px-lg-5">
-
-        <div class="section-head anim">
-            <div>
-                <div class="section-label">What's On</div>
-                <h2>Upcoming Events</h2>
+    <div class="container-custom">
+        <div class="section-header animate">
+            <div class="section-header-left">
+                <h2>Upcoming events</h2>
+                <p>Hand-picked events you might like</p>
             </div>
-            <a href="{{ route('events.index') }}" class="section-head-link">
-                All Events <i class="fas fa-arrow-right"></i>
+            <a href="{{ route('events.index') }}" class="section-link">
+                View all events <i class="fas fa-arrow-right"></i>
             </a>
         </div>
 
@@ -846,20 +745,21 @@
             <div class="events-grid">
                 @foreach($upcomingEvents as $event)
                     @php $isFeatured = $loop->first; @endphp
-                    <div class="event-card {{ $isFeatured ? 'is-featured' : '' }} anim"
-                         style="animation-delay: {{ $loop->index * 0.06 }}s">
-
+                    
+                    <div class="event-card {{ $isFeatured ? 'featured' : '' }} animate" 
+                         style="animation-delay: {{ $loop->index * 0.1 }}s">
+                        
                         @if($isFeatured)
-                            <div class="featured-left">
-                                <div class="event-badge-featured"><i class="fas fa-bolt"></i> Editor's Pick</div>
+                            <div class="event-card-content">
+                                <span class="event-badge">Editor's pick</span>
                                 <h3 class="event-title">{{ $event->event_name }}</h3>
                                 <div class="event-meta">
                                     <div class="event-meta-item">
-                                        <i class="fas fa-calendar"></i>
+                                        <i class="far fa-calendar"></i>
                                         {{ \Carbon\Carbon::parse($event->eventDate)->format('l, F d, Y') }}
                                     </div>
                                     <div class="event-meta-item">
-                                        <i class="fas fa-clock"></i>
+                                        <i class="far fa-clock"></i>
                                         {{ \Carbon\Carbon::parse($event->eventTime)->format('h:i A') }}
                                     </div>
                                     <div class="event-meta-item">
@@ -867,176 +767,159 @@
                                         {{ Str::limit($event->location, 45) }}
                                     </div>
                                 </div>
-                                <p class="event-description">{{ Str::limit($event->description, 160) }}</p>
+                                <p class="event-description">{{ Str::limit($event->description, 140) }}</p>
                             </div>
-                            <div class="featured-right">
-                                <div class="event-number">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</div>
-                                <div>
-                                    @if($event->tickets->isNotEmpty())
-                                        <div class="event-price">
-                                            <span>From</span>
-                                            ${{ number_format($event->tickets->min('price'), 2) }}
-                                        </div>
-                                    @endif
-                                    <a href="{{ route('events.show', $event) }}" class="btn-view mt-3">
-                                        View <i class="fas fa-arrow-right"></i>
-                                    </a>
-                                </div>
+                            
+                            <div class="event-card-sidebar">
+                                @if($event->tickets->isNotEmpty())
+                                    <div class="event-price">
+                                        <span class="event-price-label">Starting from</span>
+                                        <span class="event-price-value">${{ number_format($event->tickets->min('price'), 2) }}</span>
+                                    </div>
+                                @endif
+                                <a href="{{ route('events.show', $event) }}" class="btn-primary" style="margin-top: 20px;">
+                                    Get tickets <i class="fas fa-arrow-right"></i>
+                                </a>
                             </div>
-
+                            
                         @else
-                            <div class="event-number">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</div>
-                            @if($loop->iteration <= 3)
-                                <div class="event-badge-new">New</div>
-                            @endif
+                            <span class="event-badge {{ $loop->iteration <= 3 ? 'new' : '' }}">
+                                {{ $loop->iteration <= 3 ? 'Just added' : 'Featured' }}
+                            </span>
+                            
                             <h3 class="event-title">{{ $event->event_name }}</h3>
+                            
                             <div class="event-meta">
                                 <div class="event-meta-item">
-                                    <i class="fas fa-calendar"></i>
+                                    <i class="far fa-calendar"></i>
                                     {{ \Carbon\Carbon::parse($event->eventDate)->format('M d, Y') }}
                                 </div>
                                 <div class="event-meta-item">
                                     <i class="fas fa-map-marker-alt"></i>
-                                    {{ Str::limit($event->location, 30) }}
+                                    {{ Str::limit($event->location, 25) }}
                                 </div>
                             </div>
-                            <p class="event-description">{{ Str::limit($event->description, 90) }}</p>
-                            <div class="event-footer-row">
+                            
+                            <p class="event-description">{{ Str::limit($event->description, 80) }}</p>
+                            
+                            <div class="event-footer">
                                 @if($event->tickets->isNotEmpty())
                                     <div class="event-price">
-                                        <span>From</span>
-                                        ${{ number_format($event->tickets->min('price'), 2) }}
+                                        <span class="event-price-label">From</span>
+                                        <span class="event-price-value">${{ number_format($event->tickets->min('price'), 2) }}</span>
                                     </div>
-                                @else
-                                    <div></div>
                                 @endif
-                                <a href="{{ route('events.show', $event) }}" class="btn-view">
-                                    View <i class="fas fa-arrow-right"></i>
+                                <a href="{{ route('events.show', $event) }}" class="btn-outline">
+                                    Details <i class="fas fa-arrow-right"></i>
                                 </a>
                             </div>
                         @endif
-
                     </div>
                 @endforeach
             </div>
-
-            <div class="browse-cta anim">
-                <a href="{{ route('events.index') }}" class="btn-browse">
-                    <i class="fas fa-calendar-alt"></i> Browse All Events
-                </a>
-            </div>
-
         @else
-            <div class="empty-state anim">
-                <i class="fas fa-calendar-times"></i>
-                <h3>No Upcoming Events</h3>
-                <p class="mt-2">Check back soon — new events are added daily.</p>
-                <a href="{{ route('events.index') }}" class="btn-view mt-4" style="display: inline-flex;">
-                    Browse Events <i class="fas fa-arrow-right"></i>
+            <div class="empty-state animate">
+                <i class="far fa-calendar-times"></i>
+                <h3>No upcoming events</h3>
+                <p>Check back soon — new events are added daily.</p>
+                <a href="{{ route('events.index') }}" class="btn-primary">
+                    Browse events <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
         @endif
-
     </div>
 </section>
 
-{{-- ─── STATS BAR ─── --}}
-<div class="container-fluid px-4 px-lg-5 py-0">
-    <div class="stats-bar anim">
-        <div class="stats-bar-item">
-            <div class="stats-bar-num">500+</div>
-            <div class="stats-bar-label">Events</div>
+{{-- Stats Bar --}}
+<div class="container-custom">
+    <div class="stats-bar animate">
+        <div class="stat-item">
+            <div class="stat-number">500+</div>
+            <div class="stat-label">Events hosted</div>
         </div>
-        <div class="stats-bar-item">
-            <div class="stats-bar-num">50K+</div>
-            <div class="stats-bar-label">Happy Customers</div>
+        <div class="stat-item">
+            <div class="stat-number">50k+</div>
+            <div class="stat-label">Tickets sold</div>
         </div>
-        <div class="stats-bar-item">
-            <div class="stats-bar-num">100+</div>
-            <div class="stats-bar-label">Cities</div>
+        <div class="stat-item">
+            <div class="stat-number">100+</div>
+            <div class="stat-label">Cities covered</div>
         </div>
-        <div class="stats-bar-item">
-            <div class="stats-bar-num">24/7</div>
-            <div class="stats-bar-label">Support</div>
+        <div class="stat-item">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Support</div>
         </div>
     </div>
 </div>
 
-{{-- ─── CATEGORIES ─── --}}
+{{-- Categories Section --}}
 <section class="categories-section">
-    <div class="container-fluid px-4 px-lg-5">
-
-        <div class="section-head anim">
-            <div>
-                <div class="section-label">Browse By</div>
-                <h2>Event Categories</h2>
+    <div class="container-custom">
+        <div class="section-header animate">
+            <div class="section-header-left">
+                <h2>Browse by category</h2>
+                <p>Find events that match your interests</p>
             </div>
         </div>
 
         <div class="categories-grid">
-            <a href="{{ route('events.index') }}?category=music" class="category-card anim">
+            <a href="{{ route('events.index') }}?category=music" class="category-card animate">
                 <i class="fas fa-music category-icon"></i>
-                <div class="category-name">Music</div>
-                <div class="category-sub">Concerts & Festivals</div>
-                <i class="fas fa-arrow-up-right category-arrow"></i>
+                <h3 class="category-name">Music</h3>
+                <p class="category-count">Concerts & Festivals</p>
             </a>
-            <a href="{{ route('events.index') }}?category=sports" class="category-card anim" style="animation-delay:0.05s">
+            <a href="{{ route('events.index') }}?category=sports" class="category-card animate" style="animation-delay:0.1s">
                 <i class="fas fa-futbol category-icon"></i>
-                <div class="category-name">Sports</div>
-                <div class="category-sub">Games & Tournaments</div>
-                <i class="fas fa-arrow-up-right category-arrow"></i>
+                <h3 class="category-name">Sports</h3>
+                <p class="category-count">Games & Tournaments</p>
             </a>
-            <a href="{{ route('events.index') }}?category=arts" class="category-card anim" style="animation-delay:0.1s">
+            <a href="{{ route('events.index') }}?category=arts" class="category-card animate" style="animation-delay:0.2s">
                 <i class="fas fa-palette category-icon"></i>
-                <div class="category-name">Arts</div>
-                <div class="category-sub">Exhibitions & Theatre</div>
-                <i class="fas fa-arrow-up-right category-arrow"></i>
+                <h3 class="category-name">Arts</h3>
+                <p class="category-count">Exhibitions & Theatre</p>
             </a>
-            <a href="{{ route('events.index') }}?category=food" class="category-card anim" style="animation-delay:0.15s">
+            <a href="{{ route('events.index') }}?category=food" class="category-card animate" style="animation-delay:0.3s">
                 <i class="fas fa-utensils category-icon"></i>
-                <div class="category-name">Food</div>
-                <div class="category-sub">Festivals & Tastings</div>
-                <i class="fas fa-arrow-up-right category-arrow"></i>
+                <h3 class="category-name">Food</h3>
+                <p class="category-count">Festivals & Tastings</p>
             </a>
         </div>
-
     </div>
 </section>
 
-{{-- ─── NEWSLETTER ─── --}}
+{{-- Newsletter Section --}}
 <section class="newsletter-section">
-    <div class="container-fluid px-4 px-lg-5">
-        <div class="newsletter-box anim">
-            <div class="newsletter-left">
-                <div class="newsletter-label">Stay in the Loop</div>
-                <h2 class="newsletter-title">Never Miss<br>an Event.</h2>
-                <p class="newsletter-desc">
-                    Get weekly picks, exclusive pre-sales, and the best events
-                    in your city — delivered straight to your inbox.
-                </p>
-            </div>
-            <div class="newsletter-right">
-                <input type="email" class="newsletter-input" placeholder="your@email.com">
-                <button class="btn-subscribe">Subscribe Now</button>
-                <p class="newsletter-note">No spam. Unsubscribe any time.</p>
-            </div>
+    <div class="container-custom">
+        <div class="newsletter-box animate">
+            <h2 class="newsletter-title">Never miss an event</h2>
+            <p class="newsletter-desc">
+                Get weekly picks, exclusive pre-sales, and the best events in your city
+            </p>
+            <form class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="Enter your email" required>
+                <button type="submit" class="newsletter-btn">Subscribe</button>
+            </form>
+            <p class="newsletter-note">No spam. Unsubscribe anytime.</p>
         </div>
     </div>
 </section>
-
 @endsection
 
 @push('scripts')
 <script>
+    // Intersection Observer for animations
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
+                entry.target.classList.add('animate');
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
 
-    document.querySelectorAll('.anim').forEach(el => observer.observe(el));
+    document.querySelectorAll('.animate:not(.animate)').forEach(el => observer.observe(el));
 </script>
 @endpush

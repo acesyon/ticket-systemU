@@ -4,775 +4,875 @@
 
 @push('styles')
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
 <style>
     :root {
-        --paper:     #f5f2ee;
-        --paper-2:   #ede9e3;
-        --paper-3:   #e3ddd5;
-        --paper-4:   #d8d1c7;
-        --line:      #d0c9be;
-        --volt:      #5c8a00;
-        --volt-bg:   #c8f135;
-        --ink:       #1a1814;
-        --ink-2:     #2e2b26;
-        --ink-3:     #56514a;
-        --ink-4:     #7a7470;
-        --red-hot:   #c0392b;
-
-        --font-display: 'Playfair Display', Georgia, serif;
-        --font-body:    'DM Sans', sans-serif;
-        --font-mono:    'Space Mono', monospace;
+        --white: #ffffff;
+        --off-white: #fafafa;
+        --light-gray: #f5f5f5;
+        --border: #eaeaea;
+        --text-primary: #1a1a1a;
+        --text-secondary: #666666;
+        --text-tertiary: #999999;
+        --accent: #2563eb;
+        --accent-light: #3b82f6;
+        --accent-soft: #dbeafe;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --error: #ef4444;
+        --shadow-sm: 0 1px 3px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.02);
+        --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.01);
+        --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.02), 0 4px 6px -2px rgba(0,0,0,0.01);
+        --radius-sm: 6px;
+        --radius-md: 8px;
+        --radius-lg: 12px;
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
     body {
-        background-color: var(--paper);
-        color: var(--ink);
-        font-family: var(--font-body);
+        background-color: var(--white);
+        color: var(--text-primary);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.5;
         -webkit-font-smoothing: antialiased;
-        overflow-x: hidden;
     }
 
-    body::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
-        pointer-events: none;
-        z-index: 9999;
-        opacity: 0.5;
+    .container-custom {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 32px;
     }
 
-    /* ── PAGE HEADER ── */
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        color: var(--text-primary);
+    }
+
+    .text-gradient {
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    /* Page Header */
     .page-header {
-        background: var(--paper-2);
-        border-bottom: 1px solid var(--line);
-        padding: 70px 0 0;
-        margin-top: -24px;
-        position: relative;
-        overflow: hidden;
+        padding: 60px 0 40px;
+        background: linear-gradient(to bottom, var(--white), var(--off-white));
+        border-bottom: 1px solid var(--border);
     }
 
-    .page-header-bg {
-        position: absolute;
-        inset: 0;
-        background:
-            radial-gradient(ellipse 55% 60% at 80% 50%, rgba(92,138,0,0.06) 0%, transparent 65%),
-            radial-gradient(ellipse 35% 50% at 10% 80%, rgba(192,57,43,0.04) 0%, transparent 60%);
-        pointer-events: none;
-    }
-
-    .page-header-inner {
-        position: relative;
-        z-index: 2;
-        display: grid;
-        grid-template-columns: 1fr auto;
-        align-items: flex-end;
-        gap: 40px;
-        padding-bottom: 40px;
+    .page-header-content {
+        max-width: 800px;
     }
 
     .page-header-eyebrow {
-        font-family: var(--font-mono);
-        font-size: 0.65rem;
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-        color: var(--volt);
-        margin-bottom: 16px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .page-header-eyebrow::before {
-        content: '';
         display: inline-block;
-        width: 28px; height: 2px;
-        background: var(--volt);
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--accent);
+        background: var(--accent-soft);
+        padding: 6px 14px;
+        border-radius: 100px;
+        margin-bottom: 20px;
     }
 
     .page-header h1 {
-        font-family: var(--font-display);
-        font-size: clamp(2.8rem, 5vw, 5rem);
-        font-weight: 900;
-        color: var(--ink);
-        letter-spacing: -0.02em;
-        line-height: 1.0;
-        margin-bottom: 14px;
-    }
-
-    .page-header h1 em {
-        font-style: italic;
-        color: var(--volt);
+        font-size: clamp(36px, 5vw, 56px);
+        font-weight: 700;
+        line-height: 1.1;
+        margin-bottom: 16px;
+        color: var(--text-primary);
     }
 
     .page-header-sub {
-        font-size: 1rem;
-        color: var(--ink-3);
-        font-weight: 300;
+        font-size: 18px;
+        color: var(--text-secondary);
+        margin-bottom: 24px;
     }
 
-    .page-header-count { text-align: right; flex-shrink: 0; }
-
-    .page-header-count-num {
-        font-family: var(--font-display);
-        font-size: 3.5rem;
-        font-weight: 900;
-        color: var(--ink);
-        line-height: 1;
+    .page-header-stats {
+        display: flex;
+        gap: 32px;
     }
 
-    .page-header-count-label {
-        font-family: var(--font-mono);
-        font-size: 0.6rem;
-        letter-spacing: 0.25em;
-        text-transform: uppercase;
-        color: var(--ink-4);
-        margin-top: 6px;
+    .page-header-stat {
+        display: flex;
+        flex-direction: column;
     }
 
-    /* ── TOOLBAR ── */
+    .page-header-stat-number {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--text-primary);
+        line-height: 1.2;
+    }
+
+    .page-header-stat-label {
+        font-size: 14px;
+        color: var(--text-tertiary);
+    }
+
+    /* Toolbar */
     .toolbar {
-        background: var(--paper-2);
-        border-bottom: 1px solid var(--line);
+        background: var(--white);
+        border-bottom: 1px solid var(--border);
         position: sticky;
         top: 0;
         z-index: 100;
+        padding: 16px 0;
     }
 
     .toolbar-inner {
         display: flex;
         align-items: center;
-        gap: 12px;
-        padding: 14px 0;
+        gap: 20px;
         flex-wrap: wrap;
     }
 
     /* Search */
-    .toolbar-search {
+    .search-wrapper {
+        flex: 1;
+        min-width: 300px;
+    }
+
+    .search-form {
         display: flex;
         align-items: center;
-        border: 1px solid var(--line);
-        background: var(--paper);
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
         overflow: hidden;
+        transition: all 0.2s;
+    }
+
+    .search-form:focus-within {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .search-icon {
+        padding: 0 16px;
+        color: var(--text-tertiary);
+        font-size: 14px;
+    }
+
+    .search-input {
         flex: 1;
-        min-width: 200px;
-        transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    .toolbar-search:focus-within {
-        border-color: var(--volt);
-        box-shadow: 0 0 0 3px rgba(92,138,0,0.1);
-    }
-
-    .toolbar-search i {
-        padding: 0 14px;
-        color: var(--ink-4);
-        font-size: 0.8rem;
-        flex-shrink: 0;
-    }
-
-    .toolbar-search input {
-        flex: 1;
-        background: transparent;
         border: none;
-        color: var(--ink);
-        font-family: var(--font-body);
-        font-size: 0.9rem;
         padding: 12px 0;
+        font-size: 15px;
+        color: var(--text-primary);
+        background: transparent;
         outline: none;
     }
 
-    .toolbar-search input::placeholder { color: var(--ink-4); }
+    .search-input::placeholder {
+        color: var(--text-tertiary);
+    }
 
-    .toolbar-search .btn-search {
-        background: var(--volt-bg);
-        color: var(--ink);
+    .search-clear {
+        padding: 12px 16px;
+        color: var(--text-tertiary);
+        text-decoration: none;
+        font-size: 14px;
+        transition: color 0.2s;
+    }
+
+    .search-clear:hover {
+        color: var(--error);
+    }
+
+    .search-btn {
+        background: var(--accent);
+        color: white;
         border: none;
-        border-left: 1px solid var(--line);
-        padding: 12px 22px;
-        font-family: var(--font-mono);
-        font-size: 0.65rem;
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
+        padding: 12px 28px;
+        font-weight: 500;
+        font-size: 14px;
         cursor: pointer;
-        flex-shrink: 0;
         transition: background 0.2s;
     }
 
-    .toolbar-search .btn-search:hover { background: #bde82a; }
+    .search-btn:hover {
+        background: var(--accent-light);
+    }
 
-    .toolbar-search .btn-clear {
-        background: transparent;
-        border: none;
-        color: var(--ink-4);
-        padding: 12px 14px;
-        cursor: pointer;
-        font-size: 0.75rem;
-        transition: color 0.2s;
-        flex-shrink: 0;
-        text-decoration: none;
+    /* Filter Pills */
+    .filter-pills {
         display: flex;
         align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
     }
-
-    .toolbar-search .btn-clear:hover { color: var(--red-hot); }
-
-    .toolbar-divider {
-        width: 1px; height: 28px;
-        background: var(--line);
-        flex-shrink: 0;
-    }
-
-    /* Filter pills */
-    .filter-pills { display: flex; align-items: center; gap: 6px; }
 
     .filter-pill {
         display: inline-flex;
         align-items: center;
-        gap: 6px;
-        font-family: var(--font-body);
-        font-size: 0.84rem;
-        font-weight: 500;
-        color: var(--ink-3);
-        text-decoration: none;
+        gap: 8px;
         padding: 8px 18px;
-        border-radius: 999px;
-        border: 1px solid var(--line);
-        background: transparent;
-        cursor: pointer;
-        transition: all 0.18s ease;
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 100px;
+        color: var(--text-secondary);
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s;
         white-space: nowrap;
     }
 
-    .filter-pill i { font-size: 0.75rem; color: var(--ink-4); transition: color 0.18s; }
+    .filter-pill i {
+        font-size: 14px;
+        color: var(--text-tertiary);
+        transition: color 0.2s;
+    }
 
     .filter-pill:hover {
-        border-color: var(--ink-3);
-        color: var(--ink);
-        background: var(--paper-3);
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--accent-soft);
     }
 
-    .filter-pill:hover i { color: var(--ink-3); }
+    .filter-pill:hover i {
+        color: var(--accent);
+    }
 
     .filter-pill.active {
-        background: var(--volt-bg);
-        border-color: var(--volt-bg);
-        color: var(--ink);
-        font-weight: 600;
+        background: var(--accent);
+        border-color: var(--accent);
+        color: white;
     }
 
-    .filter-pill.active i { color: var(--ink); }
-
-    /* Sort */
-    .filter-sort {
-        display: flex;
-        align-items: center;
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        overflow: hidden;
-        flex-shrink: 0;
-        background: var(--paper);
-        transition: border-color 0.18s;
-        margin-left: auto;
+    .filter-pill.active i {
+        color: white;
     }
 
-    .filter-sort:focus-within { border-color: var(--ink-3); }
+    /* Sort Dropdown */
+    .sort-wrapper {
+        position: relative;
+        min-width: 180px;
+    }
 
-    .filter-sort select {
-        background: transparent;
-        border: none;
-        color: var(--ink-3);
-        font-family: var(--font-body);
-        font-size: 0.84rem;
+    .sort-select {
+        width: 100%;
+        padding: 10px 32px 10px 16px;
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        color: var(--text-primary);
+        font-size: 14px;
         font-weight: 500;
-        padding: 8px 32px 8px 16px;
-        outline: none;
-        cursor: pointer;
         appearance: none;
-        -webkit-appearance: none;
+        cursor: pointer;
+        outline: none;
+        transition: border-color 0.2s;
     }
 
-    .filter-sort select option { background: var(--paper); color: var(--ink); }
+    .sort-select:focus {
+        border-color: var(--accent);
+    }
 
-    .filter-sort-icon {
+    .sort-icon {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-tertiary);
+        font-size: 12px;
         pointer-events: none;
-        margin-left: -26px;
-        margin-right: 12px;
-        color: var(--ink-4);
-        font-size: 0.65rem;
     }
 
-    /* ── RESULTS META ── */
+    /* Results Meta */
     .results-meta {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 28px 0 24px;
-        border-bottom: 1px solid var(--line);
+        padding: 24px 0;
+        border-bottom: 1px solid var(--border);
     }
 
-    .results-meta-text {
-        font-family: var(--font-mono);
-        font-size: 0.65rem;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--ink-4);
+    .results-count {
+        font-size: 14px;
+        color: var(--text-secondary);
     }
 
-    .results-meta-text strong { color: var(--ink); font-weight: 700; }
+    .results-count strong {
+        color: var(--text-primary);
+        font-weight: 600;
+    }
 
     .results-search-tag {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        background: var(--paper-2);
-        border: 1px solid var(--line);
-        color: var(--ink-3);
-        font-family: var(--font-mono);
-        font-size: 0.62rem;
-        letter-spacing: 0.1em;
-        padding: 6px 14px;
-        border-radius: 999px;
+        gap: 10px;
+        padding: 6px 16px;
+        background: var(--off-white);
+        border: 1px solid var(--border);
+        border-radius: 100px;
+        font-size: 13px;
+        color: var(--text-secondary);
     }
 
-    .results-search-tag a { color: var(--ink-4); text-decoration: none; transition: color 0.2s; }
-    .results-search-tag a:hover { color: var(--red-hot) !important; }
+    .results-search-tag a {
+        color: var(--text-tertiary);
+        transition: color 0.2s;
+    }
 
-    /* ── EVENTS GRID ── */
-    .events-section { padding: 0; }
+    .results-search-tag a:hover {
+        color: var(--error);
+    }
+
+    /* Events Grid */
+    .events-section {
+        padding: 40px 0;
+    }
 
     .events-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 1px;
-        background: var(--line);
-        border: 1px solid var(--line);
-        border-top: none;
+        gap: 24px;
+        margin-bottom: 48px;
     }
 
     .event-card {
-        background: var(--paper);
-        padding: 32px;
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 24px;
+        transition: all 0.2s;
         position: relative;
-        transition: background 0.2s;
         display: flex;
         flex-direction: column;
-        cursor: pointer;
-        overflow: hidden;
     }
 
-    .event-card::after {
-        content: '';
-        position: absolute;
-        bottom: 0; left: 0;
-        width: 0; height: 3px;
-        background: var(--volt-bg);
-        transition: width 0.35s cubic-bezier(0.4,0,0.2,1);
+    .event-card:hover {
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-2px);
+        border-color: var(--accent-soft);
     }
 
-    .event-card:hover { background: var(--paper-2); }
-    .event-card:hover::after { width: 100%; }
-
-    .event-card-num {
-        font-family: var(--font-mono);
-        font-size: 0.58rem;
-        color: var(--ink-4);
-        letter-spacing: 0.2em;
-        margin-bottom: 16px;
-    }
-
-    .event-badge-top {
+    .event-badge {
         display: inline-flex;
         align-items: center;
-        gap: 5px;
-        background: var(--volt-bg);
-        color: var(--ink);
-        font-family: var(--font-mono);
-        font-size: 0.58rem;
-        font-weight: 700;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        padding: 5px 12px;
-        margin-bottom: 14px;
+        gap: 6px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 12px;
+        font-weight: 600;
+        padding: 4px 12px;
+        border-radius: 100px;
+        margin-bottom: 16px;
         width: fit-content;
     }
 
-    .event-title {
-        font-family: var(--font-display);
-        font-size: 1.45rem;
-        font-weight: 700;
-        color: var(--ink);
-        line-height: 1.2;
-        margin-bottom: 16px;
-        letter-spacing: -0.01em;
-        transition: color 0.2s;
+    .event-badge i {
+        font-size: 12px;
     }
 
-    .event-card:hover .event-title { color: var(--volt); }
+    .event-number {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text-tertiary);
+        margin-bottom: 8px;
+    }
 
-    .event-meta { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
+    .event-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 16px;
+        line-height: 1.3;
+    }
+
+    .event-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 16px;
+    }
 
     .event-meta-item {
         display: flex;
         align-items: center;
         gap: 10px;
-        font-size: 0.82rem;
-        color: var(--ink-3);
+        color: var(--text-secondary);
+        font-size: 14px;
     }
 
     .event-meta-item i {
-        font-size: 0.7rem;
-        color: var(--volt);
-        width: 12px;
-        flex-shrink: 0;
+        color: var(--accent);
+        width: 16px;
+        font-size: 14px;
     }
 
     .event-description {
-        font-size: 0.88rem;
-        color: var(--ink-3);
+        color: var(--text-secondary);
+        font-size: 14px;
         line-height: 1.6;
-        font-weight: 300;
+        margin-bottom: 20px;
         flex: 1;
-        margin-bottom: 24px;
     }
 
-    .event-footer-row {
+    .event-footer {
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-top: auto;
-        padding-top: 18px;
-        border-top: 1px solid var(--line);
+        padding-top: 16px;
+        border-top: 1px solid var(--border);
     }
 
     .event-price {
-        font-family: var(--font-mono);
-        font-size: 0.9rem;
-        color: var(--ink);
-        font-weight: 700;
+        display: flex;
+        flex-direction: column;
     }
 
-    .event-price span {
-        display: block;
-        font-size: 0.58rem;
-        font-weight: 400;
-        color: var(--ink-4);
-        letter-spacing: 0.1em;
+    .event-price-label {
+        font-size: 12px;
+        color: var(--text-tertiary);
         text-transform: uppercase;
-        margin-bottom: 2px;
+        letter-spacing: 0.03em;
     }
 
-    .btn-view {
+    .event-price-value {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .btn-outline {
+        padding: 8px 18px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        color: var(--text-primary);
+        font-weight: 500;
+        font-size: 13px;
+        text-decoration: none;
+        transition: all 0.2s;
         display: inline-flex;
         align-items: center;
-        gap: 7px;
-        font-family: var(--font-mono);
-        font-size: 0.65rem;
-        font-weight: 700;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        color: var(--ink);
+        gap: 8px;
+    }
+
+    .btn-outline:hover {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+        color: var(--accent);
+    }
+
+    .btn-primary {
+        padding: 10px 22px;
+        background: var(--accent);
+        color: white;
+        border: none;
+        border-radius: var(--radius-sm);
+        font-weight: 500;
+        font-size: 14px;
         text-decoration: none;
-        padding: 10px 20px;
-        border: 1px solid var(--line);
-        background: transparent;
-        transition: all 0.2s;
-        white-space: nowrap;
+        transition: background 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
     }
 
-    .btn-view:hover {
-        background: var(--volt-bg);
-        color: var(--ink) !important;
-        border-color: var(--volt-bg);
+    .btn-primary:hover {
+        background: var(--accent-light);
     }
 
-    .btn-view i { font-size: 0.65rem; transition: transform 0.2s; }
-    .btn-view:hover i { transform: translateX(4px); }
-
-    /* ── EMPTY STATE ── */
-    .empty-state {
-        padding: 80px 40px;
-        text-align: center;
-        border: 1px solid var(--line);
-        border-top: none;
-        background: var(--paper-2);
-    }
-
-    .empty-state i { font-size: 2.5rem; color: var(--ink-4); margin-bottom: 20px; display: block; }
-
-    .empty-state h3 {
-        font-family: var(--font-display);
-        font-size: 1.8rem;
-        color: var(--ink);
-        margin-bottom: 10px;
-    }
-
-    .empty-state p { color: var(--ink-3); margin-bottom: 28px; }
-
-    /* ── PAGINATION ── */
-    .pagination-wrap {
-        padding: 40px 0;
+    /* Pagination */
+    .pagination-wrapper {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        border-top: 1px solid var(--line);
-        gap: 16px;
-        flex-wrap: wrap;
+        padding: 24px 0;
+        border-top: 1px solid var(--border);
     }
 
-    .pagination-wrap .pagination { display: flex; gap: 4px; list-style: none; margin: 0; padding: 0; }
+    .pagination-info {
+        font-size: 14px;
+        color: var(--text-secondary);
+    }
 
-    .pagination-wrap .page-item .page-link {
+    .pagination {
+        display: flex;
+        gap: 8px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .page-item .page-link {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 38px; height: 38px;
-        background: var(--paper);
-        border: 1px solid var(--line);
-        color: var(--ink-4);
-        font-family: var(--font-mono);
-        font-size: 0.72rem;
+        width: 38px;
+        height: 38px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        color: var(--text-secondary);
+        font-size: 14px;
+        font-weight: 500;
         text-decoration: none;
-        transition: all 0.18s;
-        border-radius: 0;
+        transition: all 0.2s;
     }
 
-    .pagination-wrap .page-item .page-link:hover {
-        background: var(--paper-3);
-        border-color: var(--ink-3);
-        color: var(--ink);
+    .page-item .page-link:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--accent-soft);
     }
 
-    .pagination-wrap .page-item.active .page-link {
-        background: var(--volt-bg);
-        border-color: var(--volt-bg);
-        color: var(--ink);
-        font-weight: 700;
+    .page-item.active .page-link {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: white;
     }
 
-    .pagination-wrap .page-item.disabled .page-link { opacity: 0.35; pointer-events: none; }
-
-    .pagination-info {
-        font-family: var(--font-mono);
-        font-size: 0.62rem;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--ink-4);
+    .page-item.disabled .page-link {
+        opacity: 0.5;
+        pointer-events: none;
     }
 
-    /* ── ANIMATIONS ── */
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 80px 40px;
+        background: var(--off-white);
+        border-radius: var(--radius-lg);
+        border: 1px dashed var(--border);
+    }
+
+    .empty-state i {
+        font-size: 48px;
+        color: var(--text-tertiary);
+        margin-bottom: 24px;
+    }
+
+    .empty-state h3 {
+        font-size: 24px;
+        margin-bottom: 12px;
+    }
+
+    .empty-state p {
+        color: var(--text-secondary);
+        margin-bottom: 24px;
+    }
+
+    /* Animations */
     @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to   { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
-    .anim { opacity: 0; }
-    .anim.visible { animation: fadeUp 0.55s cubic-bezier(0.2,0,0.3,1) forwards; }
+    .animate {
+        opacity: 0;
+        animation: fadeUp 0.5s ease forwards;
+    }
 
-    /* ── RESPONSIVE ── */
+    /* Responsive */
     @media (max-width: 1024px) {
-        .events-grid { grid-template-columns: repeat(2, 1fr); }
-        .page-header-inner { grid-template-columns: 1fr; }
-        .page-header-count { text-align: left; }
+        .events-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
     }
 
     @media (max-width: 768px) {
-        .events-grid { grid-template-columns: 1fr; }
-        .toolbar-inner { gap: 8px; }
-        .filter-pills { display: none; }
-        .toolbar-divider { display: none; }
-        .filter-sort { margin-left: 0; }
-        .pagination-wrap { justify-content: center; }
-        .pagination-info { display: none; }
+        .container-custom {
+            padding: 0 20px;
+        }
+
+        .page-header {
+            padding: 40px 0 30px;
+        }
+
+        .page-header-stats {
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .toolbar-inner {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .search-wrapper {
+            min-width: 100%;
+        }
+
+        .filter-pills {
+            overflow-x: auto;
+            padding-bottom: 8px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .filter-pill {
+            flex-shrink: 0;
+        }
+
+        .events-grid {
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .pagination-wrapper {
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .results-meta {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
     }
 </style>
 @endpush
 
 @section('content')
-
-{{-- ── PAGE HEADER ── --}}
+{{-- Page Header --}}
 <div class="page-header">
-    <div class="page-header-bg"></div>
-    <div class="container-fluid px-4 px-lg-5">
-        <div class="page-header-inner">
-            <div>
-                <div class="page-header-eyebrow">All Events</div>
-                <h1>Discover <em>Events</em>.</h1>
-                <p class="page-header-sub">Find the perfect experience — concerts, sports, arts, food and more.</p>
-            </div>
+    <div class="container-custom">
+        <div class="page-header-content">
+            <span class="page-header-eyebrow">Live Events</span>
+            <h1>Discover <span class="text-gradient">amazing events</span> near you</h1>
+            <p class="page-header-sub">From intimate concerts to major festivals — find your next unforgettable experience</p>
+            
             @if(isset($events) && $events->total())
-                <div class="page-header-count">
-                    <div class="page-header-count-num">{{ $events->total() }}</div>
-                    <div class="page-header-count-label">Events Found</div>
+                <div class="page-header-stats">
+                    <div class="page-header-stat">
+                        <span class="page-header-stat-number">{{ $events->total() }}</span>
+                        <span class="page-header-stat-label">Total events</span>
+                    </div>
+                    <div class="page-header-stat">
+                        <span class="page-header-stat-number">{{ ceil($events->total() / 10) }}</span>
+                        <span class="page-header-stat-label">Categories</span>
+                    </div>
+                    <div class="page-header-stat">
+                        <span class="page-header-stat-number">24/7</span>
+                        <span class="page-header-stat-label">Support</span>
+                    </div>
                 </div>
             @endif
         </div>
     </div>
 </div>
 
-{{-- ── STICKY TOOLBAR ── --}}
+{{-- Sticky Toolbar --}}
 <div class="toolbar">
-    <div class="container-fluid px-4 px-lg-5">
+    <div class="container-custom">
         <div class="toolbar-inner">
+            {{-- Search --}}
+            <div class="search-wrapper">
+                <form action="{{ route('events.search') }}" method="GET" class="search-form">
+                    <i class="bi bi-search search-icon"></i>
+                    <input 
+                        type="text" 
+                        name="search"
+                        class="search-input"
+                        placeholder="Search by event name, location, or category..."
+                        value="{{ request('search') }}"
+                        autocomplete="off">
+                    
+                    @if(request('search'))
+                        <a href="{{ route('events.index') }}" class="search-clear">
+                            <i class="bi bi-x"></i>
+                        </a>
+                    @endif
+                    
+                    <button class="search-btn" type="submit">Search</button>
+                </form>
+            </div>
 
-            <form action="{{ route('events.search') }}" method="GET" class="toolbar-search">
-                <i class="fas fa-search"></i>
-                <input type="text" name="search"
-                       placeholder="Search events…"
-                       value="{{ request('search') }}"
-                       autocomplete="off">
-                @if(request('search'))
-                    <a href="{{ route('events.index') }}" class="btn-clear">
-                        <i class="fas fa-times"></i>
-                    </a>
-                @endif
-                <button class="btn-search" type="submit">Search</button>
-            </form>
-
-            <div class="toolbar-divider"></div>
-
+            {{-- Category Filters --}}
             <div class="filter-pills">
-                <a href="{{ route('events.index') }}"
-                class="filter-pill {{ !request('category') ? 'active' : '' }}">All Events</a>
+                <a href="{{ route('events.index') }}" 
+                   class="filter-pill {{ !request('category') ? 'active' : '' }}">
+                    All Events
+                </a>
 
                 @foreach(App\Models\Event::categories() as $name => $config)
                     <a href="{{ route('events.index') }}?category={{ urlencode($name) }}"
-                    class="filter-pill {{ request('category') === $name ? 'active' : '' }}">
-                        <i class="{{ $config['icon'] }}"></i> {{ $name }}
+                       class="filter-pill {{ request('category') === $name ? 'active' : '' }}">
+                        <i class="{{ $config['icon'] }}"></i>
+                        {{ $name }}
                     </a>
                 @endforeach
             </div>
 
-            <div class="filter-sort">
-                <select id="sortSelect" aria-label="Sort events">
-                    <option value="date_asc"  {{ request('sort') === 'date_asc'   ? 'selected' : '' }}>Date: Soonest First</option>
-                    <option value="date_desc" {{ request('sort') === 'date_desc'  ? 'selected' : '' }}>Date: Latest First</option>
-                    <option value="price_asc" {{ request('sort') === 'price_asc'  ? 'selected' : '' }}>Price: Low to High</option>
-                    <option value="price_desc"{{ request('sort') === 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
-                    <option value="name_asc"  {{ request('sort') === 'name_asc'   ? 'selected' : '' }}>Name: A to Z</option>
+            {{-- Sort Dropdown --}}
+            <div class="sort-wrapper">
+                <select class="sort-select" id="sortSelect" aria-label="Sort events">
+                    <option value="date_asc" {{ request('sort') === 'date_asc' ? 'selected' : '' }}>Date: Soonest first</option>
+                    <option value="date_desc" {{ request('sort') === 'date_desc' ? 'selected' : '' }}>Date: Latest first</option>
+                    <option value="price_asc" {{ request('sort') === 'price_asc' ? 'selected' : '' }}>Price: Low to high</option>
+                    <option value="price_desc" {{ request('sort') === 'price_desc' ? 'selected' : '' }}>Price: High to low</option>
+                    <option value="name_asc" {{ request('sort') === 'name_asc' ? 'selected' : '' }}>Name: A to Z</option>
                 </select>
-                <i class="fas fa-chevron-down filter-sort-icon"></i>
+                <i class="bi bi-chevron-down sort-icon"></i>
             </div>
-
         </div>
     </div>
 </div>
 
-{{-- ── MAIN CONTENT ── --}}
-<div class="container-fluid px-4 px-lg-5">
-
+{{-- Main Content --}}
+<div class="container-custom">
     @if($events->isNotEmpty())
-        <div class="results-meta anim">
-            <span class="results-meta-text">
-                Showing <strong>{{ $events->firstItem() }}–{{ $events->lastItem() }}</strong>
+        {{-- Results Meta --}}
+        <div class="results-meta animate">
+            <span class="results-count">
+                Showing <strong>{{ $events->firstItem() }}-{{ $events->lastItem() }}</strong>
                 of <strong>{{ $events->total() }}</strong> events
             </span>
+            
             @if(request('search'))
                 <span class="results-search-tag">
+                    <i class="bi bi-search"></i>
                     "{{ request('search') }}"
-                    <a href="{{ route('events.index') }}" title="Clear search"><i class="fas fa-times"></i></a>
+                    <a href="{{ route('events.index') }}" title="Clear search">
+                        <i class="bi bi-x"></i>
+                    </a>
                 </span>
             @endif
         </div>
-    @endif
 
-    <section class="events-section">
-        @if($events->isNotEmpty())
+        {{-- Events Grid --}}
+        <section class="events-section">
             <div class="events-grid">
                 @foreach($events as $event)
-                    <div class="event-card anim" style="animation-delay: {{ ($loop->index % 3) * 0.07 }}s">
-                        <div class="event-card-num">{{ str_pad($loop->iteration + ($events->currentPage() - 1) * $events->perPage(), 2, '0', STR_PAD_LEFT) }}</div>
-
+                    <div class="event-card animate" style="animation-delay: {{ $loop->index * 0.05 }}s">
                         @if($loop->first && !request()->has('page'))
-                            <div class="event-badge-top"><i class="fas fa-bolt"></i> Top Pick</div>
+                            <div class="event-badge">
+                                <i class="bi bi-star-fill"></i>
+                                Top Pick
+                            </div>
                         @endif
+                        
+                        <div class="event-number">
+                            #{{ str_pad($loop->iteration + ($events->currentPage() - 1) * $events->perPage(), 2, '0', STR_PAD_LEFT) }}
+                        </div>
 
                         <h3 class="event-title">{{ $event->name }}</h3>
 
                         <div class="event-meta">
                             <div class="event-meta-item">
-                                <i class="fas fa-calendar"></i>
+                                <i class="bi bi-calendar3"></i>
                                 {{ \Carbon\Carbon::parse($event->eventDate)->format('M d, Y') }}
                             </div>
                             <div class="event-meta-item">
-                                <i class="fas fa-clock"></i>
+                                <i class="bi bi-clock"></i>
                                 {{ \Carbon\Carbon::parse($event->eventTime)->format('h:i A') }}
                             </div>
                             <div class="event-meta-item">
-                                <i class="fas fa-map-marker-alt"></i>
-                                {{ Str::limit($event->location, 32) }}
+                                <i class="bi bi-geo-alt"></i>
+                                {{ Str::limit($event->location, 30) }}
                             </div>
                             <div class="event-meta-item">
-                                <i class="bi bi-stickies-fill"></i>
+                                <i class="bi bi-tag"></i>
                                 {{ $event->category }}
                             </div>
                         </div>
 
-                        <p class="event-description">{{ Str::limit($event->description, 90) }}</p>
+                        <p class="event-description">{{ Str::limit($event->description, 100) }}</p>
 
-                        <div class="event-footer-row">
+                        <div class="event-footer">
                             @if($event->tickets->isNotEmpty())
                                 <div class="event-price">
-                                    <span>From</span>
-                                    ${{ number_format($event->tickets->min('price'), 2) }}
+                                    <span class="event-price-label">Starting from</span>
+                                    <span class="event-price-value">${{ number_format($event->tickets->min('price'), 2) }}</span>
                                 </div>
                             @else
-                                <div></div>
+                                <div class="event-price">
+                                    <span class="event-price-label">Status</span>
+                                    <span class="event-price-value">Free</span>
+                                </div>
                             @endif
-                            <a href="{{ route('events.show', $event) }}" class="btn-view">
-                                View <i class="fas fa-arrow-right"></i>
+
+                            <a href="{{ route('events.show', $event) }}" class="btn-outline">
+                                Details <i class="bi bi-arrow-right"></i>
                             </a>
                         </div>
                     </div>
                 @endforeach
             </div>
 
-            <div class="pagination-wrap anim">
+            {{-- Pagination --}}
+            <div class="pagination-wrapper animate">
                 <span class="pagination-info">
                     Page {{ $events->currentPage() }} of {{ $events->lastPage() }}
                 </span>
-                {{ $events->withQueryString()->links() }}
+                
+                {{ $events->withQueryString()->links('pagination::bootstrap-5') }}
             </div>
+        </section>
 
-        @else
-            <div class="empty-state anim">
-                <i class="fas fa-calendar-times"></i>
-                <h3>No Events Found</h3>
-                <p>We couldn't find any events matching your criteria.</p>
-                <a href="{{ route('events.index') }}" class="btn-view" style="display: inline-flex;">
-                    Reset Filters <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-        @endif
-    </section>
-
+    @else
+        {{-- Empty State --}}
+        <div class="empty-state animate">
+            <i class="bi bi-calendar-x"></i>
+            <h3>No events found</h3>
+            <p>We couldn't find any events matching your search criteria.</p>
+            <a href="{{ route('events.index') }}" class="btn-primary">
+                <i class="bi bi-arrow-counterclockwise"></i>
+                Reset all filters
+            </a>
+        </div>
+    @endif
 </div>
-
 @endsection
 
 @push('scripts')
 <script>
-    document.getElementById('sortSelect').addEventListener('change', function () {
+    // Sort dropdown handler
+    document.getElementById('sortSelect')?.addEventListener('change', function() {
         const url = new URL(window.location.href);
         url.searchParams.set('sort', this.value);
         window.location.href = url.toString();
     });
 
+    // Intersection Observer for animations
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
+                entry.target.classList.add('animate');
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
 
-    document.querySelectorAll('.anim').forEach(el => observer.observe(el));
+    document.querySelectorAll('.animate:not(.animate)').forEach(el => observer.observe(el));
+
+    // Sticky toolbar shadow on scroll
+    const toolbar = document.querySelector('.toolbar');
+    if (toolbar) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                toolbar.style.boxShadow = 'var(--shadow-md)';
+            } else {
+                toolbar.style.boxShadow = 'none';
+            }
+        });
+    }
 </script>
 @endpush

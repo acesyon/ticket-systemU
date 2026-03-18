@@ -4,806 +4,977 @@
 
 @push('styles')
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
 <style>
     :root {
-        --paper:     #f5f2ee;
-        --paper-2:   #ede9e3;
-        --paper-3:   #e3ddd5;
-        --paper-4:   #d8d1c7;
-        --line:      #d0c9be;
-        --volt:      #5c8a00;
-        --volt-bg:   #c8f135;
-        --ink:       #1a1814;
-        --ink-2:     #2e2b26;
-        --ink-3:     #56514a;
-        --ink-4:     #7a7470;
-        --red-hot:   #c0392b;
-
-        --font-display: 'Playfair Display', Georgia, serif;
-        --font-body:    'DM Sans', sans-serif;
-        --font-mono:    'Space Mono', monospace;
+        --white: #ffffff;
+        --off-white: #fafafa;
+        --light-gray: #f5f5f5;
+        --border: #eaeaea;
+        --text-primary: #1a1a1a;
+        --text-secondary: #666666;
+        --text-tertiary: #999999;
+        --accent: #2563eb;
+        --accent-light: #3b82f6;
+        --accent-soft: #dbeafe;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --error: #ef4444;
+        --shadow-sm: 0 1px 3px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.02);
+        --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.01);
+        --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.02), 0 4px 6px -2px rgba(0,0,0,0.01);
+        --radius-sm: 6px;
+        --radius-md: 8px;
+        --radius-lg: 12px;
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
     body {
-        background-color: var(--paper);
-        color: var(--ink);
-        font-family: var(--font-body);
+        background-color: var(--white);
+        color: var(--text-primary);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.5;
         -webkit-font-smoothing: antialiased;
-        overflow-x: hidden;
     }
 
-    body::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
-        pointer-events: none;
-        z-index: 9999;
-        opacity: 0.5;
+    .container-custom {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 32px;
     }
 
-    /* ── BREADCRUMB ── */
-    .breadcrumb-bar {
-        background: var(--paper-2);
-        border-bottom: 1px solid var(--line);
-        padding: 14px 0;
-        margin-top: -24px;
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        color: var(--text-primary);
     }
 
-    .breadcrumb-inner {
+    .text-gradient {
+        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+        padding: 20px 0;
+        border-bottom: 1px solid var(--border);
+        background: var(--white);
+    }
+
+    .breadcrumb-list {
         display: flex;
         align-items: center;
         gap: 8px;
-        font-family: var(--font-mono);
-        font-size: 0.62rem;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: var(--ink-4);
+        list-style: none;
+        font-size: 14px;
     }
 
-    .breadcrumb-inner a { color: var(--ink-4); text-decoration: none; transition: color 0.2s; }
-    .breadcrumb-inner a:hover { color: var(--volt); }
-    .breadcrumb-inner i { font-size: 0.5rem; }
-    .breadcrumb-inner .current { color: var(--ink-3); }
+    .breadcrumb-item a {
+        color: var(--text-tertiary);
+        text-decoration: none;
+        transition: color 0.2s;
+    }
 
-    /* ── EVENT HERO ── */
+    .breadcrumb-item a:hover {
+        color: var(--accent);
+    }
+
+    .breadcrumb-item.active {
+        color: var(--text-primary);
+        font-weight: 500;
+    }
+
+    .breadcrumb-separator {
+        color: var(--border);
+        font-size: 12px;
+    }
+
+    /* Event Hero */
     .event-hero {
-        background: var(--paper-2);
-        border-bottom: 1px solid var(--line);
-        padding: 60px 0 0;
-        position: relative;
-        overflow: hidden;
+        padding: 48px 0 40px;
+        background: linear-gradient(to bottom, var(--white), var(--off-white));
+        border-bottom: 1px solid var(--border);
     }
 
-    .event-hero-bg {
-        position: absolute;
-        inset: 0;
-        background:
-            radial-gradient(ellipse 60% 70% at 90% 40%, rgba(92,138,0,0.07) 0%, transparent 65%),
-            radial-gradient(ellipse 40% 50% at 5% 90%, rgba(192,57,43,0.04) 0%, transparent 60%);
-        pointer-events: none;
-    }
-
-    .event-hero-inner {
-        position: relative;
-        z-index: 2;
+    .event-hero-grid {
         display: grid;
-        grid-template-columns: 1fr 360px;
-        gap: 60px;
+        grid-template-columns: 1fr 380px;
+        gap: 48px;
         align-items: start;
     }
 
-    .event-hero-eyebrow {
+    /* Event Badges */
+    .event-badges {
         display: flex;
         align-items: center;
         gap: 12px;
-        margin-bottom: 20px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
     }
 
-    .event-category-badge {
+    .event-category {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 16px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        border-radius: 100px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .event-category i {
+        font-size: 14px;
+    }
+
+    .event-status {
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        background: var(--volt-bg);
-        color: var(--ink);
-        font-family: var(--font-mono);
-        font-size: 0.58rem;
-        font-weight: 700;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        padding: 6px 14px;
+        padding: 6px 16px;
+        border-radius: 100px;
+        font-size: 13px;
+        font-weight: 500;
     }
 
-    .event-status-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        font-family: var(--font-mono);
-        font-size: 0.58rem;
-        font-weight: 700;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        padding: 6px 14px;
-        border: 1px solid;
+    .event-status.upcoming {
+        background: #e6f7e6;
+        color: var(--success);
     }
 
-    .event-status-badge.upcoming  { color: var(--volt);  border-color: var(--volt); }
-    .event-status-badge.ongoing   { color: #d97706;       border-color: #d97706; }
-    .event-status-badge.completed { color: var(--ink-4); border-color: var(--line); }
+    .event-status.ongoing {
+        background: #fff3e0;
+        color: var(--warning);
+    }
 
-    .event-hero h1 {
-        font-family: var(--font-display);
-        font-size: clamp(2.4rem, 4.5vw, 4.2rem);
-        font-weight: 900;
-        color: var(--ink);
-        letter-spacing: -0.02em;
-        line-height: 1.05;
+    .event-status.completed {
+        background: var(--light-gray);
+        color: var(--text-tertiary);
+    }
+
+    .event-status i {
+        font-size: 8px;
+    }
+
+    /* Event Title */
+    .event-title {
+        font-size: clamp(32px, 4vw, 48px);
+        font-weight: 700;
+        line-height: 1.1;
         margin-bottom: 24px;
+        color: var(--text-primary);
     }
 
-    .event-meta-strip {
-        display: flex;
-        flex-wrap: wrap;
-        border-top: 1px solid var(--line);
+    /* Event Meta Grid */
+    .event-meta-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 24px;
         margin-top: 32px;
     }
 
-    .event-meta-block {
-        padding: 22px 32px 22px 0;
-        border-right: 1px solid var(--line);
-        margin-right: 32px;
+    .event-meta-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .event-meta-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--off-white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent);
+        font-size: 18px;
         flex-shrink: 0;
     }
 
-    .event-meta-block:last-child { border-right: none; margin-right: 0; }
+    .event-meta-content {
+        flex: 1;
+    }
 
     .event-meta-label {
-        font-family: var(--font-mono);
-        font-size: 0.56rem;
-        letter-spacing: 0.25em;
-        text-transform: uppercase;
-        color: var(--ink-4);
-        margin-bottom: 6px;
+        font-size: 13px;
+        color: var(--text-tertiary);
+        margin-bottom: 4px;
     }
 
     .event-meta-value {
-        font-size: 0.95rem;
+        font-size: 16px;
         font-weight: 600;
-        color: var(--ink);
-        display: flex;
-        align-items: center;
-        gap: 8px;
+        color: var(--text-primary);
     }
 
-    .event-meta-value i { color: var(--volt); font-size: 0.75rem; }
-
-    /* ── TICKET SIDEBAR ── */
+    /* Ticket Sidebar */
     .ticket-sidebar {
         position: sticky;
         top: 24px;
-        background: var(--paper);
-        border: 1px solid var(--line);
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
         overflow: hidden;
+        box-shadow: var(--shadow-sm);
     }
 
-    .ticket-sidebar-header {
-        background: var(--ink);
-        color: var(--paper);
-        padding: 20px 28px;
+    .ticket-header {
+        padding: 20px 24px;
+        background: var(--text-primary);
+        color: white;
         display: flex;
         align-items: center;
         justify-content: space-between;
     }
 
-    .ticket-sidebar-header-title {
-        font-family: var(--font-mono);
-        font-size: 0.65rem;
-        font-weight: 700;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-    }
-
-    .ticket-sidebar-header-count {
-        font-family: var(--font-display);
-        font-size: 1.4rem;
-        font-weight: 900;
-        color: var(--volt-bg);
-    }
-
-    /* ── TICKET ITEM ── */
-    .ticket-item {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 18px 28px;
-        border-bottom: 1px solid var(--line);
-        background: var(--paper);
-    }
-
-    .ticket-item-info { flex: 1; }
-
-    .ticket-item-type {
+    .ticket-header-title {
+        font-size: 16px;
         font-weight: 600;
-        font-size: 0.9rem;
-        color: var(--ink);
-        margin-bottom: 3px;
+        letter-spacing: -0.01em;
     }
 
-    .ticket-item-avail {
-        font-family: var(--font-mono);
-        font-size: 0.56rem;
-        letter-spacing: 0.1em;
-        color: var(--ink-4);
-    }
-
-    .ticket-item-avail.low { color: var(--red-hot); }
-
-    .ticket-item-right { text-align: right; flex-shrink: 0; }
-
-    .ticket-item-price {
-        font-family: var(--font-mono);
-        font-size: 1.05rem;
+    .ticket-header-count {
+        font-size: 24px;
         font-weight: 700;
-        color: var(--ink);
+        color: var(--accent-soft);
     }
 
-    .ticket-item-price-label {
-        font-size: 0.58rem;
-        color: var(--ink-4);
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
+    /* Ticket Items */
+    .ticket-list {
+        max-height: 400px;
+        overflow-y: auto;
     }
 
-    /* ── TICKET ACTIONS ── */
-    .ticket-actions {
-        padding: 14px 28px 20px;
-        border-bottom: 1px solid var(--line);
-        background: var(--paper-2);
+    .ticket-item {
+        padding: 20px 24px;
+        border-bottom: 1px solid var(--border);
+        background: var(--white);
     }
 
-    .ticket-actions-qty {
+    .ticket-item:last-child {
+        border-bottom: none;
+    }
+
+    .ticket-item-header {
         display: flex;
-        align-items: center;
-        gap: 10px;
+        justify-content: space-between;
+        align-items: flex-start;
         margin-bottom: 12px;
     }
 
-    .ticket-actions-qty-label {
-        font-family: var(--font-mono);
-        font-size: 0.58rem;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--ink-4);
-        flex-shrink: 0;
+    .ticket-type {
+        font-weight: 600;
+        font-size: 16px;
+        color: var(--text-primary);
     }
 
-    .qty-stepper {
+    .ticket-price {
+        font-weight: 700;
+        font-size: 18px;
+        color: var(--text-primary);
+    }
+
+    .ticket-price small {
+        font-size: 13px;
+        font-weight: 400;
+        color: var(--text-tertiary);
+        margin-right: 4px;
+    }
+
+    .ticket-availability {
+        font-size: 13px;
+        color: var(--text-secondary);
         display: flex;
         align-items: center;
-        border: 1px solid var(--line);
-        background: var(--paper);
+        gap: 6px;
+    }
+
+    .ticket-availability.low {
+        color: var(--error);
+    }
+
+    .ticket-availability i {
+        font-size: 12px;
+    }
+
+    /* Quantity Selector */
+    .quantity-selector {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 16px 0;
+    }
+
+    .quantity-label {
+        font-size: 14px;
+        color: var(--text-secondary);
+        font-weight: 500;
+    }
+
+    .quantity-controls {
+        display: flex;
+        align-items: center;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
         overflow: hidden;
     }
 
-    .qty-btn {
-        width: 34px;
-        height: 34px;
-        background: transparent;
+    .quantity-btn {
+        width: 36px;
+        height: 36px;
+        background: var(--white);
         border: none;
-        color: var(--ink-3);
-        font-size: 0.75rem;
+        color: var(--text-secondary);
+        font-size: 14px;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: background 0.15s, color 0.15s;
-        flex-shrink: 0;
+        transition: all 0.2s;
     }
 
-    .qty-btn:hover { background: var(--volt-bg); color: var(--ink); }
+    .quantity-btn:hover:not(:disabled) {
+        background: var(--off-white);
+        color: var(--accent);
+    }
 
-    .qty-value {
-        width: 40px;
-        text-align: center;
+    .quantity-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .quantity-input {
+        width: 50px;
+        height: 36px;
         border: none;
-        border-left: 1px solid var(--line);
-        border-right: 1px solid var(--line);
-        background: transparent;
-        font-family: var(--font-mono);
-        font-size: 0.82rem;
-        font-weight: 700;
-        color: var(--ink);
-        padding: 7px 0;
-        outline: none;
+        border-left: 1px solid var(--border);
+        border-right: 1px solid var(--border);
+        text-align: center;
+        font-weight: 600;
+        font-size: 14px;
+        color: var(--text-primary);
+        background: var(--white);
         -moz-appearance: textfield;
     }
 
-    .qty-value::-webkit-inner-spin-button,
-    .qty-value::-webkit-outer-spin-button { -webkit-appearance: none; }
-
-    .ticket-actions-btns {
-        display: flex;
-        gap: 8px;
+    .quantity-input::-webkit-inner-spin-button,
+    .quantity-input::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
     }
 
-    .btn-cart {
+    /* Ticket Actions */
+    .ticket-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 16px;
+    }
+
+    .btn-primary {
         flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 7px;
-        background: var(--volt-bg);
-        color: var(--ink);
-        font-family: var(--font-mono);
-        font-size: 0.6rem;
-        font-weight: 700;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        padding: 12px 8px;
-        border: none;
-        cursor: pointer;
-        transition: all 0.18s;
-        width: 100%;
-    }
-
-    .btn-cart:hover { background: #bde82a; transform: translateY(-1px); }
-
-    .btn-buy {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 7px;
-        background: var(--ink);
-        color: var(--paper);
-        font-family: var(--font-mono);
-        font-size: 0.6rem;
-        font-weight: 700;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        padding: 12px 8px;
-        border: none;
-        cursor: pointer;
-        transition: all 0.18s;
-        width: 100%;
-    }
-
-    .btn-buy:hover { background: var(--ink-2); color: var(--paper); transform: translateY(-1px); }
-
-    .btn-login {
-        display: flex;
+        display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
-        width: 100%;
-        background: var(--paper-3);
-        color: var(--ink-3);
-        font-family: var(--font-mono);
-        font-size: 0.62rem;
-        font-weight: 700;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        padding: 13px;
-        border: 1px solid var(--line);
+        padding: 12px 20px;
+        background: var(--accent);
+        color: white;
+        border: none;
+        border-radius: var(--radius-sm);
+        font-weight: 500;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
         text-decoration: none;
-        transition: all 0.18s;
     }
 
-    .btn-login:hover { background: var(--paper-4); color: var(--ink); }
+    .btn-primary:hover {
+        background: var(--accent-light);
+        transform: translateY(-1px);
+    }
 
-    .ticket-no-tickets {
-        padding: 32px 28px;
+    .btn-outline {
+        flex: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 20px;
+        background: var(--white);
+        color: var(--text-primary);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        font-weight: 500;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+    }
+
+    .btn-outline:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--accent-soft);
+    }
+
+    .btn-block {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 14px 24px;
+        background: var(--off-white);
+        color: var(--text-secondary);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        font-weight: 500;
+        font-size: 14px;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+
+    .btn-block:hover {
+        background: var(--light-gray);
+        color: var(--text-primary);
+    }
+
+    /* Empty State */
+    .ticket-empty {
+        padding: 48px 24px;
         text-align: center;
-        color: var(--ink-4);
-        font-size: 0.85rem;
+        color: var(--text-tertiary);
     }
 
-    .ticket-no-tickets i { font-size: 1.5rem; display: block; margin-bottom: 10px; color: var(--line); }
+    .ticket-empty i {
+        font-size: 40px;
+        margin-bottom: 16px;
+        color: var(--border);
+    }
 
-    /* ── CONTENT SECTION ── */
-    .event-content { padding: 56px 0; }
+    .ticket-empty p {
+        font-size: 15px;
+    }
 
-    .event-content-grid {
+    /* Content Section */
+    .content-section {
+        padding: 60px 0;
+    }
+
+    .content-grid {
         display: grid;
-        grid-template-columns: 1fr 360px;
-        gap: 60px;
+        grid-template-columns: 1fr 380px;
+        gap: 48px;
         align-items: start;
     }
 
-    .event-description-block h2 {
-        font-family: var(--font-display);
-        font-size: 1.6rem;
-        font-weight: 700;
-        color: var(--ink);
+    /* Description */
+    .description h2 {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 24px;
+        color: var(--text-primary);
+    }
+
+    .description-text {
+        color: var(--text-secondary);
+        font-size: 16px;
+        line-height: 1.8;
+    }
+
+    .description-text p {
         margin-bottom: 20px;
-        letter-spacing: -0.01em;
-        display: flex;
-        align-items: center;
-        gap: 14px;
     }
 
-    .event-description-block h2::after {
-        content: '';
-        flex: 1;
-        height: 1px;
-        background: var(--line);
-    }
-
-    .event-description-text {
-        font-size: 1.02rem;
-        color: var(--ink-3);
-        line-height: 1.75;
-        font-weight: 300;
-    }
-
-    /* ── INFO PANEL ── */
+    /* Info Panel */
     .info-panel {
-        background: var(--paper-2);
-        border: 1px solid var(--line);
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
         overflow: hidden;
     }
 
     .info-panel-header {
-        background: var(--ink-2);
-        color: var(--paper);
         padding: 16px 24px;
-        font-family: var(--font-mono);
-        font-size: 0.6rem;
-        font-weight: 700;
-        letter-spacing: 0.25em;
-        text-transform: uppercase;
+        background: var(--off-white);
+        border-bottom: 1px solid var(--border);
+        font-weight: 600;
+        font-size: 16px;
+        color: var(--text-primary);
     }
 
-    .info-panel-row {
+    .info-panel-body {
+        padding: 8px 0;
+    }
+
+    .info-row {
         display: flex;
         align-items: flex-start;
         gap: 16px;
-        padding: 18px 24px;
-        border-bottom: 1px solid var(--line);
+        padding: 16px 24px;
+        border-bottom: 1px solid var(--border);
     }
 
-    .info-panel-row:last-child { border-bottom: none; }
+    .info-row:last-child {
+        border-bottom: none;
+    }
 
-    .info-panel-icon {
-        width: 32px;
-        height: 32px;
-        background: var(--paper-3);
-        border: 1px solid var(--line);
+    .info-icon {
+        width: 36px;
+        height: 36px;
+        background: var(--off-white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
         display: flex;
         align-items: center;
         justify-content: center;
+        color: var(--accent);
+        font-size: 16px;
         flex-shrink: 0;
-        color: var(--volt);
-        font-size: 0.7rem;
     }
 
-    .info-panel-label {
-        font-family: var(--font-mono);
-        font-size: 0.56rem;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--ink-4);
+    .info-content {
+        flex: 1;
+    }
+
+    .info-label {
+        font-size: 13px;
+        color: var(--text-tertiary);
         margin-bottom: 4px;
     }
 
-    .info-panel-value {
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: var(--ink);
+    .info-value {
+        font-size: 15px;
+        font-weight: 500;
+        color: var(--text-primary);
     }
 
-    /* ── BACK BUTTON ── */
-    .btn-back {
+    /* Back Button */
+    .back-link {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        font-family: var(--font-mono);
-        font-size: 0.62rem;
-        font-weight: 700;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        color: var(--ink-4);
+        margin-top: 32px;
+        padding: 8px 0;
+        color: var(--text-tertiary);
         text-decoration: none;
-        padding: 10px 0;
-        border-bottom: 1px solid transparent;
-        transition: all 0.2s;
-        margin-top: 28px;
+        font-size: 14px;
+        font-weight: 500;
+        transition: color 0.2s;
     }
 
-    .btn-back:hover { color: var(--ink); border-bottom-color: var(--line); }
-    .btn-back i { font-size: 0.6rem; transition: transform 0.2s; }
-    .btn-back:hover i { transform: translateX(-4px); }
+    .back-link:hover {
+        color: var(--accent);
+    }
 
-    .section-rule { border: none; border-top: 1px solid var(--line); margin: 0; }
+    .back-link i {
+        font-size: 14px;
+        transition: transform 0.2s;
+    }
 
-    /* ── ANIMATIONS ── */
+    .back-link:hover i {
+        transform: translateX(-4px);
+    }
+
+    /* Animations */
     @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to   { opacity: 1; transform: translateY(0); }
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
-    .anim { opacity: 0; }
-    .anim.visible { animation: fadeUp 0.55s cubic-bezier(0.2,0,0.3,1) forwards; }
+    .animate {
+        opacity: 0;
+        animation: fadeUp 0.5s ease forwards;
+    }
 
-    /* ── RESPONSIVE ── */
+    /* Responsive */
     @media (max-width: 1024px) {
-        .event-hero-inner,
-        .event-content-grid { grid-template-columns: 1fr; gap: 40px; }
-        .ticket-sidebar { position: static; }
+        .event-hero-grid,
+        .content-grid {
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+
+        .ticket-sidebar {
+            position: static;
+            max-width: 500px;
+            margin: 0 auto;
+        }
     }
 
     @media (max-width: 768px) {
-        .event-hero { padding: 40px 0 0; }
-        .event-meta-strip { flex-direction: column; }
-        .event-meta-block { border-right: none; border-bottom: 1px solid var(--line); margin-right: 0; padding: 16px 0; }
-        .event-meta-block:last-child { border-bottom: none; }
+        .container-custom {
+            padding: 0 20px;
+        }
+
+        .event-hero {
+            padding: 32px 0;
+        }
+
+        .event-title {
+            font-size: 28px;
+        }
+
+        .event-meta-grid {
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .ticket-list {
+            max-height: none;
+        }
+
+        .ticket-actions {
+            flex-direction: column;
+        }
+
+        .content-section {
+            padding: 40px 0;
+        }
     }
 </style>
 @endpush
 
 @section('content')
-
-{{-- ── BREADCRUMB ── --}}
-<div class="breadcrumb-bar">
-    <div class="container-fluid px-4 px-lg-5">
-        <div class="breadcrumb-inner">
-            <a href="{{ route('events.index') }}">Events</a>
-            <i class="fas fa-chevron-right"></i>
-            <span class="current">{{ Str::limit($event->name, 48) }}</span>
-        </div>
+{{-- Breadcrumb --}}
+<div class="breadcrumb">
+    <div class="container-custom">
+        <ul class="breadcrumb-list">
+            <li class="breadcrumb-item">
+                <a href="{{ route('events.index') }}">Events</a>
+            </li>
+            <li class="breadcrumb-separator">
+                <i class="bi bi-chevron-right"></i>
+            </li>
+            <li class="breadcrumb-item active">
+                {{ Str::limit($event->name, 40) }}
+            </li>
+        </ul>
     </div>
 </div>
 
-{{-- ── EVENT HERO ── --}}
+{{-- Event Hero --}}
 <div class="event-hero">
-    <div class="event-hero-bg"></div>
-    <div class="container-fluid px-4 px-lg-5">
-        <div class="event-hero-inner">
-
-            {{-- LEFT: Title + meta --}}
-            <div>
-                <div class="event-hero-eyebrow anim">
+    <div class="container-custom">
+        <div class="event-hero-grid">
+            {{-- Left Column --}}
+            <div class="event-hero-content">
+                <div class="event-badges animate">
                     @if($event->category)
-                        <span class="event-category-badge">
+                        <span class="event-category">
                             <i class="{{ $event->category_icon }}"></i>
                             {{ $event->category }}
                         </span>
                     @endif
-                    <span class="event-status-badge {{ $event->status }}">
-                        <i class="fas fa-circle" style="font-size:0.45rem;"></i>
+                    
+                    <span class="event-status {{ $event->status }}">
+                        <i class="bi bi-circle-fill"></i>
                         {{ ucfirst($event->status) }}
                     </span>
                 </div>
 
-                <h1 class="anim" style="animation-delay:0.07s">{{ $event->name }}</h1>
+                <h1 class="event-title animate" style="animation-delay: 0.1s">
+                    {{ $event->name }}
+                </h1>
 
-                <div class="event-meta-strip anim" style="animation-delay:0.14s">
-                    <div class="event-meta-block">
-                        <div class="event-meta-label">Date</div>
-                        <div class="event-meta-value">
-                            <i class="fas fa-calendar"></i>
-                            {{ \Carbon\Carbon::parse($event->date)->format('l, F j, Y') }}
+                <div class="event-meta-grid animate" style="animation-delay: 0.2s">
+                    <div class="event-meta-item">
+                        <div class="event-meta-icon">
+                            <i class="bi bi-calendar3"></i>
                         </div>
-                    </div>
-                    <div class="event-meta-block">
-                        <div class="event-meta-label">Time</div>
-                        <div class="event-meta-value">
-                            <i class="fas fa-clock"></i>
-                            {{ \Carbon\Carbon::parse($event->time)->format('g:i A') }}
-                        </div>
-                    </div>
-                    <div class="event-meta-block">
-                        <div class="event-meta-label">Location</div>
-                        <div class="event-meta-value">
-                            <i class="fas fa-map-marker-alt"></i>
-                            {{ $event->location }}
-                        </div>
-                    </div>
-                    @if($event->tickets->isNotEmpty())
-                        <div class="event-meta-block">
-                            <div class="event-meta-label">From</div>
+                        <div class="event-meta-content">
+                            <div class="event-meta-label">Date</div>
                             <div class="event-meta-value">
-                                <i class="fas fa-ticket-alt"></i>
-                                ${{ number_format($event->tickets->min('price'), 2) }}
+                                {{ \Carbon\Carbon::parse($event->date)->format('l, F j, Y') }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event-meta-item">
+                        <div class="event-meta-icon">
+                            <i class="bi bi-clock"></i>
+                        </div>
+                        <div class="event-meta-content">
+                            <div class="event-meta-label">Time</div>
+                            <div class="event-meta-value">
+                                {{ \Carbon\Carbon::parse($event->time)->format('g:i A') }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="event-meta-item">
+                        <div class="event-meta-icon">
+                            <i class="bi bi-geo-alt"></i>
+                        </div>
+                        <div class="event-meta-content">
+                            <div class="event-meta-label">Location</div>
+                            <div class="event-meta-value">
+                                {{ $event->location }}
+                            </div>
+                        </div>
+                    </div>
+
+                    @if($event->tickets->isNotEmpty())
+                        <div class="event-meta-item">
+                            <div class="event-meta-icon">
+                                <i class="bi bi-ticket-perforated"></i>
+                            </div>
+                            <div class="event-meta-content">
+                                <div class="event-meta-label">Starting from</div>
+                                <div class="event-meta-value">
+                                    ${{ number_format($event->tickets->min('price'), 2) }}
+                                </div>
                             </div>
                         </div>
                     @endif
                 </div>
             </div>
 
-            {{-- RIGHT: Ticket sidebar --}}
-            <div class="ticket-sidebar anim" style="animation-delay:0.2s">
-                <div class="ticket-sidebar-header">
-                    <div class="ticket-sidebar-header-title">Tickets</div>
-                    <div class="ticket-sidebar-header-count">{{ $event->tickets->count() }}</div>
+            {{-- Right Column - Ticket Sidebar --}}
+            <div class="ticket-sidebar animate" style="animation-delay: 0.3s">
+                <div class="ticket-header">
+                    <span class="ticket-header-title">Available Tickets</span>
+                    <span class="ticket-header-count">{{ $event->tickets->count() }}</span>
                 </div>
 
                 @if($event->tickets->isNotEmpty())
-                    @foreach($event->tickets as $ticket)
+                    <div class="ticket-list">
+                        @foreach($event->tickets as $ticket)
+                            <div class="ticket-item">
+                                <div class="ticket-item-header">
+                                    <span class="ticket-type">
+                                        {{ $ticket->ticket_type ?? 'General Admission' }}
+                                    </span>
+                                    <span class="ticket-price">
+                                        <small>$</small>{{ number_format($ticket->price, 2) }}
+                                    </span>
+                                </div>
 
-                        {{-- Ticket info --}}
-                        <div class="ticket-item">
-                            <div class="ticket-item-info">
-                                <div class="ticket-item-type">{{ $ticket->ticket_type ?? 'General Admission' }}</div>
                                 @if($ticket->quantity_available)
-                                    <div class="ticket-item-avail {{ $ticket->quantity_available < 20 ? 'low' : '' }}">
-                                        {{ $ticket->quantity_available < 20
-                                            ? 'Only ' . $ticket->quantity_available . ' left!'
+                                    <div class="ticket-availability {{ $ticket->quantity_available < 20 ? 'low' : '' }}">
+                                        <i class="bi bi-info-circle"></i>
+                                        {{ $ticket->quantity_available < 20 
+                                            ? 'Only ' . $ticket->quantity_available . ' tickets left!'
                                             : $ticket->quantity_available . ' available' }}
                                     </div>
                                 @endif
-                            </div>
-                            <div class="ticket-item-right">
-                                <div class="ticket-item-price-label">Price</div>
-                                <div class="ticket-item-price">${{ number_format($ticket->price, 2) }}</div>
-                            </div>
-                        </div>
 
-                        {{-- Qty + buttons --}}
-                        <div class="ticket-actions">
-                            @auth
-                                <div class="ticket-actions-qty">
-                                    <span class="ticket-actions-qty-label">Qty</span>
-                                    <div class="qty-stepper">
-                                        <button type="button" class="qty-btn" onclick="changeQty(this, -1)" aria-label="Decrease">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <input type="number" class="qty-value" value="1" min="1" max="{{ $ticket->quantity_available ?? 99 }}" readonly>
-                                        <button type="button" class="qty-btn" onclick="changeQty(this, 1)" aria-label="Increase">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="ticket-actions-btns">
-                                    <form action="{{ route('cart.add', $ticket) }}" method="POST" style="flex:1; display:flex;">
+                                @auth
+                                    <form action="{{ route('cart.add', $ticket) }}" method="POST">
                                         @csrf
-                                        <input type="hidden" name="quantity" class="qty-hidden" value="1">
-                                        <button type="submit" class="btn-cart">
-                                            <i class="fas fa-shopping-cart"></i> Add to Cart
-                                        </button>
-                                    </form>
-                                    <form action="{{ route('cart.add', $ticket) }}" method="POST" style="flex:1; display:flex;">
-                                        @csrf
-                                        <input type="hidden" name="quantity" class="qty-hidden" value="1">
-                                        <input type="hidden" name="redirect" value="checkout">
-                                        <button type="submit" class="btn-buy">
-                                            <i class="fas fa-bolt"></i> Buy Ticket
-                                        </button>
-                                    </form>
-                                </div>
-                            @else
-                                <a href="{{ route('login') }}" class="btn-login">
-                                    <i class="fas fa-lock"></i> Login to Purchase
-                                </a>
-                            @endauth
-                        </div>
+                                        <div class="quantity-selector">
+                                            <span class="quantity-label">Quantity</span>
+                                            <div class="quantity-controls">
+                                                <button type="button" class="quantity-btn" onclick="decrementQty(this)" {{ $ticket->quantity_available < 1 ? 'disabled' : '' }}>
+                                                    <i class="bi bi-dash"></i>
+                                                </button>
+                                                <input type="number" name="quantity" class="quantity-input" value="1" min="1" max="{{ $ticket->quantity_available ?? 99 }}" readonly>
+                                                <button type="button" class="quantity-btn" onclick="incrementQty(this)" {{ $ticket->quantity_available < 1 ? 'disabled' : '' }}>
+                                                    <i class="bi bi-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
 
-                    @endforeach
+                                        <div class="ticket-actions">
+                                            <button type="submit" name="action" value="cart" class="btn-outline">
+                                                <i class="bi bi-cart"></i>
+                                                Add to Cart
+                                            </button>
+                                            <button type="submit" name="action" value="checkout" class="btn-primary">
+                                                <i class="bi bi-lightning-charge"></i>
+                                                Buy Now
+                                            </button>
+                                        </div>
+                                    </form>
+                                @endauth
+                            </div>
+                        @endforeach
+                    </div>
+
+                    @guest
+                        <div style="padding: 20px 24px; border-top: 1px solid var(--border);">
+                            <a href="{{ route('login') }}" class="btn-block">
+                                <i class="bi bi-box-arrow-in-right"></i>
+                                Log in to purchase tickets
+                            </a>
+                        </div>
+                    @endguest
+
                 @else
-                    <div class="ticket-no-tickets">
-                        <i class="fas fa-ticket-alt"></i>
-                        No tickets available at this time.
+                    <div class="ticket-empty">
+                        <i class="bi bi-ticket"></i>
+                        <p>No tickets available at this time.</p>
                     </div>
                 @endif
             </div>
-
         </div>
     </div>
 </div>
 
-<hr class="section-rule">
-
-{{-- ── MAIN CONTENT ── --}}
-<div class="event-content">
-    <div class="container-fluid px-4 px-lg-5">
-        <div class="event-content-grid">
-
+{{-- Main Content --}}
+<div class="content-section">
+    <div class="container-custom">
+        <div class="content-grid">
             {{-- Description --}}
-            <div class="event-description-block anim">
-                <h2>About this Event</h2>
-                <div class="event-description-text">
+            <div class="description animate">
+                <h2>About this event</h2>
+                <div class="description-text">
                     {!! nl2br(e($event->description ?? 'No description provided for this event.')) !!}
                 </div>
             </div>
 
-            {{-- Info panel --}}
-            <div class="anim" style="animation-delay:0.1s">
+            {{-- Info Panel --}}
+            <div class="animate" style="animation-delay: 0.1s">
                 <div class="info-panel">
                     <div class="info-panel-header">Event Details</div>
-                    <div>
-                        <div class="info-panel-row">
-                            <div class="info-panel-icon"><i class="fas fa-calendar"></i></div>
-                            <div>
-                                <div class="info-panel-label">Date</div>
-                                <div class="info-panel-value">{{ \Carbon\Carbon::parse($event->date)->format('M d, Y') }}</div>
+                    <div class="info-panel-body">
+                        <div class="info-row">
+                            <div class="info-icon">
+                                <i class="bi bi-calendar3"></i>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-label">Date</div>
+                                <div class="info-value">
+                                    {{ \Carbon\Carbon::parse($event->date)->format('l, F j, Y') }}
+                                </div>
                             </div>
                         </div>
-                        <div class="info-panel-row">
-                            <div class="info-panel-icon"><i class="fas fa-clock"></i></div>
-                            <div>
-                                <div class="info-panel-label">Time</div>
-                                <div class="info-panel-value">{{ \Carbon\Carbon::parse($event->time)->format('g:i A') }}</div>
+
+                        <div class="info-row">
+                            <div class="info-icon">
+                                <i class="bi bi-clock"></i>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-label">Time</div>
+                                <div class="info-value">
+                                    {{ \Carbon\Carbon::parse($event->time)->format('g:i A') }}
+                                </div>
                             </div>
                         </div>
-                        <div class="info-panel-row">
-                            <div class="info-panel-icon"><i class="fas fa-map-marker-alt"></i></div>
-                            <div>
-                                <div class="info-panel-label">Location</div>
-                                <div class="info-panel-value">{{ $event->location }}</div>
+
+                        <div class="info-row">
+                            <div class="info-icon">
+                                <i class="bi bi-geo-alt"></i>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-label">Location</div>
+                                <div class="info-value">{{ $event->location }}</div>
                             </div>
                         </div>
+
                         @if($event->category)
-                            <div class="info-panel-row">
-                                <div class="info-panel-icon"><i class="{{ $event->category_icon }}"></i></div>
-                                <div>
-                                    <div class="info-panel-label">Category</div>
-                                    <div class="info-panel-value">{{ $event->category }}</div>
+                            <div class="info-row">
+                                <div class="info-icon">
+                                    <i class="{{ $event->category_icon }}"></i>
+                                </div>
+                                <div class="info-content">
+                                    <div class="info-label">Category</div>
+                                    <div class="info-value">{{ $event->category }}</div>
                                 </div>
                             </div>
                         @endif
-                        <div class="info-panel-row">
-                            <div class="info-panel-icon"><i class="fas fa-tag"></i></div>
-                            <div>
-                                <div class="info-panel-label">Status</div>
-                                <div class="info-panel-value" style="text-transform:capitalize;">{{ $event->status }}</div>
+
+                        <div class="info-row">
+                            <div class="info-icon">
+                                <i class="bi bi-tag"></i>
+                            </div>
+                            <div class="info-content">
+                                <div class="info-label">Status</div>
+                                <div class="info-value" style="text-transform: capitalize;">{{ $event->status }}</div>
                             </div>
                         </div>
+
                         @if($event->creator)
-                            <div class="info-panel-row">
-                                <div class="info-panel-icon"><i class="fas fa-user"></i></div>
-                                <div>
-                                    <div class="info-panel-label">Organized by</div>
-                                    <div class="info-panel-value">{{ $event->creator->name }}</div>
+                            <div class="info-row">
+                                <div class="info-icon">
+                                    <i class="bi bi-person"></i>
+                                </div>
+                                <div class="info-content">
+                                    <div class="info-label">Organized by</div>
+                                    <div class="info-value">{{ $event->creator->name }}</div>
                                 </div>
                             </div>
                         @endif
                     </div>
                 </div>
 
-                <a href="{{ route('events.index') }}" class="btn-back">
-                    <i class="fas fa-arrow-left"></i> Back to All Events
+                <a href="{{ route('events.index') }}" class="back-link">
+                    <i class="bi bi-arrow-left"></i>
+                    Back to all events
                 </a>
             </div>
-
         </div>
     </div>
 </div>
-
 @endsection
 
 @push('scripts')
 <script>
-    // Fade-up animations
+    // Intersection Observer for animations
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
+                entry.target.classList.add('animate');
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
 
-    document.querySelectorAll('.anim').forEach(el => observer.observe(el));
+    document.querySelectorAll('.animate').forEach(el => observer.observe(el));
 
-    // Qty stepper: updates the display value and syncs both hidden qty fields
-    function changeQty(btn, delta) {
-        const stepper = btn.closest('.qty-stepper');
-        const input   = stepper.querySelector('.qty-value');
-        const max     = parseInt(input.max) || 99;
-        const min     = parseInt(input.min) || 1;
-        let val = parseInt(input.value) + delta;
-        if (val < min) val = min;
-        if (val > max) val = max;
-        input.value = val;
+    // Quantity controls
+    function incrementQty(btn) {
+        const container = btn.closest('.quantity-controls');
+        const input = container.querySelector('.quantity-input');
+        const max = parseInt(input.max);
+        let value = parseInt(input.value);
+        if (value < max) {
+            input.value = value + 1;
+        }
+    }
 
-        // Sync all hidden qty fields in this ticket-actions block
-        const actions = btn.closest('.ticket-actions');
-        actions.querySelectorAll('.qty-hidden').forEach(h => h.value = val);
+    function decrementQty(btn) {
+        const container = btn.closest('.quantity-controls');
+        const input = container.querySelector('.quantity-input');
+        const min = parseInt(input.min);
+        let value = parseInt(input.value);
+        if (value > min) {
+            input.value = value - 1;
+        }
+    }
+
+    // Sticky sidebar adjustment
+    const ticketSidebar = document.querySelector('.ticket-sidebar');
+    if (ticketSidebar) {
+        const updateSticky = () => {
+            const heroBottom = document.querySelector('.event-hero').offsetHeight;
+            if (window.scrollY > heroBottom) {
+                ticketSidebar.style.top = '24px';
+            }
+        };
+        window.addEventListener('scroll', updateSticky);
     }
 </script>
 @endpush

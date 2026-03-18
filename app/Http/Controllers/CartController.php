@@ -41,6 +41,7 @@ class CartController extends Controller
         } else {
             $cart[$ticketId] = [
                 'ticket_id'     => $ticketId,
+                'event_id'      => $ticket->event_id,
                 'event_name'    => $ticket->event->name,
                 'ticket_type'   => $ticket->ticket_type,
                 'price'         => $ticket->price,
@@ -86,6 +87,7 @@ class CartController extends Controller
 
             $cart[$ticketId] = [
                 'ticket_id'     => $ticketId,
+                'event_id'      => $ticket->event_id,
                 'event_name'    => $ticket->event->name,
                 'ticket_type'   => $ticket->ticket_type,
                 'price'         => $ticket->price,
@@ -170,7 +172,7 @@ class CartController extends Controller
         DB::beginTransaction();
 
         try {
-            $lastOrder = null;
+            $firstOrder = null;
 
             foreach ($cart as $item) {
                 $ticket = Ticket::findOrFail($item['ticket_id']);
@@ -195,14 +197,16 @@ class CartController extends Controller
 
                 $ticket->decrement('quantity_available', $item['quantity']);
 
-                $lastOrder = $order;
+                if (!$firstOrder) {
+                    $firstOrder = $order;
+                }
             }
 
             session()->forget('cart');
 
             DB::commit();
 
-            return redirect()->route('cart.success', ['order' => $lastOrder->id])
+            return redirect()->route('cart.success', ['order' => $firstOrder->id])
                 ->with('success', 'Payment successful!');
 
         } catch (\Exception $e) {
@@ -217,8 +221,17 @@ class CartController extends Controller
             abort(403);
         }
 
+        // Load relationships
         $order->load('ticket.event', 'payment');
+        
+        // Get all orders from the same transaction (optional)
+        // This assumes orders were created sequentially in the same session
+        $recentOrders = Order::where('user_id', auth()->id())
+                            ->where('created_at', '>=', now()->subMinutes(5))
+                            ->with('ticket.event', 'payment')
+                            ->orderBy('id', 'desc')
+                            ->get();
 
-        return view('cart.success', compact('order'));
+        return view('cart.success', compact('order', 'recentOrders'));
     }
 }
