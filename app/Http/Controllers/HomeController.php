@@ -7,16 +7,18 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-   public function index()
-{
-    $upcomingEvents = Event::with('tickets')
-        ->where('status', 'upcoming')
-        ->whereDate('date', '>=', now())
-        ->orderBy('date')
-        ->take(6)
-        ->get();
+    public function index()
+    {
+        // Show upcoming + ongoing events on the homepage
+        // completed/cancelled are excluded — they shouldn't be featured
+        $upcomingEvents = Event::with('tickets')
+            ->whereIn('status', ['upcoming', 'ongoing'])
+            ->orderByRaw("FIELD(status, 'ongoing', 'upcoming')")
+            ->orderBy('date', 'asc')
+            ->orderBy('time', 'asc')
+            ->take(7)                   // 1 featured card + 6 grid cards
+            ->get();
 
-    return view('home', compact('upcomingEvents'));
-}
-
+        return view('home', compact('upcomingEvents'));
+    }
 }

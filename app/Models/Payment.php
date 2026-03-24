@@ -11,6 +11,12 @@ class Payment extends Model
         'payment_method',
         'amount',
         'status',
+        'date_paid',
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
     ];
 
     public function order()

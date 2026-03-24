@@ -10,7 +10,16 @@ class Order extends Model
         'user_id',
         'ticket_id',
         'quantity',
+        'total_price',      // Add this - it's REQUIRED in your database
         'status',
+        'date_purchased'
+    ];
+
+    // Optional: Add casts for proper data type handling
+    protected $casts = [
+        'date_purchased' => 'datetime',
+        'total_price' => 'decimal:2',
+        'quantity' => 'integer',
     ];
 
     public function user()

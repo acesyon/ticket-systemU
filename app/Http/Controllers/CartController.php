@@ -158,62 +158,69 @@ class CartController extends Controller
     }
 
     public function processCheckout(Request $request)
-    {
-        $request->validate([
-            'payment_method' => 'required|in:cash,gcash,credit_card,paypal',
-        ]);
+{
+    $request->validate([
+        'payment_method' => 'required|in:cash,gcash,credit_card,paypal',
+    ]);
 
-        $cart = session()->get('cart', []);
+    $cart = session()->get('cart', []);
 
-        if (empty($cart)) {
-            return redirect()->route('cart.index')->with('error', 'Your cart is empty!');
-        }
+    if (empty($cart)) {
+        return redirect()->route('cart.index')->with('error', 'Your cart is empty!');
+    }
 
-        DB::beginTransaction();
+    DB::beginTransaction();
 
-        try {
-            $firstOrder = null;
+    try {
+        $firstOrder = null;
 
-            foreach ($cart as $item) {
-                $ticket = Ticket::findOrFail($item['ticket_id']);
+        foreach ($cart as $item) {
+            $ticket = Ticket::findOrFail($item['ticket_id']);
 
-                if ($ticket->quantity_available < $item['quantity']) {
-                    throw new \Exception("Not enough tickets available for {$ticket->event->name}");
-                }
-
-                $order = Order::create([
-                    'user_id'   => auth()->id(),
-                    'ticket_id' => $ticket->id,
-                    'quantity'  => $item['quantity'],
-                    'status'    => 'completed',
-                ]);
-
-                Payment::create([
-                    'order_id'       => $order->id,
-                    'payment_method' => $request->payment_method,
-                    'amount'         => $item['price'] * $item['quantity'],
-                    'status'         => 'completed',
-                ]);
-
-                $ticket->decrement('quantity_available', $item['quantity']);
-
-                if (!$firstOrder) {
-                    $firstOrder = $order;
-                }
+            if ($ticket->quantity_available < $item['quantity']) {
+                throw new \Exception("Not enough tickets available for {$ticket->event->name}");
             }
 
-            session()->forget('cart');
+            // Calculate total price for this order
+            $totalPrice = $item['price'] * $item['quantity'];
 
-            DB::commit();
+            // Create order with ALL required fields
+            $order = Order::create([
+                'user_id'        => auth()->id(),
+                'ticket_id'      => $ticket->id,
+                'quantity'       => $item['quantity'],
+                'total_price'    => $totalPrice, // REQUIRED field - add this!
+                'status'         => 'completed',
+                'date_purchased' => now(), // Optional but good practice
+            ]);
 
-            return redirect()->route('cart.success', ['order' => $firstOrder->id])
-                ->with('success', 'Payment successful!');
+            Payment::create([
+                'order_id'       => $order->id,
+                'payment_method' => $request->payment_method,
+                'amount'         => $totalPrice,
+                'status'         => 'completed',
+                'date_paid'      => now(),
+            ]);
 
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->with('error', 'Checkout failed: ' . $e->getMessage());
+            $ticket->decrement('quantity_available', $item['quantity']);
+
+            if (!$firstOrder) {
+                $firstOrder = $order;
+            }
         }
+
+        session()->forget('cart');
+
+        DB::commit();
+
+        return redirect()->route('cart.success', ['order' => $firstOrder->id])
+            ->with('success', 'Payment successful!');
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return back()->with('error', 'Checkout failed: ' . $e->getMessage());
     }
+}
 
     public function success(Order $order)
     {

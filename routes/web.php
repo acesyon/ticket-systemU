@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Route;
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
+Route::get('/events/status/poll', [EventController::class, 'poll'])->name('events.poll');
 Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
 Route::get('/search', [EventController::class, 'search'])->name('events.search');
-
 
 Route::middleware('auth')->group(function () {
 
@@ -25,8 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/cart/add/{ticket}', [CartController::class, 'add'])->name('cart.add');
     Route::patch('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
-    Route::post('/cart/add/{ticket}', [CartController::class, 'add'])->name('cart.add');
-    Route::post('/cart/add-bulk', [CartController::class, 'addBulk'])->name('cart.add.bulk'); // ← add this
+    Route::post('/cart/add-bulk', [CartController::class, 'addBulk'])->name('cart.add.bulk');
 
     // Checkout Routes
     Route::get('/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
@@ -37,11 +36,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
     Route::get('/orders/{order}/download', [OrderController::class, 'download'])->name('orders.download');
+    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 
     // Profile Routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::patch('/profile/password', [ProfileController::class, 'password'])->name('profile.password');
+
+    // Profile Photo Routes - FIXED: Changed from PATCH to POST for form submission
+    Route::post('/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.photo.update');
+    Route::delete('/profile/photo', [ProfileController::class, 'removePhoto'])->name('profile.photo.remove');
+
+    // Account Deletion
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 

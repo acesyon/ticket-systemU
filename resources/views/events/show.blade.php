@@ -4,815 +4,844 @@
 
 @push('styles')
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,300&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
 <style>
-    :root {
-        --white: #ffffff;
-        --off-white: #fafafa;
-        --light-gray: #f5f5f5;
-        --border: #eaeaea;
-        --text-primary: #1a1a1a;
-        --text-secondary: #666666;
-        --text-tertiary: #999999;
-        --accent: #2563eb;
-        --accent-light: #3b82f6;
-        --accent-soft: #dbeafe;
-        --success: #10b981;
-        --warning: #f59e0b;
-        --error: #ef4444;
-        --shadow-sm: 0 1px 3px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.02);
-        --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.01);
-        --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.02), 0 4px 6px -2px rgba(0,0,0,0.01);
-        --radius-sm: 6px;
-        --radius-md: 8px;
-        --radius-lg: 12px;
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        background-color: var(--white);
-        color: var(--text-primary);
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        line-height: 1.5;
-        -webkit-font-smoothing: antialiased;
-    }
-
-    .container-custom {
-        max-width: 1280px;
-        margin: 0 auto;
-        padding: 0 32px;
-    }
-
-    /* Typography */
-    h1, h2, h3, h4, h5, h6 {
-        font-weight: 600;
-        letter-spacing: -0.02em;
-        color: var(--text-primary);
-    }
-
-    .text-gradient {
-        background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-
-    /* Breadcrumb */
-    .breadcrumb {
-        padding: 20px 0;
-        border-bottom: 1px solid var(--border);
-        background: var(--white);
-    }
-
-    .breadcrumb-list {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        list-style: none;
-        font-size: 14px;
-    }
-
-    .breadcrumb-item a {
-        color: var(--text-tertiary);
-        text-decoration: none;
-        transition: color 0.2s;
-    }
-
-    .breadcrumb-item a:hover {
-        color: var(--accent);
-    }
-
-    .breadcrumb-item.active {
-        color: var(--text-primary);
-        font-weight: 500;
-    }
-
-    .breadcrumb-separator {
-        color: var(--border);
-        font-size: 12px;
-    }
-
-    /* Event Hero */
-    .event-hero {
-        padding: 48px 0 40px;
-        background: linear-gradient(to bottom, var(--white), var(--off-white));
-        border-bottom: 1px solid var(--border);
-    }
-
-    .event-hero-grid {
-        display: grid;
-        grid-template-columns: 1fr 380px;
-        gap: 48px;
-        align-items: start;
-    }
-
-    /* Event Badges */
-    .event-badges {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 24px;
-        flex-wrap: wrap;
-    }
-
-    .event-category {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 6px 16px;
-        background: var(--accent-soft);
-        color: var(--accent);
-        border-radius: 100px;
-        font-size: 14px;
-        font-weight: 500;
-    }
-
-    .event-category i {
-        font-size: 14px;
-    }
-
-    .event-status {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 6px 16px;
-        border-radius: 100px;
-        font-size: 13px;
-        font-weight: 500;
-    }
-
-    .event-status.upcoming {
-        background: #e6f7e6;
-        color: var(--success);
-    }
-
-    .event-status.ongoing {
-        background: #fff3e0;
-        color: var(--warning);
-    }
-
-    .event-status.completed {
-        background: var(--light-gray);
-        color: var(--text-tertiary);
-    }
-
-    .event-status i {
-        font-size: 8px;
-    }
-
-    /* Event Title */
-    .event-title {
-        font-size: clamp(32px, 4vw, 48px);
-        font-weight: 700;
-        line-height: 1.1;
-        margin-bottom: 24px;
-        color: var(--text-primary);
-    }
-
-    /* Event Meta Grid */
-    .event-meta-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 24px;
-        margin-top: 32px;
-    }
-
-    .event-meta-item {
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
-    }
-
-    .event-meta-icon {
-        width: 40px;
-        height: 40px;
-        background: var(--off-white);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-md);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--accent);
-        font-size: 18px;
-        flex-shrink: 0;
-    }
-
-    .event-meta-content {
-        flex: 1;
-    }
-
-    .event-meta-label {
-        font-size: 13px;
-        color: var(--text-tertiary);
-        margin-bottom: 4px;
-    }
-
-    .event-meta-value {
-        font-size: 16px;
-        font-weight: 600;
-        color: var(--text-primary);
-    }
-
-    /* Ticket Sidebar */
-    .ticket-sidebar {
-        position: sticky;
-        top: 24px;
-        background: var(--white);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-lg);
-        overflow: hidden;
-        box-shadow: var(--shadow-sm);
-    }
-
-    .ticket-header {
-        padding: 20px 24px;
-        background: var(--text-primary);
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .ticket-header-title {
-        font-size: 16px;
-        font-weight: 600;
-        letter-spacing: -0.01em;
-    }
-
-    .ticket-header-count {
-        font-size: 24px;
-        font-weight: 700;
-        color: var(--accent-soft);
-    }
-
-    /* Ticket Items */
-    .ticket-list {
-        max-height: 400px;
-        overflow-y: auto;
-    }
-
-    .ticket-item {
-        padding: 20px 24px;
-        border-bottom: 1px solid var(--border);
-        background: var(--white);
-    }
-
-    .ticket-item:last-child {
-        border-bottom: none;
-    }
-
-    .ticket-item-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 12px;
-    }
-
-    .ticket-type {
-        font-weight: 600;
-        font-size: 16px;
-        color: var(--text-primary);
-    }
-
-    .ticket-price {
-        font-weight: 700;
-        font-size: 18px;
-        color: var(--text-primary);
-    }
-
-    .ticket-price small {
-        font-size: 13px;
-        font-weight: 400;
-        color: var(--text-tertiary);
-        margin-right: 4px;
-    }
-
-    .ticket-availability {
-        font-size: 13px;
-        color: var(--text-secondary);
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-    .ticket-availability.low {
-        color: var(--error);
-    }
-
-    .ticket-availability i {
-        font-size: 12px;
-    }
-
-    /* Quantity Selector */
-    .quantity-selector {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin: 16px 0;
-    }
-
-    .quantity-label {
-        font-size: 14px;
-        color: var(--text-secondary);
-        font-weight: 500;
-    }
-
-    .quantity-controls {
-        display: flex;
-        align-items: center;
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
-        overflow: hidden;
-    }
-
-    .quantity-btn {
-        width: 36px;
-        height: 36px;
-        background: var(--white);
-        border: none;
-        color: var(--text-secondary);
-        font-size: 14px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.2s;
-    }
-
-    .quantity-btn:hover:not(:disabled) {
-        background: var(--off-white);
-        color: var(--accent);
-    }
-
-    .quantity-btn:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
-
-    .quantity-input {
-        width: 50px;
-        height: 36px;
-        border: none;
-        border-left: 1px solid var(--border);
-        border-right: 1px solid var(--border);
-        text-align: center;
-        font-weight: 600;
-        font-size: 14px;
-        color: var(--text-primary);
-        background: var(--white);
-        -moz-appearance: textfield;
-    }
-
-    .quantity-input::-webkit-inner-spin-button,
-    .quantity-input::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-
-    /* Ticket Actions */
-    .ticket-actions {
-        display: flex;
-        gap: 10px;
-        margin-top: 16px;
-    }
-
-    .btn-primary {
-        flex: 1;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        padding: 12px 20px;
-        background: var(--accent);
-        color: white;
-        border: none;
-        border-radius: var(--radius-sm);
-        font-weight: 500;
-        font-size: 14px;
-        cursor: pointer;
-        transition: all 0.2s;
-        text-decoration: none;
-    }
-
-    .btn-primary:hover {
-        background: var(--accent-light);
-        transform: translateY(-1px);
-    }
-
-    .btn-outline {
-        flex: 1;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        padding: 12px 20px;
-        background: var(--white);
-        color: var(--text-primary);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
-        font-weight: 500;
-        font-size: 14px;
-        cursor: pointer;
-        transition: all 0.2s;
-        text-decoration: none;
-    }
-
-    .btn-outline:hover {
-        border-color: var(--accent);
-        color: var(--accent);
-        background: var(--accent-soft);
-    }
-
-    .btn-block {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        width: 100%;
-        padding: 14px 24px;
-        background: var(--off-white);
-        color: var(--text-secondary);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
-        font-weight: 500;
-        font-size: 14px;
-        text-decoration: none;
-        transition: all 0.2s;
-    }
-
-    .btn-block:hover {
-        background: var(--light-gray);
-        color: var(--text-primary);
-    }
-
-    /* Empty State */
-    .ticket-empty {
-        padding: 48px 24px;
-        text-align: center;
-        color: var(--text-tertiary);
-    }
-
-    .ticket-empty i {
-        font-size: 40px;
-        margin-bottom: 16px;
-        color: var(--border);
-    }
-
-    .ticket-empty p {
-        font-size: 15px;
-    }
-
-    /* Content Section */
-    .content-section {
-        padding: 60px 0;
-    }
-
-    .content-grid {
-        display: grid;
-        grid-template-columns: 1fr 380px;
-        gap: 48px;
-        align-items: start;
-    }
-
-    /* Description */
-    .description h2 {
-        font-size: 24px;
-        font-weight: 600;
-        margin-bottom: 24px;
-        color: var(--text-primary);
-    }
-
-    .description-text {
-        color: var(--text-secondary);
-        font-size: 16px;
-        line-height: 1.8;
-    }
-
-    .description-text p {
-        margin-bottom: 20px;
-    }
-
-    /* Info Panel */
-    .info-panel {
-        background: var(--white);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-lg);
-        overflow: hidden;
-    }
-
-    .info-panel-header {
-        padding: 16px 24px;
-        background: var(--off-white);
-        border-bottom: 1px solid var(--border);
-        font-weight: 600;
-        font-size: 16px;
-        color: var(--text-primary);
-    }
-
-    .info-panel-body {
-        padding: 8px 0;
-    }
-
-    .info-row {
-        display: flex;
-        align-items: flex-start;
-        gap: 16px;
-        padding: 16px 24px;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .info-row:last-child {
-        border-bottom: none;
-    }
-
-    .info-icon {
-        width: 36px;
-        height: 36px;
-        background: var(--off-white);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--accent);
-        font-size: 16px;
-        flex-shrink: 0;
-    }
-
-    .info-content {
-        flex: 1;
-    }
-
-    .info-label {
-        font-size: 13px;
-        color: var(--text-tertiary);
-        margin-bottom: 4px;
-    }
-
-    .info-value {
-        font-size: 15px;
-        font-weight: 500;
-        color: var(--text-primary);
-    }
-
-    /* Back Button */
-    .back-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        margin-top: 32px;
-        padding: 8px 0;
-        color: var(--text-tertiary);
-        text-decoration: none;
-        font-size: 14px;
-        font-weight: 500;
-        transition: color 0.2s;
-    }
-
-    .back-link:hover {
-        color: var(--accent);
-    }
-
-    .back-link i {
-        font-size: 14px;
-        transition: transform 0.2s;
-    }
-
-    .back-link:hover i {
-        transform: translateX(-4px);
-    }
-
-    /* Animations */
-    @keyframes fadeUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .animate {
-        opacity: 0;
-        animation: fadeUp 0.5s ease forwards;
-    }
-
-    /* Responsive */
-    @media (max-width: 1024px) {
-        .event-hero-grid,
-        .content-grid {
-            grid-template-columns: 1fr;
-            gap: 32px;
-        }
-
-        .ticket-sidebar {
-            position: static;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .container-custom {
-            padding: 0 20px;
-        }
-
-        .event-hero {
-            padding: 32px 0;
-        }
-
-        .event-title {
-            font-size: 28px;
-        }
-
-        .event-meta-grid {
-            grid-template-columns: 1fr;
-            gap: 16px;
-        }
-
-        .ticket-list {
-            max-height: none;
-        }
-
-        .ticket-actions {
-            flex-direction: column;
-        }
-
-        .content-section {
-            padding: 40px 0;
-        }
-    }
+/* ══════════════════════════════════════════════════════
+   TOKENS
+══════════════════════════════════════════════════════ */
+:root {
+    --ink:        #0d0d0d;
+    --ink-2:      #1c1c1c;
+    --ink-3:      #2e2e2e;
+    --mist:       #f7f6f3;
+    --mist-2:     #efede8;
+    --border:     #e3e0d8;
+    --white:      #ffffff;
+    --text-body:  #4a4742;
+    --text-muted: #8c8882;
+    --gold:       #c9a84c;
+    --gold-light: #e8c96a;
+    --gold-soft:  #f5edd8;
+    --success:    #2d7a5f;
+    --success-bg: #d1fae5;
+    --warning:    #b45309;
+    --warning-bg: #fef3c7;
+    --error:      #c0392b;
+
+    --f-display: 'Fraunces', Georgia, serif;
+    --f-body:    'DM Sans', sans-serif;
+
+    --r-sm: 4px;
+    --r-md: 8px;
+    --r-lg: 14px;
+    --r-xl: 20px;
+
+    --shadow-card: 0 2px 12px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+    --shadow-lift: 0 12px 40px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.06);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    background: var(--mist);
+    color: var(--ink);
+    font-family: var(--f-body);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+/* ══════════════════════════════════════════════════════
+   BREADCRUMB
+══════════════════════════════════════════════════════ */
+.breadcrumb-bar {
+    background: var(--ink);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 14px 0;
+}
+
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+    font-size: 13px;
+}
+
+.breadcrumb-list a {
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.breadcrumb-list a:hover { color: var(--gold); }
+
+.breadcrumb-sep { color: rgba(255,255,255,0.2); font-size: 11px; }
+
+.breadcrumb-current {
+    color: rgba(255,255,255,0.7);
+    font-weight: 500;
+}
+
+/* ══════════════════════════════════════════════════════
+   EVENT HERO — dark full-width header
+══════════════════════════════════════════════════════ */
+.event-hero {
+    background: var(--ink);
+    padding: 60px 0 56px;
+    position: relative;
+    overflow: hidden;
+}
+
+.event-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+}
+
+/* Category-coloured accent line */
+.event-hero-accent {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+}
+
+.event-hero-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 60px;
+    align-items: start;
+}
+
+/* Left — title / meta */
+.event-hero-left {}
+
+.event-hero-chips {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--f-body);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 4px;
+}
+
+.chip-cat {
+    background: rgba(201,168,76,0.18);
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.3);
+}
+
+.chip-cat i { color: var(--gold); }
+
+.chip-upcoming  { background: rgba(29,78,216,0.18);  color: #93c5fd; border: 1px solid rgba(29,78,216,0.3); }
+.chip-ongoing   { background: rgba(6,95,70,0.25);    color: #6ee7b7; border: 1px solid rgba(6,95,70,0.4); }
+.chip-completed { background: rgba(75,85,99,0.25);   color: #9ca3af; border: 1px solid rgba(75,85,99,0.3); }
+
+.event-hero-title {
+    font-family: var(--f-display);
+    font-size: clamp(36px, 4.5vw, 58px);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    margin-bottom: 36px;
+}
+
+/* Meta grid */
+.event-hero-meta {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.meta-block {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.meta-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: var(--r-md);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--gold);
+    flex-shrink: 0;
+}
+
+.meta-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 4px;
+}
+
+.meta-value {
+    font-family: var(--f-display);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.2;
+}
+
+/* ── Right — Ticket sidebar ── */
+.ticket-sidebar {
+    background: var(--white);
+    border-radius: var(--r-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-lift);
+    position: sticky;
+    top: 24px;
+}
+
+.ts-head {
+    background: var(--ink-2);
+    padding: 22px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.ts-head-title {
+    font-family: var(--f-display);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--white);
+}
+
+.ts-head-count {
+    font-family: var(--f-display);
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+}
+
+/* Past event banner */
+.ts-past-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 28px;
+    background: #fef3c7;
+    border-bottom: 1px solid #fcd34d;
+}
+
+.ts-past-banner i {
+    font-size: 18px;
+    color: var(--warning);
+    flex-shrink: 0;
+}
+
+.ts-past-banner p {
+    font-size: 13px;
+    color: var(--warning);
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* Ticket items */
+.ts-list { max-height: 440px; overflow-y: auto; }
+
+.ts-item {
+    padding: 22px 28px;
+    border-bottom: 1px solid var(--border);
+    background: var(--white);
+}
+
+.ts-item:last-child { border-bottom: none; }
+
+.ts-item-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.ts-ticket-name {
+    font-family: var(--f-display);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.2;
+}
+
+.ts-ticket-price {
+    font-family: var(--f-display);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.ts-ticket-price sup {
+    font-family: var(--f-body);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    vertical-align: super;
+}
+
+/* Availability */
+.ts-avail {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 3px;
+    margin-bottom: 16px;
+}
+
+.ts-avail.ok   { background: var(--success-bg); color: var(--success); }
+.ts-avail.low  { background: #fee2e2; color: #991b1b; }
+.ts-avail i    { font-size: 11px; }
+
+/* Qty selector */
+.ts-qty {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+
+.ts-qty-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.qty-controls {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    overflow: hidden;
+}
+
+.qty-btn {
+    width: 36px;
+    height: 36px;
+    background: var(--mist);
+    border: none;
+    font-size: 14px;
+    color: var(--text-body);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.qty-btn:hover:not(:disabled) { background: var(--gold-soft); color: var(--ink); }
+.qty-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.qty-input {
+    width: 48px;
+    height: 36px;
+    border: none;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    text-align: center;
+    font-family: var(--f-body);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    background: var(--white);
+    -moz-appearance: textfield;
+    outline: none;
+}
+
+.qty-input::-webkit-inner-spin-button,
+.qty-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+/* Action buttons */
+.ts-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.btn-cart {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: var(--mist);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    font-family: var(--f-body);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.btn-cart:hover {
+    border-color: var(--ink);
+    background: var(--mist-2);
+    color: var(--ink);
+}
+
+.btn-buy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: var(--gold);
+    border: none;
+    border-radius: var(--r-md);
+    font-family: var(--f-body);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.btn-buy:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(201,168,76,0.3);
+    color: var(--ink);
+}
+
+/* Login prompt */
+.ts-login {
+    padding: 20px 28px;
+    border-top: 1px solid var(--border);
+}
+
+.btn-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    width: 100%;
+    padding: 14px 20px;
+    background: var(--ink);
+    border-radius: var(--r-md);
+    font-family: var(--f-body);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.btn-login:hover {
+    background: var(--gold);
+    color: var(--ink);
+}
+
+/* No tickets */
+.ts-empty {
+    padding: 48px 28px;
+    text-align: center;
+}
+
+.ts-empty i {
+    font-size: 40px;
+    color: var(--border);
+    margin-bottom: 14px;
+    display: block;
+}
+
+.ts-empty p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* ══════════════════════════════════════════════════════
+   MAIN CONTENT AREA
+══════════════════════════════════════════════════════ */
+.content-wrap {
+    padding: 60px 0 100px;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 60px;
+    align-items: start;
+}
+
+/* About section */
+.about-section {}
+
+.section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+}
+
+.section-eyebrow::before {
+    content: '';
+    display: block;
+    width: 16px; height: 1px;
+    background: var(--gold);
+}
+
+.about-title {
+    font-family: var(--f-display);
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin-bottom: 24px;
+}
+
+.about-body {
+    font-size: 16px;
+    color: var(--text-body);
+    line-height: 1.8;
+}
+
+.about-body p { margin-bottom: 18px; }
+.about-body p:last-child { margin-bottom: 0; }
+
+/* Back link */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 36px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.back-link i { transition: transform 0.2s; }
+
+.back-link:hover {
+    color: var(--gold);
+}
+
+.back-link:hover i { transform: translateX(-4px); }
+
+/* Info panel */
+.info-panel {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--r-xl);
+    overflow: hidden;
+    position: sticky;
+    top: 24px;
+}
+
+.info-panel-head {
+    background: var(--ink);
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.info-panel-head-title {
+    font-family: var(--f-display);
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--white);
+}
+
+.info-panel-head i { color: var(--gold); font-size: 16px; }
+
+.info-rows {}
+
+.info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 18px 28px;
+    border-bottom: 1px solid var(--border);
+}
+
+.info-row:last-child { border-bottom: none; }
+
+.info-row-icon {
+    width: 38px;
+    height: 38px;
+    background: var(--gold-soft);
+    border-radius: var(--r-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #8a6a1a;
+    flex-shrink: 0;
+}
+
+.info-row-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 3px;
+}
+
+.info-row-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+}
+
+.info-row-value.status-upcoming  { color: #1d4ed8; }
+.info-row-value.status-ongoing   { color: var(--success); }
+.info-row-value.status-completed { color: var(--text-muted); }
+
+/* ══════════════════════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════════════════════ */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up {
+    opacity: 0;
+    animation: fadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ══════════════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+    .event-hero-inner,
+    .content-grid { grid-template-columns: 1fr; gap: 40px; }
+    .ticket-sidebar { position: static; max-width: 560px; }
+    .info-panel { position: static; }
+    .event-hero-meta { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .wrap { padding: 0 20px; }
+    .event-hero { padding: 44px 0 40px; }
+    .event-hero-meta { grid-template-columns: 1fr; gap: 14px; }
+    .ts-actions { grid-template-columns: 1fr; }
+    .content-wrap { padding: 40px 0 70px; }
+}
 </style>
 @endpush
 
 @section('content')
-{{-- Breadcrumb --}}
-<div class="breadcrumb">
-    <div class="container-custom">
+
+{{-- ══ BREADCRUMB ═══════════════════════════════════════ --}}
+<div class="breadcrumb-bar">
+    <div class="wrap">
         <ul class="breadcrumb-list">
-            <li class="breadcrumb-item">
-                <a href="{{ route('events.index') }}">Events</a>
-            </li>
-            <li class="breadcrumb-separator">
-                <i class="bi bi-chevron-right"></i>
-            </li>
-            <li class="breadcrumb-item active">
-                {{ Str::limit($event->name, 40) }}
-            </li>
+            <li><a href="{{ route('home') }}">Home</a></li>
+            <li class="breadcrumb-sep"><i class="bi bi-chevron-right"></i></li>
+            <li><a href="{{ route('events.index') }}">Events</a></li>
+            <li class="breadcrumb-sep"><i class="bi bi-chevron-right"></i></li>
+            <li class="breadcrumb-current">{{ Str::limit($event->name, 42) }}</li>
         </ul>
     </div>
 </div>
 
-{{-- Event Hero --}}
+{{-- ══ EVENT HERO ═══════════════════════════════════════ --}}
+@php
+    // Pull accent color directly from Event::categories() — single source of truth
+    $accentColor = $event->category_color;
+@endphp
+
 <div class="event-hero">
-    <div class="container-custom">
-        <div class="event-hero-grid">
-            {{-- Left Column --}}
-            <div class="event-hero-content">
-                <div class="event-badges animate">
+    <div class="event-hero-accent" style="background: linear-gradient(90deg, transparent, {{ $accentColor }}, transparent);"></div>
+
+    <div class="wrap">
+        <div class="event-hero-inner">
+
+            {{-- Left: title + meta --}}
+            <div class="event-hero-left fade-up">
+
+                <div class="event-hero-chips">
                     @if($event->category)
-                        <span class="event-category">
+                        <span class="chip chip-cat">
                             <i class="{{ $event->category_icon }}"></i>
                             {{ $event->category }}
                         </span>
                     @endif
-                    
-                    <span class="event-status {{ $event->status }}">
-                        <i class="bi bi-circle-fill"></i>
-                        {{ ucfirst($event->status) }}
+                    <span class="chip chip-{{ $event->live_status }}">
+                        @if($event->live_status === 'upcoming')
+                            <i class="bi bi-clock"></i> Upcoming
+                        @elseif($event->live_status === 'ongoing')
+                            <i class="bi bi-record-circle-fill"></i> Ongoing
+                        @elseif($event->live_status === 'completed')
+                            <i class="bi bi-check-circle"></i> Completed
+                        @endif
                     </span>
                 </div>
 
-                <h1 class="event-title animate" style="animation-delay: 0.1s">
-                    {{ $event->name }}
-                </h1>
+                <h1 class="event-hero-title">{{ $event->name }}</h1>
 
-                <div class="event-meta-grid animate" style="animation-delay: 0.2s">
-                    <div class="event-meta-item">
-                        <div class="event-meta-icon">
-                            <i class="bi bi-calendar3"></i>
-                        </div>
-                        <div class="event-meta-content">
-                            <div class="event-meta-label">Date</div>
-                            <div class="event-meta-value">
-                                {{ \Carbon\Carbon::parse($event->date)->format('l, F j, Y') }}
-                            </div>
+                <div class="event-hero-meta">
+                    <div class="meta-block">
+                        <div class="meta-icon"><i class="bi bi-calendar3"></i></div>
+                        <div>
+                            <div class="meta-label">Date</div>
+                            <div class="meta-value">{{ $event->date->format('l, F j, Y') }}</div>
                         </div>
                     </div>
 
-                    <div class="event-meta-item">
-                        <div class="event-meta-icon">
-                            <i class="bi bi-clock"></i>
-                        </div>
-                        <div class="event-meta-content">
-                            <div class="event-meta-label">Time</div>
-                            <div class="event-meta-value">
-                                {{ \Carbon\Carbon::parse($event->time)->format('g:i A') }}
-                            </div>
+                    <div class="meta-block">
+                        <div class="meta-icon"><i class="bi bi-clock"></i></div>
+                        <div>
+                            <div class="meta-label">Time</div>
+                            <div class="meta-value">{{ $event->formatted_time }}</div>
                         </div>
                     </div>
 
-                    <div class="event-meta-item">
-                        <div class="event-meta-icon">
-                            <i class="bi bi-geo-alt"></i>
-                        </div>
-                        <div class="event-meta-content">
-                            <div class="event-meta-label">Location</div>
-                            <div class="event-meta-value">
-                                {{ $event->location }}
-                            </div>
+                    <div class="meta-block">
+                        <div class="meta-icon"><i class="bi bi-geo-alt"></i></div>
+                        <div>
+                            <div class="meta-label">Location</div>
+                            <div class="meta-value">{{ $event->location }}</div>
                         </div>
                     </div>
 
-                    @if($event->tickets->isNotEmpty())
-                        <div class="event-meta-item">
-                            <div class="event-meta-icon">
-                                <i class="bi bi-ticket-perforated"></i>
-                            </div>
-                            <div class="event-meta-content">
-                                <div class="event-meta-label">Starting from</div>
-                                <div class="event-meta-value">
-                                    ${{ number_format($event->tickets->min('price'), 2) }}
-                                </div>
-                            </div>
+                    <div class="meta-block">
+                        <div class="meta-icon"><i class="bi bi-ticket-perforated"></i></div>
+                        <div>
+                            <div class="meta-label">Starting from</div>
+                            @if($event->tickets->isNotEmpty() && $event->min_price !== null)
+                                <div class="meta-value">${{ number_format($event->min_price, 2) }}</div>
+                            @elseif($event->tickets->isNotEmpty())
+                                <div class="meta-value">Free</div>
+                            @else
+                                <div class="meta-value" style="font-size:14px; color:rgba(255,255,255,0.35);">Not available</div>
+                            @endif
                         </div>
-                    @endif
+                    </div>
                 </div>
+
             </div>
 
-            {{-- Right Column - Ticket Sidebar --}}
-            <div class="ticket-sidebar animate" style="animation-delay: 0.3s">
-                <div class="ticket-header">
-                    <span class="ticket-header-title">Available Tickets</span>
-                    <span class="ticket-header-count">{{ $event->tickets->count() }}</span>
+            {{-- Right: ticket sidebar --}}
+            <div class="ticket-sidebar fade-up" style="animation-delay:0.15s">
+
+                <div class="ts-head">
+                    <span class="ts-head-title">Tickets</span>
+                    <span class="ts-head-count">{{ $event->tickets->count() }}</span>
                 </div>
 
                 @if($event->tickets->isNotEmpty())
-                    <div class="ticket-list">
+                    <div class="ts-list">
                         @foreach($event->tickets as $ticket)
-                            <div class="ticket-item">
-                                <div class="ticket-item-header">
-                                    <span class="ticket-type">
+                            <div class="ts-item">
+
+                                <div class="ts-item-top">
+                                    <div class="ts-ticket-name">
                                         {{ $ticket->ticket_type ?? 'General Admission' }}
-                                    </span>
-                                    <span class="ticket-price">
-                                        <small>$</small>{{ number_format($ticket->price, 2) }}
-                                    </span>
+                                    </div>
+                                    <div class="ts-ticket-price">
+                                        <sup>$</sup>{{ number_format($ticket->price, 2) }}
+                                    </div>
                                 </div>
 
-                                @if($ticket->quantity_available)
-                                    <div class="ticket-availability {{ $ticket->quantity_available < 20 ? 'low' : '' }}">
-                                        <i class="bi bi-info-circle"></i>
-                                        {{ $ticket->quantity_available < 20 
-                                            ? 'Only ' . $ticket->quantity_available . ' tickets left!'
-                                            : $ticket->quantity_available . ' available' }}
+                                @if(isset($ticket->quantity_available))
+                                    <div class="ts-avail {{ $ticket->quantity_available < 20 ? 'low' : 'ok' }}">
+                                        @if($ticket->quantity_available < 20)
+                                            <i class="bi bi-exclamation-triangle-fill"></i>
+                                            Only {{ $ticket->quantity_available }} left!
+                                        @else
+                                            <i class="bi bi-check-circle-fill"></i>
+                                            {{ $ticket->quantity_available }} available
+                                        @endif
                                     </div>
                                 @endif
 
                                 @auth
                                     <form action="{{ route('cart.add', $ticket) }}" method="POST">
                                         @csrf
-                                        <div class="quantity-selector">
-                                            <span class="quantity-label">Quantity</span>
-                                            <div class="quantity-controls">
-                                                <button type="button" class="quantity-btn" onclick="decrementQty(this)" {{ $ticket->quantity_available < 1 ? 'disabled' : '' }}>
+                                        <div class="ts-qty">
+                                            <span class="ts-qty-label">Qty</span>
+                                            <div class="qty-controls">
+                                                <button type="button" class="qty-btn" onclick="decrementQty(this)"
+                                                    {{ ($ticket->quantity_available ?? 1) < 1 ? 'disabled' : '' }}>
                                                     <i class="bi bi-dash"></i>
                                                 </button>
-                                                <input type="number" name="quantity" class="quantity-input" value="1" min="1" max="{{ $ticket->quantity_available ?? 99 }}" readonly>
-                                                <button type="button" class="quantity-btn" onclick="incrementQty(this)" {{ $ticket->quantity_available < 1 ? 'disabled' : '' }}>
+                                                <input type="number" name="quantity" class="qty-input"
+                                                    value="1" min="1"
+                                                    max="{{ $ticket->quantity_available ?? 99 }}"
+                                                    readonly>
+                                                <button type="button" class="qty-btn" onclick="incrementQty(this)"
+                                                    {{ ($ticket->quantity_available ?? 1) < 1 ? 'disabled' : '' }}>
                                                     <i class="bi bi-plus"></i>
                                                 </button>
                                             </div>
                                         </div>
 
-                                        <div class="ticket-actions">
-                                            <button type="submit" name="action" value="cart" class="btn-outline">
-                                                <i class="bi bi-cart"></i>
+                                        <div class="ts-actions">
+                                            <button type="submit" name="action" value="cart" class="btn-cart">
+                                                <i class="bi bi-cart3"></i>
                                                 Add to Cart
                                             </button>
-                                            <button type="submit" name="action" value="checkout" class="btn-primary">
-                                                <i class="bi bi-lightning-charge"></i>
+                                            <button type="submit" name="action" value="checkout" class="btn-buy">
+                                                <i class="bi bi-lightning-charge-fill"></i>
                                                 Buy Now
                                             </button>
                                         </div>
                                     </form>
                                 @endauth
+
                             </div>
                         @endforeach
                     </div>
 
                     @guest
-                        <div style="padding: 20px 24px; border-top: 1px solid var(--border);">
-                            <a href="{{ route('login') }}" class="btn-block">
+                        <div class="ts-login">
+                            <a href="{{ route('login') }}" class="btn-login">
                                 <i class="bi bi-box-arrow-in-right"></i>
                                 Log in to purchase tickets
                             </a>
@@ -820,101 +849,29 @@
                     @endguest
 
                 @else
-                    <div class="ticket-empty">
+                    <div class="ts-empty">
                         <i class="bi bi-ticket"></i>
                         <p>No tickets available at this time.</p>
                     </div>
                 @endif
+
             </div>
+
         </div>
     </div>
 </div>
 
-{{-- Main Content --}}
-<div class="content-section">
-    <div class="container-custom">
+{{-- ══ CONTENT ══════════════════════════════════════════ --}}
+<div class="content-wrap">
+    <div class="wrap">
         <div class="content-grid">
-            {{-- Description --}}
-            <div class="description animate">
-                <h2>About this event</h2>
-                <div class="description-text">
-                    {!! nl2br(e($event->description ?? 'No description provided for this event.')) !!}
-                </div>
-            </div>
 
-            {{-- Info Panel --}}
-            <div class="animate" style="animation-delay: 0.1s">
-                <div class="info-panel">
-                    <div class="info-panel-header">Event Details</div>
-                    <div class="info-panel-body">
-                        <div class="info-row">
-                            <div class="info-icon">
-                                <i class="bi bi-calendar3"></i>
-                            </div>
-                            <div class="info-content">
-                                <div class="info-label">Date</div>
-                                <div class="info-value">
-                                    {{ \Carbon\Carbon::parse($event->date)->format('l, F j, Y') }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="info-row">
-                            <div class="info-icon">
-                                <i class="bi bi-clock"></i>
-                            </div>
-                            <div class="info-content">
-                                <div class="info-label">Time</div>
-                                <div class="info-value">
-                                    {{ \Carbon\Carbon::parse($event->time)->format('g:i A') }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="info-row">
-                            <div class="info-icon">
-                                <i class="bi bi-geo-alt"></i>
-                            </div>
-                            <div class="info-content">
-                                <div class="info-label">Location</div>
-                                <div class="info-value">{{ $event->location }}</div>
-                            </div>
-                        </div>
-
-                        @if($event->category)
-                            <div class="info-row">
-                                <div class="info-icon">
-                                    <i class="{{ $event->category_icon }}"></i>
-                                </div>
-                                <div class="info-content">
-                                    <div class="info-label">Category</div>
-                                    <div class="info-value">{{ $event->category }}</div>
-                                </div>
-                            </div>
-                        @endif
-
-                        <div class="info-row">
-                            <div class="info-icon">
-                                <i class="bi bi-tag"></i>
-                            </div>
-                            <div class="info-content">
-                                <div class="info-label">Status</div>
-                                <div class="info-value" style="text-transform: capitalize;">{{ $event->status }}</div>
-                            </div>
-                        </div>
-
-                        @if($event->creator)
-                            <div class="info-row">
-                                <div class="info-icon">
-                                    <i class="bi bi-person"></i>
-                                </div>
-                                <div class="info-content">
-                                    <div class="info-label">Organized by</div>
-                                    <div class="info-value">{{ $event->creator->name }}</div>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
+            {{-- About --}}
+            <div class="about-section fade-up">
+                <div class="section-eyebrow">About This Event</div>
+                <h2 class="about-title">What to expect</h2>
+                <div class="about-body">
+                    {!! nl2br(e($event->description ?? 'No description has been provided for this event.')) !!}
                 </div>
 
                 <a href="{{ route('events.index') }}" class="back-link">
@@ -922,59 +879,125 @@
                     Back to all events
                 </a>
             </div>
+
+            {{-- Info panel --}}
+            <div class="fade-up" style="animation-delay:0.1s">
+                <div class="info-panel">
+                    <div class="info-panel-head">
+                        <i class="bi bi-info-circle"></i>
+                        <span class="info-panel-head-title">Event Details</span>
+                    </div>
+
+                    <div class="info-rows">
+                        <div class="info-row">
+                            <div class="info-row-icon"><i class="bi bi-calendar3"></i></div>
+                            <div>
+                                <div class="info-row-label">Date</div>
+                                <div class="info-row-value">{{ $event->date->format('l, F j, Y') }}</div>
+                            </div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-row-icon"><i class="bi bi-clock"></i></div>
+                            <div>
+                                <div class="info-row-label">Time</div>
+                                <div class="info-row-value">{{ $event->formatted_time }}</div>
+                            </div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-row-icon"><i class="bi bi-geo-alt"></i></div>
+                            <div>
+                                <div class="info-row-label">Location</div>
+                                <div class="info-row-value">{{ $event->location }}</div>
+                            </div>
+                        </div>
+
+                        @if($event->category)
+                        <div class="info-row">
+                            <div class="info-row-icon"><i class="{{ $event->category_icon }}"></i></div>
+                            <div>
+                                <div class="info-row-label">Category</div>
+                                <div class="info-row-value">{{ $event->category }}</div>
+                            </div>
+                        </div>
+                        @endif
+
+                        <div class="info-row">
+                            <div class="info-row-icon"><i class="bi bi-tag"></i></div>
+                            <div>
+                                <div class="info-row-label">Status</div>
+                                <div class="info-row-value status-{{ $event->live_status }}">
+                                    {{ ucfirst($event->live_status) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-row-icon"><i class="bi bi-ticket-perforated"></i></div>
+                            <div>
+                                <div class="info-row-label">Ticket Price</div>
+                                <div class="info-row-value">
+                                    @if($event->tickets->isNotEmpty() && $event->min_price !== null)
+                                        From ${{ number_format($event->min_price, 2) }}
+                                    @elseif($event->tickets->isNotEmpty())
+                                        Free Admission
+                                    @else
+                                        Not Available
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        @if($event->creator)
+                        <div class="info-row">
+                            <div class="info-row-icon"><i class="bi bi-person"></i></div>
+                            <div>
+                                <div class="info-row-label">Organized by</div>
+                                <div class="info-row-value">{{ $event->creator->name }}</div>
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
+
 @endsection
 
 @push('scripts')
 <script>
-    // Intersection Observer for animations
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+// Staggered animations
+const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = 'running';
+            io.unobserve(entry.target);
+        }
     });
+}, { threshold: 0.07 });
 
-    document.querySelectorAll('.animate').forEach(el => observer.observe(el));
+document.querySelectorAll('.fade-up').forEach(el => {
+    el.style.animationPlayState = 'paused';
+    io.observe(el);
+});
 
-    // Quantity controls
-    function incrementQty(btn) {
-        const container = btn.closest('.quantity-controls');
-        const input = container.querySelector('.quantity-input');
-        const max = parseInt(input.max);
-        let value = parseInt(input.value);
-        if (value < max) {
-            input.value = value + 1;
-        }
-    }
+// Quantity controls
+function incrementQty(btn) {
+    const input = btn.closest('.qty-controls').querySelector('.qty-input');
+    const max = parseInt(input.max) || 99;
+    const val = parseInt(input.value);
+    if (val < max) input.value = val + 1;
+}
 
-    function decrementQty(btn) {
-        const container = btn.closest('.quantity-controls');
-        const input = container.querySelector('.quantity-input');
-        const min = parseInt(input.min);
-        let value = parseInt(input.value);
-        if (value > min) {
-            input.value = value - 1;
-        }
-    }
-
-    // Sticky sidebar adjustment
-    const ticketSidebar = document.querySelector('.ticket-sidebar');
-    if (ticketSidebar) {
-        const updateSticky = () => {
-            const heroBottom = document.querySelector('.event-hero').offsetHeight;
-            if (window.scrollY > heroBottom) {
-                ticketSidebar.style.top = '24px';
-            }
-        };
-        window.addEventListener('scroll', updateSticky);
-    }
+function decrementQty(btn) {
+    const input = btn.closest('.qty-controls').querySelector('.qty-input');
+    const min = parseInt(input.min) || 1;
+    const val = parseInt(input.value);
+    if (val > min) input.value = val - 1;
+}
 </script>
 @endpush
