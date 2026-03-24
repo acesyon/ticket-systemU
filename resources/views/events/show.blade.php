@@ -74,6 +74,7 @@ body {
     gap: 8px;
     list-style: none;
     font-size: 13px;
+    flex-wrap: wrap;
 }
 
 .breadcrumb-list a {
@@ -89,6 +90,7 @@ body {
 .breadcrumb-current {
     color: rgba(255,255,255,0.7);
     font-weight: 500;
+    overflow-wrap: anywhere;
 }
 
 /* ══════════════════════════════════════════════════════
@@ -668,6 +670,7 @@ body {
 @media (max-width: 768px) {
     .wrap { padding: 0 20px; }
     .event-hero { padding: 44px 0 40px; }
+    .breadcrumb-list { font-size: 12px; gap: 6px; }
     .event-hero-meta { grid-template-columns: 1fr; gap: 14px; }
     .ts-actions { grid-template-columns: 1fr; }
     .content-wrap { padding: 40px 0 70px; }

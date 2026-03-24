@@ -178,7 +178,7 @@ body {
     background: var(--white);
     border-bottom: 1px solid var(--border);
     position: sticky;
-    top: 0;
+    top: var(--nav-h);
     z-index: 200;
     padding: 14px 0;
     transition: box-shadow 0.25s;
@@ -699,6 +699,7 @@ body {
 @media (max-width: 768px) {
     .wrap { padding: 0 20px; }
     .page-hero { padding: 48px 0 40px; }
+    .toolbar { top: var(--nav-h); }
     .toolbar-inner { flex-direction: column; align-items: stretch; }
     .search-wrap { min-width: 100%; }
     .filter-pills { overflow-x: auto; padding-bottom: 6px; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }

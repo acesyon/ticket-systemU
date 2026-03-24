@@ -891,56 +891,56 @@ body {
     .wrap {
         padding: 0 20px;
     }
-    
+
     .profile-header {
         padding: 48px 0 40px;
     }
-    
+
     .profile-header h1 {
         font-size: 40px;
     }
-    
+
     .profile-image-card {
         flex-direction: column;
         text-align: center;
         padding: 28px;
     }
-    
+
     .image-wrapper {
         margin: 0 auto;
     }
-    
+
     .image-actions {
         justify-content: center;
     }
-    
+
     .form-grid {
         grid-template-columns: 1fr;
         gap: 16px;
     }
-    
+
     .card-header {
         padding: 20px;
     }
-    
+
     .card-body {
         padding: 20px;
     }
-    
+
     .danger-body {
         padding: 20px;
     }
-    
+
     .modal-footer {
         flex-direction: column;
     }
-    
+
     .btn-modal-cancel,
     .btn-modal-confirm {
         width: 100%;
         justify-content: center;
     }
-    
+
     .toast-notification {
         left: 20px;
         right: 20px;
@@ -948,7 +948,7 @@ body {
         transform: translateY(400px);
         max-width: none;
     }
-    
+
     .toast-notification.show {
         transform: translateY(0);
     }
@@ -975,7 +975,7 @@ body {
                     {{ auth()->user()->email }}
                 </div>
             </div>
-            
+
             <button type="button" class="btn-logout" onclick="openLogoutModal()">
                 <i class="bi bi-box-arrow-right"></i>
                 Logout
@@ -985,7 +985,7 @@ body {
 </div>
 
 <div class="wrap">
-    
+
     {{-- Success Alert --}}
     @if(session('success'))
         <div class="alert anim-fade">
@@ -995,54 +995,94 @@ body {
     @endif
 
     {{-- Profile Image Section --}}
-    <div class="profile-image-section anim-fade">
-        <div class="profile-image-card">
-            <div class="image-wrapper" onclick="document.getElementById('profile-photo-input').click()">
-                @php
-                    $user = auth()->user();
-                    $initials = strtoupper(substr($user->first_name, 0, 1) . substr($user->last_name, 0, 1));
-                    $profilePhoto = $user->profile_photo;
-                    $fileExists = $profilePhoto && Storage::disk('public')->exists($profilePhoto);
-                @endphp
-                
-                @if($profilePhoto && $fileExists)
-                    <img src="{{ asset('storage/' . $profilePhoto) }}?t={{ time() }}" alt="Profile" class="profile-image">
-                @else
-                    <div class="initials">{{ $initials }}</div>
-                @endif
-                
-                <div class="image-overlay">
-                    <i class="bi bi-camera-fill"></i>
-                </div>
-            </div>
-            
-            <div class="image-info">
-                <h3 class="image-title">Profile Photo</h3>
-                <p class="image-text">
-                    Upload a profile photo to personalize your account. 
-                    Supported formats: JPG, PNG. Max size: 2MB.
-                </p>
-                <div class="image-actions">
-                    <button type="button" class="btn-upload" onclick="document.getElementById('profile-photo-input').click()">
-                        <i class="bi bi-cloud-upload"></i>
-                        Upload Photo
-                    </button>
-                    
-                    @if($profilePhoto && $fileExists)
-                        <button type="button" class="btn-remove" onclick="confirmRemovePhoto()">
-                            <i class="bi bi-trash3"></i>
-                            Remove
-                        </button>
-                    @endif
-                </div>
-                <input type="file" id="profile-photo-input" accept="image/*" style="display: none;">
+<div class="profile-image-section anim-fade">
+    <div class="profile-image-card">
+        <div class="image-wrapper" onclick="document.getElementById('profile-photo-input').click()">
+            @php
+                $user = auth()->user();
+                $initials = strtoupper(substr($user->first_name, 0, 1) . substr($user->last_name, 0, 1));
+                $profilePhoto = $user->profile_photo;
+
+                // Check if profile photo exists in the correct path
+                $hasPhoto = false;
+                $photoUrl = null;
+
+                if ($profilePhoto) {
+                    // The profile_photo already contains the full path like 'profile-photos/1/filename.jpg'
+                    $fullPath = storage_path('app/public/' . $profilePhoto);
+                    if (file_exists($fullPath)) {
+                        $hasPhoto = true;
+                        $photoUrl = asset('storage/' . $profilePhoto);
+                    }
+                }
+            @endphp
+
+            @if($hasPhoto && $photoUrl)
+                <img src="{{ $photoUrl }}?t={{ time() }}" alt="Profile" class="profile-image">
+            @else
+                <div class="initials">{{ $initials }}</div>
+            @endif
+
+            <div class="image-overlay">
+                <i class="bi bi-camera-fill"></i>
             </div>
         </div>
+
+        <div class="image-info">
+            <h3 class="image-title">Profile Photo</h3>
+            <p class="image-text">
+                Upload a profile photo to personalize your account.
+                Supported formats: JPG, PNG. Max size: 2MB.
+            </p>
+            <div class="image-actions">
+                <button type="button" class="btn-upload" onclick="document.getElementById('profile-photo-input').click()">
+                    <i class="bi bi-cloud-upload"></i>
+                    Upload Photo
+                </button>
+
+                @if($hasPhoto)
+                    <button type="button" class="btn-remove" onclick="confirmRemovePhoto()">
+                        <i class="bi bi-trash3"></i>
+                        Remove
+                    </button>
+                @endif
+            </div>
+            <input type="file" id="profile-photo-input" accept="image/*" style="display: none;">
+        </div>
     </div>
+</div>
+
+@php
+    $user = auth()->user();
+    $profilePhoto = $user->profile_photo;
+    $fullPath = $profilePhoto ? storage_path('app/public/' . $profilePhoto) : null;
+    $fileExists = $fullPath ? file_exists($fullPath) : false;
+
+    // Debug info (remove in production)
+    $debug = [
+        'profile_photo' => $profilePhoto,
+        'full_path' => $fullPath,
+        'file_exists' => $fileExists,
+        'storage_link_exists' => is_dir(public_path('storage'))
+    ];
+@endphp
+
+{{-- Debug output (remove in production) --}}
+<!-- @if(config('app.debug'))
+    <div class="alert alert-info" style="background: #e3f2fd; margin: 10px 0; padding: 10px; font-size: 12px;">
+        <strong>Debug Info:</strong>
+        <ul>
+            <li>Profile Photo: {{ $debug['profile_photo'] ?? 'null' }}</li>
+            <li>Full Path: {{ $debug['full_path'] ?? 'null' }}</li>
+            <li>File Exists: {{ $debug['file_exists'] ? 'Yes' : 'No' }}</li>
+            <li>Storage Link Exists: {{ $debug['storage_link_exists'] ? 'Yes' : 'No' }}</li>
+        </ul>
+    </div>
+@endif -->
 
     {{-- Profile Grid --}}
     <div class="profile-grid">
-        
+
         {{-- Left Column - Profile Information --}}
         <div class="profile-card anim-fade" style="animation-delay: 0.08s">
             <div class="card-header">
@@ -1226,7 +1266,7 @@ body {
                 </div>
                 <div class="danger-body">
                     <p class="danger-text">
-                        Permanently delete your account and all associated data including orders and tickets. 
+                        Permanently delete your account and all associated data including orders and tickets.
                         This action cannot be undone.
                     </p>
                     <button type="button" class="btn-delete" onclick="openDeleteModal()">
@@ -1245,7 +1285,7 @@ body {
         <form action="{{ route('profile.destroy') }}" method="POST">
             @csrf
             @method('DELETE')
-            
+
             <div class="modal-header error">
                 <span class="modal-title error">
                     <i class="bi bi-exclamation-triangle-fill"></i>
@@ -1255,16 +1295,16 @@ body {
                     <i class="bi bi-x-lg"></i>
                 </button>
             </div>
-            
+
             <div class="modal-body">
                 <div class="modal-warning">
                     <i class="bi bi-exclamation-circle-fill"></i>
                     <p>
-                        This will permanently delete your account, all orders, tickets, and personal data. 
+                        This will permanently delete your account, all orders, tickets, and personal data.
                         There is no way to recover this information once deleted.
                     </p>
                 </div>
-                
+
                 <div class="form-group">
                     <label class="form-label" for="delete_password">Enter your password to confirm</label>
                     <div class="input-wrapper">
@@ -1280,7 +1320,7 @@ body {
                     @enderror
                 </div>
             </div>
-            
+
             <div class="modal-footer">
                 <button type="button" class="btn-modal-cancel" onclick="closeDeleteModal()">
                     Cancel
@@ -1306,7 +1346,7 @@ body {
                 <i class="bi bi-x-lg"></i>
             </button>
         </div>
-        
+
         <div class="modal-body">
             <div class="modal-warning" style="background: var(--warning-soft);">
                 <i class="bi bi-info-circle-fill" style="color: var(--warning);"></i>
@@ -1315,7 +1355,7 @@ body {
                 </p>
             </div>
         </div>
-        
+
         <div class="modal-footer">
             <button type="button" class="btn-modal-cancel" onclick="closeLogoutModal()">
                 Cancel
@@ -1379,10 +1419,10 @@ let selectedFile = null;
 function togglePassword(inputId, icon) {
     const input = document.getElementById(inputId);
     if (!input) return;
-    
+
     const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
     input.setAttribute('type', type);
-    
+
     if (type === 'password') {
         icon.classList.remove('bi-eye-slash');
         icon.classList.add('bi-eye');
@@ -1420,9 +1460,9 @@ function closePreviewModal() {
 function showToast(type, title, message) {
     const toast = document.getElementById('toast-notification');
     if (!toast) return;
-    
+
     toast.classList.remove('toast-success', 'toast-error', 'show');
-    
+
     if (type === 'success') {
         toast.classList.add('toast-success');
         toast.querySelector('.toast-icon').innerHTML = '<i class="bi bi-check-lg"></i>';
@@ -1430,12 +1470,12 @@ function showToast(type, title, message) {
         toast.classList.add('toast-error');
         toast.querySelector('.toast-icon').innerHTML = '<i class="bi bi-exclamation-lg"></i>';
     }
-    
+
     document.getElementById('toast-title').textContent = title;
     document.getElementById('toast-message').textContent = message;
-    
+
     toast.classList.add('show');
-    
+
     setTimeout(() => {
         toast.classList.remove('show');
     }, 3000);
@@ -1448,23 +1488,23 @@ document.addEventListener('DOMContentLoaded', function() {
         photoInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (!file) return;
-            
+
             const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
             if (!validTypes.includes(file.type)) {
                 showToast('error', 'Invalid File', 'Please select a JPG or PNG image.');
                 this.value = '';
                 return;
             }
-            
+
             const maxSize = 2 * 1024 * 1024;
             if (file.size > maxSize) {
                 showToast('error', 'File Too Large', 'Maximum file size is 2MB.');
                 this.value = '';
                 return;
             }
-            
+
             selectedFile = file;
-            
+
             const reader = new FileReader();
             reader.onload = function(e) {
                 document.getElementById('preview-image').src = e.target.result;
@@ -1480,16 +1520,16 @@ function uploadProfilePhoto() {
         showToast('error', 'No File', 'Please select an image first.');
         return;
     }
-    
+
     const formData = new FormData();
     formData.append('profile_photo', selectedFile);
     formData.append('_token', '{{ csrf_token() }}');
-    
+
     const submitBtn = document.querySelector('#previewModal .btn-modal-confirm');
     const originalText = submitBtn.innerHTML;
     submitBtn.innerHTML = '<i class="bi bi-arrow-repeat spinner"></i> Uploading...';
     submitBtn.disabled = true;
-    
+
     fetch('{{ route("profile.photo.update") }}', {
         method: 'POST',
         body: formData,
@@ -1523,12 +1563,12 @@ function confirmRemovePhoto() {
         const formData = new FormData();
         formData.append('_token', '{{ csrf_token() }}');
         formData.append('_method', 'DELETE');
-        
+
         const removeBtn = document.querySelector('.btn-remove');
         const originalText = removeBtn.innerHTML;
         removeBtn.innerHTML = '<i class="bi bi-arrow-repeat spinner"></i> Removing...';
         removeBtn.disabled = true;
-        
+
         fetch('{{ route("profile.photo.remove") }}', {
             method: 'POST',
             body: formData,
@@ -1569,7 +1609,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
-    
+
     // Intersection Observer for animations
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -1579,12 +1619,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
-    
+
     document.querySelectorAll('.anim-fade').forEach(el => {
         el.style.animationPlayState = 'paused';
         observer.observe(el);
     });
-    
+
     // Auto-dismiss alerts
     setTimeout(() => {
         document.querySelectorAll('.alert').forEach(alert => {

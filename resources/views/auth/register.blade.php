@@ -278,7 +278,7 @@
     /* Social Login */
     .social-login {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         gap: 12px;
         margin-bottom: 32px;
     }
@@ -735,17 +735,13 @@
 
             {{-- Social Registration --}}
             <div class="social-login">
-                <a href="#" class="social-btn">
+                <a href="{{ route('social.redirect', 'google') }}" class="social-btn">
                     <i class="bi bi-google"></i>
                     Google
                 </a>
-                <a href="#" class="social-btn">
+                <a href="{{ route('social.redirect', 'facebook') }}" class="social-btn">
                     <i class="bi bi-facebook"></i>
                     Facebook
-                </a>
-                <a href="#" class="social-btn">
-                    <i class="bi bi-twitter-x"></i>
-                    Twitter
                 </a>
             </div>
 
